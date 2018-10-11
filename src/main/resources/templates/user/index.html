@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Index Page</title>
+    <script src="static/scripts/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+<div class="content">
+    Hello!
+
+
+</div>
+<script>
+    function getRootPath_web() {
+        var curWwwPath = window.document.location.href;
+        var pathName = window.document.location.pathname;
+        var pos = curWwwPath.indexOf(pathName);
+        var localhostPaht = curWwwPath.substring(0, pos);
+        var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+        return (localhostPaht + projectName);
+    }
+    var rootPath = getRootPath_web();
+    $('a.filming').attr('href',rootPath+'/system/filming');
+    $('a.netLiterature').attr('href',rootPath+'/system/netLiterature');
+    $('a.variety').attr('href',rootPath+'/system/variety');
+    $('a.book').attr('href',rootPath+'/system/book');
+    $('a.film').attr('href',rootPath+'/system/film');
+    $('a.tvSeries').attr('href',rootPath+'/system/tvSeries');
+    $('a.query').attr('href',rootPath+'/query');
+    $('a.bigDadaShow').attr('href',rootPath+'/status');
+
+//    $('a.filmings').attr('href',rootPath+'/show/filming');
+//    $('a.netLiteratures').attr('href',rootPath+'/show/netLiterature');
+//    $('a.varietys').attr('href',rootPath+'/show/variety');
+//    $('a.books').attr('href',rootPath+'/show/book');
+//    $('a.films').attr('href',rootPath+'/show/film');
+//    $('a.tvSeriess').attr('href',rootPath+'/show/tvSeries');
+</script>
+</body>
+</html>
