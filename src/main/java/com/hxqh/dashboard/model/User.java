@@ -3,10 +3,12 @@ package com.hxqh.dashboard.model;
 import javax.persistence.*;
 
 /**
- * Created by Ocean lin on 2017/7/1.
+ * Created by Ocean Lin on 2018/10/11.
+ *
+ * @author Lin
  */
 @Entity
-@Table(name="tb_user")
+@Table(name = "tb_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

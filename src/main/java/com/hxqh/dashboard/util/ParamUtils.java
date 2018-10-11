@@ -4,9 +4,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 /**
+ * Created by Ocean Lin on 2018/10/11.
+ *
  * @author Lin
- * <p>
- * 参数工具类
  */
 public class ParamUtils {
 

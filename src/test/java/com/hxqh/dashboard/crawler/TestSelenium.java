@@ -12,7 +12,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by Ocean lin on 2018/1/11.
+ * Created by Ocean Lin on 2018/10/11.
+ *
+ * @author Lin
  */
 public class TestSelenium {
 

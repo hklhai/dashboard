@@ -1,9 +1,10 @@
 package com.hxqh.dashboard.test;
 
 /**
- * Created by Ocean lin on 2017/7/3.
+ * Created by Ocean Lin on 2018/10/11.
+ *
+ * @author Lin
  */
-
 //@SpringBootTest
 //@RunWith(SpringJUnit4ClassRunner.class)
 public class PubMapRepositoryTest {

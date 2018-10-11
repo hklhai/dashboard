@@ -10,9 +10,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * Created by Ocean Lin on 2018/10/11.
+ *
  * @author Lin
+ * <p>
+ * Debug
+ * SpringBoot mode
  */
-
 
 /**
  * Debug

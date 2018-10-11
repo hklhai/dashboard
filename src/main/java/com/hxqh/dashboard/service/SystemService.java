@@ -3,11 +3,19 @@ package com.hxqh.dashboard.service;
 import com.hxqh.dashboard.model.User;
 
 /**
- * Created by Ocean lin on 2017/7/1.
+ * Created by Ocean Lin on 2018/10/11.
+ *
+ * @author Lin
  */
-
 public interface SystemService {
 
+    /**
+     * 根据用户名获取User对象
+     *
+     * @param name 用户名
+     * @return 用户对象
+     */
     User findUserById(String name);
+
 
 }

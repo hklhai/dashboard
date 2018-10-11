@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * Created by Ocean lin on 2017/7/1.
+ * Created by Ocean Lin on 2018/10/11.
  *
  * @author Lin
  */
@@ -18,7 +18,7 @@ public class QueryController {
     private SystemService systemService;
 
     /**
-     *  保留
+     * 保留
      *
      * @return
      */

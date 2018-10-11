@@ -2,6 +2,11 @@ package com.hxqh.dashboard.util;
 
 import java.io.*;
 
+/**
+ * Created by Ocean Lin on 2018/10/11.
+ *
+ * @author Lin
+ */
 public class FileUtils {
     /**
      * 以字节为单位读取文件，常用于读二进制文件，如图片、声音、影像等文件。

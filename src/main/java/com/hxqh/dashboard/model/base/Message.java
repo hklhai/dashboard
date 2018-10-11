@@ -1,7 +1,8 @@
 package com.hxqh.dashboard.model.base;
 
 /**
- * Created by Ocean Lin on 2017/5/7.
+ * Created by Ocean Lin on 2018/10/11.
+ *
  * @author Lin
  */
 public class Message {

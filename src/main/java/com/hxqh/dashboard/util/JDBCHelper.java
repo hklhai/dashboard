@@ -6,7 +6,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.util.HashMap;
 
 /**
- * Created by Ocean lin on 2018/1/11.
+ * Created by Ocean Lin on 2018/10/11.
+ *
+ * @author Lin
  */
 public class JDBCHelper {
     public static HashMap<String, JdbcTemplate> templateMap = new HashMap<>();
