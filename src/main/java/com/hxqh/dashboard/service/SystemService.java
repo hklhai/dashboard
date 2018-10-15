@@ -1,6 +1,6 @@
 package com.hxqh.dashboard.service;
 
-import com.hxqh.dashboard.model.User;
+import com.hxqh.dashboard.model.UserObj;
 
 /**
  * Created by Ocean Lin on 2018/10/11.
@@ -15,7 +15,7 @@ public interface SystemService {
      * @param name 用户名
      * @return 用户对象
      */
-    User findUserById(String name);
+    UserObj findUserById(String name);
 
 
 }

@@ -1,7 +1,7 @@
 package com.hxqh.dashboard.controller;
 
 import com.hxqh.dashboard.common.Account;
-import com.hxqh.dashboard.model.User;
+import com.hxqh.dashboard.model.UserObj;
 import com.hxqh.dashboard.model.assist.LoginDto;
 import com.hxqh.dashboard.model.base.Message;
 import com.hxqh.dashboard.model.base.SessionInfo;
@@ -37,11 +37,11 @@ public class SystemController {
     @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Message login(@RequestBody LoginDto loginDto, Map<String, Object> map) {
-        User user = systemService.findUserById(loginDto.getName());
+        UserObj user = systemService.findUserById(loginDto.getName());
         return webLogin(user, loginDto, map);
     }
 
-    private Message webLogin(User user, LoginDto loginDto, Map<String, Object> map) {
+    private Message webLogin(UserObj user, LoginDto loginDto, Map<String, Object> map) {
         Message message = new Message(0, "");
         Message success = new Message(1, "LoginSuccess");
         if (null != user) {

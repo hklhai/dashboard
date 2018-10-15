@@ -1,6 +1,6 @@
 package com.hxqh.dashboard.service;
 
-import com.hxqh.dashboard.model.User;
+import com.hxqh.dashboard.model.UserObj;
 import com.hxqh.dashboard.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class SystemServiceImpl implements SystemService {
     private UserRepository userDao;
 
     @Override
-    public User findUserById(String name) {
+    public UserObj findUserById(String name) {
         return userDao.findUserById(name);
     }
 

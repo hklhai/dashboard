@@ -7,10 +7,12 @@ package com.hxqh.dashboard.model;
  */
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "tb_dashboard")
-public class Dashboard {
+public class Dashboard implements Serializable {
+    private static final long serialVersionUID = 1996784852462232045L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer bid;
