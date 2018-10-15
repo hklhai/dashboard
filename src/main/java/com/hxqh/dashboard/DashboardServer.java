@@ -13,44 +13,41 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by Ocean Lin on 2018/10/11.
  *
  * @author Lin
- * <p>
- * Debug
- * SpringBoot mode
  */
 
 /**
  * Debug
  * SpringBoot mode
  */
-//@SpringBootApplication
-//@ComponentScan(basePackages = "com.hxqh.dashboard.**.*")
-//@RestController
-//public class DashboardServer extends SpringBootServletInitializer implements EmbeddedServletContainerCustomizer {
-//    public static void main(String[] args) {
-//        SpringApplication.run(DashboardServer.class, args);
-//    }
-//
-//    @Override
-//    public void customize(ConfigurableEmbeddedServletContainer container) {
-//        container.setPort(8090);
-//    }
-//}
+@SpringBootApplication
+@ComponentScan(basePackages = "com.hxqh.dashboard.**.*")
+@RestController
+public class DashboardServer extends SpringBootServletInitializer implements EmbeddedServletContainerCustomizer {
+    public static void main(String[] args) {
+        SpringApplication.run(DashboardServer.class, args);
+    }
+
+    @Override
+    public void customize(ConfigurableEmbeddedServletContainer container) {
+        container.setPort(8090);
+    }
+}
 
 
 /**
  * Release
  * Tomcat mode
  */
-@SpringBootApplication
-@ComponentScan(basePackages = "com.hxqh.dashboard.**.*")
-@RestController
-public class DashboardServer extends SpringBootServletInitializer {
-    public static void main(String[] args) {
-        SpringApplication.run(DashboardServer.class, args);
-    }
-
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(this.getClass());
-    }
-}
+//@SpringBootApplication
+//@ComponentScan(basePackages = "com.hxqh.dashboard.**.*")
+//@RestController
+//public class DashboardServer extends SpringBootServletInitializer {
+//    public static void main(String[] args) {
+//        SpringApplication.run(DashboardServer.class, args);
+//    }
+//
+//    @Override
+//    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+//        return builder.sources(this.getClass());
+//    }
+//}

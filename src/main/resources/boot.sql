@@ -35,3 +35,5 @@ CREATE TABLE `tb_dashboard` (
   `businesscategory` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`bid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+create table  	tb_line_001 	(`sid` int(20) NOT NULL AUTO_INCREMENT,  `key` varchar(20) DEFAULT NULL,  `value` double(10,2) DEFAULT NULL, PRIMARY KEY (`sid`))
