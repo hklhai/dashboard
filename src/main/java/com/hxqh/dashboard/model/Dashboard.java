@@ -6,8 +6,11 @@ package com.hxqh.dashboard.model;
  * @author Ocean lin
  */
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_dashboard")
@@ -22,7 +25,20 @@ public class Dashboard implements Serializable {
     private String type;
     private String businesscategory;
 
+    @OneToMany(mappedBy = "dashboard")
+    @XStreamOmitField
+    private List<DashboardVisualize> dashboardVisualizes;
+
+
     public Dashboard() {
+    }
+
+    public List<DashboardVisualize> getDashboardVisualizes() {
+        return dashboardVisualizes;
+    }
+
+    public void setDashboardVisualizes(List<DashboardVisualize> dashboardVisualizes) {
+        this.dashboardVisualizes = dashboardVisualizes;
     }
 
     public Integer getBid() {

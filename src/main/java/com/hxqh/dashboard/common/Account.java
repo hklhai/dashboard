@@ -17,7 +17,7 @@ public class Account {
     }
 
     public static String encrypt(final String password) {
-        return AlgorithmUtils.md5Hex(password == null ? "" : password.trim());
+        return BaseAlgorithmUtils.md5Hex(password == null ? "" : password.trim());
     }
 
 }

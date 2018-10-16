@@ -216,7 +216,8 @@ public class FileUtils {
     public static boolean deleteFile(String filePath) {
         if (filePath != null && !"".equals(filePath)) {
             try {
-                File f = new File(filePath); // 输入要删除的文件位置
+                // 输入要删除的文件位置
+                File f = new File(filePath);
                 if (f.exists()) {
                     return f.delete();
                 }
@@ -251,14 +252,17 @@ public class FileUtils {
         return buffer;
     }
 
-    /*
-     * 往文件里写入字符串
+    /**
+     * 往文件中写入字符串
+     * @param filePath 文件路径
+     * @param context 写入内容
      */
     public static void writeStringToFile(String filePath, String context) {
         try {
             File file = new File(filePath);
             PrintStream ps = new PrintStream(new FileOutputStream(file));
-            ps.println(context);// 往文件里写入字符串
+            // 往文件里写入字符串
+            ps.println(context);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -273,9 +277,11 @@ public class FileUtils {
     public static String txt2String(File file) {
         StringBuilder result = new StringBuilder();
         try {
-            BufferedReader br = new BufferedReader(new FileReader(file));// 构造一个BufferedReader类来读取文件
+            // 构造一个BufferedReader类来读取文件
+            BufferedReader br = new BufferedReader(new FileReader(file));
             String s = null;
-            while ((s = br.readLine()) != null) {// 使用readLine方法，一次读一行
+            // 使用readLine方法，一次读一行
+            while ((s = br.readLine()) != null) {
                 result.append(System.lineSeparator() + s);
             }
             br.close();

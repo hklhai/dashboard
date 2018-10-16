@@ -1,7 +1,8 @@
 package com.hxqh.dashboard.service;
 
-import com.hxqh.dashboard.model.Line;
+import com.hxqh.dashboard.model.LineDouble;
 import com.hxqh.dashboard.model.Visualize;
+import com.hxqh.dashboard.model.assist.ShowDto;
 
 import java.util.List;
 
@@ -23,9 +24,9 @@ public interface ShowService {
      * 查询展示数据
      *
      * @param integerId
-     * @return Line List
+     * @return LineDouble List
      */
-    List<Line> findLineByVid(Integer integerId);
+    ShowDto findLineByVid(Integer integerId);
 
     /**
      * @param visualize

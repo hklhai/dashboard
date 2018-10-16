@@ -1,7 +1,10 @@
 package com.hxqh.dashboard.model;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Ocean lin on 2018/10/12.
@@ -25,8 +28,29 @@ public class Visualize implements Serializable {
     private String xname;
     private String yname;
     private Integer bid;
+    private String ytype;
+
+    @OneToMany(mappedBy = "visualize")
+    @XStreamOmitField
+    private List<DashboardVisualize> dashboardVisualizes;
 
     public Visualize() {
+    }
+
+    public List<DashboardVisualize> getDashboardVisualizes() {
+        return dashboardVisualizes;
+    }
+
+    public void setDashboardVisualizes(List<DashboardVisualize> dashboardVisualizes) {
+        this.dashboardVisualizes = dashboardVisualizes;
+    }
+
+    public String getYtype() {
+        return ytype;
+    }
+
+    public void setYtype(String ytype) {
+        this.ytype = ytype;
     }
 
     public Integer getVid() {
