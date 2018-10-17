@@ -25,6 +25,11 @@ public class DashboardVisualize {
     public DashboardVisualize() {
     }
 
+    public DashboardVisualize(Dashboard dashboard, Visualize visualize) {
+        this.dashboard = dashboard;
+        this.visualize = visualize;
+    }
+
     public Integer getDid() {
         return did;
     }

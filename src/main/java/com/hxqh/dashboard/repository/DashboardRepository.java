@@ -11,4 +11,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface DashboardRepository extends JpaRepository<Dashboard, Integer> {
+
+    Dashboard finByBid(Integer integerId);
 }

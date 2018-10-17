@@ -1,16 +1,24 @@
 package com.hxqh.dashboard.service;
 
 import com.hxqh.dashboard.model.*;
+import com.hxqh.dashboard.model.assist.DashboardShowDto;
+import com.hxqh.dashboard.model.assist.DoubleIntegerValue;
 import com.hxqh.dashboard.model.assist.ShowDto;
+import com.hxqh.dashboard.model.assist.VisualizeDto;
+import com.hxqh.dashboard.repository.DashboardRepository;
+import com.hxqh.dashboard.repository.DashboardVisualizeRepository;
 import com.hxqh.dashboard.repository.TableManagerRepository;
 import com.hxqh.dashboard.repository.VisualizeRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,12 +32,17 @@ import java.util.stream.Collectors;
 @Service("showService")
 public class ShowServiceImpl implements ShowService {
 
-    @Autowired
-    private VisualizeRepository visualizeRepository;
     @Resource
     protected SessionFactory sessionFactory;
-    @Resource
-    protected TableManagerRepository tableManagerRepository;
+
+    @Autowired
+    private VisualizeRepository visualizeRepository;
+    @Autowired
+    private TableManagerRepository tableManagerRepository;
+    @Autowired
+    private DashboardRepository dashboardRepository;
+    @Autowired
+    private DashboardVisualizeRepository dashboardVisualizeRepository;
 
     private static Map<String, String> yTypeMap = new HashMap<String, String>() {{
         put("double", "double(10,2)");
@@ -52,7 +65,7 @@ public class ShowServiceImpl implements ShowService {
 
 
     @Override
-    public Visualize findByVid(Integer vid) {
+    public Visualize findVisualizeByVid(Integer vid) {
         return visualizeRepository.findByVid(vid);
     }
 
@@ -81,7 +94,6 @@ public class ShowServiceImpl implements ShowService {
                 visualize.getXname(), visualize.getYname(), keyShow, valueShow);
 
         return showDto;
-
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -96,4 +108,53 @@ public class ShowServiceImpl implements ShowService {
         tableManager.setTablemaxid(tableManager.getTablemaxid() + 1);
         visualizeRepository.save(visualize);
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void addDashboard(Dashboard dashboard) {
+        dashboardRepository.save(dashboard);
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public VisualizeDto visualizeList(Visualize visualize, Pageable pageable) {
+        Page<Visualize> visualizes = visualizeRepository.findAll(pageable);
+        //获取结果集
+        List<Visualize> visualizeList = visualizes.getContent();
+        Integer totalPages = visualizes.getTotalPages();
+        VisualizeDto visualizeDto = new VisualizeDto(pageable, totalPages, visualizeList);
+        return visualizeDto;
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public Dashboard findDashboardByVid(Integer integerId) {
+        return dashboardRepository.finByBid(integerId);
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public DashboardShowDto findDashboardDataByVid(Integer integerId) {
+        Dashboard dashboard = dashboardRepository.finByBid(integerId);
+        List<DashboardVisualize> dashboardVisualizesList = dashboardVisualizeRepository.findByBid(integerId);
+        List<ShowDto> showDtoList = new ArrayList<>();
+        for (DashboardVisualize dashboardVisualize : dashboardVisualizesList) {
+            ShowDto showDto = findLineByVid(dashboardVisualize.getVisualize().getVid());
+            showDtoList.add(showDto);
+        }
+        DashboardShowDto dashboardShowDto = new DashboardShowDto(showDtoList, dashboard.getDashboardshowname(),
+                dashboard.getBusinesscategory());
+        return dashboardShowDto;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void addDashboardVisualize(DoubleIntegerValue integerValue) {
+        Dashboard dashboard = dashboardRepository.findOne(integerValue.getIntegerId1());
+        Visualize visualize = visualizeRepository.findOne(integerValue.getIntegerId2());
+
+        DashboardVisualize dashboardVisualize = new DashboardVisualize(dashboard, visualize);
+        dashboardVisualizeRepository.save(dashboardVisualize);
+    }
+
 }
