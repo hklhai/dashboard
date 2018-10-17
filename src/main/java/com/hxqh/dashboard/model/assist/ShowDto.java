@@ -14,6 +14,9 @@ public class ShowDto {
     private String showKey;
     private String showValue;
 
+    public ShowDto() {
+    }
+
     public ShowDto(String visualizename, String xname, String yname, String showKey, String showValue) {
         this.visualizename = visualizename;
         this.xname = xname;

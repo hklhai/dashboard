@@ -14,6 +14,9 @@ public class DashboardShowDto {
     private String dashboardshowname;
     private String businesscategory;
 
+    public DashboardShowDto() {
+    }
+
     public DashboardShowDto(List<ShowDto> showDtoList, String dashboardshowname, String businesscategory) {
         this.showDtoList = showDtoList;
         this.dashboardshowname = dashboardshowname;

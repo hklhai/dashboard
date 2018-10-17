@@ -18,7 +18,7 @@ public class SystemServiceImpl implements SystemService {
 
     @Override
     public UserObj findUserById(String name) {
-        return userDao.findUserById(name);
+        return userDao.findUserByName(name);
     }
 
 

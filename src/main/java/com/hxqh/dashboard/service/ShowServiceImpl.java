@@ -44,6 +44,7 @@ public class ShowServiceImpl implements ShowService {
     @Autowired
     private DashboardVisualizeRepository dashboardVisualizeRepository;
 
+
     private static Map<String, String> yTypeMap = new HashMap<String, String>() {{
         put("double", "double(10,2)");
         put("float", "float(7,2)");
@@ -69,6 +70,7 @@ public class ShowServiceImpl implements ShowService {
         return visualizeRepository.findOne(vid);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public ShowDto findLineByVid(Integer integerId) {
@@ -115,6 +117,7 @@ public class ShowServiceImpl implements ShowService {
         dashboardRepository.save(dashboard);
     }
 
+    @SuppressWarnings("unchecked")
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public VisualizeDto visualizeList(Visualize visualize, Pageable pageable) {
@@ -132,11 +135,12 @@ public class ShowServiceImpl implements ShowService {
         return dashboardRepository.findOne(integerId);
     }
 
+    @SuppressWarnings("unchecked")
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public DashboardShowDto findDashboardDataByVid(Integer integerId) {
         Dashboard dashboard = dashboardRepository.findOne(integerId);
-        List<DashboardVisualize> dashboardVisualizesList = dashboardVisualizeRepository.findByBid(integerId);
+        List<DashboardVisualize> dashboardVisualizesList = dashboard.getDashboardVisualizes();
         List<ShowDto> showDtoList = new ArrayList<>();
         for (DashboardVisualize dashboardVisualize : dashboardVisualizesList) {
             ShowDto showDto = findLineByVid(dashboardVisualize.getVisualize().getVid());
@@ -150,11 +154,41 @@ public class ShowServiceImpl implements ShowService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void addDashboardVisualize(DoubleIntegerValue integerValue) {
+        // DoubleIntegerValue第一个dashboard，第二个visualize
         Dashboard dashboard = dashboardRepository.findOne(integerValue.getIntegerId1());
         Visualize visualize = visualizeRepository.findOne(integerValue.getIntegerId2());
 
         DashboardVisualize dashboardVisualize = new DashboardVisualize(dashboard, visualize);
         dashboardVisualizeRepository.save(dashboardVisualize);
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public boolean isVisualizeByVisualizename(String visualizename) {
+        Visualize visualize = visualizeRepository.findByVisualizename(visualizename);
+        return null != visualize ? true : false;
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public boolean isDashboardByVisualizename(String dashboardname) {
+        Dashboard dashboard = dashboardRepository.findByDashboardname(dashboardname);
+        return null != dashboard ? true : false;
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public boolean isHasDashboardVisualize(DoubleIntegerValue integerValue) {
+        Dashboard dashboard = dashboardRepository.findOne(integerValue.getIntegerId1());
+        List<DashboardVisualize> dashboardVisualizes = dashboard.getDashboardVisualizes();
+        Integer visualizeID = integerValue.getIntegerId2();
+        for (int i = 0; i < dashboardVisualizes.size(); i++) {
+            DashboardVisualize dashboardVisualize = dashboardVisualizes.get(i);
+            if (dashboardVisualize.getVisualize().getVid().equals(visualizeID)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

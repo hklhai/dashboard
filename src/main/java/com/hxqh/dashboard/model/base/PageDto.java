@@ -12,6 +12,9 @@ public class PageDto {
     private Pageable page;
     private Integer totalPages;
 
+    public PageDto() {
+    }
+
     public PageDto(Pageable page, Integer totalPages) {
         this.page = page;
         this.totalPages = totalPages;

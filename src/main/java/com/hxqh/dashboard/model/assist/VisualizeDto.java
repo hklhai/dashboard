@@ -15,6 +15,10 @@ public class VisualizeDto extends PageDto {
 
     private List<Visualize> visualizeList;
 
+    public VisualizeDto(Pageable page, Integer totalPages) {
+        super(page, totalPages);
+    }
+
     public VisualizeDto(Pageable page, Integer totalPages, List<Visualize> visualizeList) {
         super(page, totalPages);
         this.visualizeList = visualizeList;

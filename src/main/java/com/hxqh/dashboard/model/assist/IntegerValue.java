@@ -12,6 +12,9 @@ public class IntegerValue implements Serializable {
     private static final long serialVersionUID = 5914172277484650377L;
     private Integer integerId;
 
+    public IntegerValue() {
+    }
+
     public Integer getIntegerId() {
         return integerId;
     }

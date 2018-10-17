@@ -16,6 +16,7 @@ public interface Constants {
 
     String ADDSUCCESS = "Add Success!";
     String ADDFAIL = "Add Fail!";
+    String ADDFAILHASHALREADY = "Already exists!";
 
 
 }

@@ -12,5 +12,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface VisualizeRepository extends JpaRepository<Visualize, Integer> {
 
-    // Visualize findByVid(Integer vid);
+    /**
+     * 根据名称查询是否存在Visualize
+     * @param visualizename
+     * @return Visualize对象
+     */
+    Visualize findByVisualizename(String visualizename);
+
 }

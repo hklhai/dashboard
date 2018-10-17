@@ -43,8 +43,12 @@ public class ShowController {
     public Message addVisualize(@RequestBody Visualize visualize) {
         Message message;
         try {
-            showService.addVisualize(visualize);
-            message = new Message(Constants.SUCCESS, Constants.ADDSUCCESS);
+            if (showService.isVisualizeByVisualizename(visualize.getVisualizename())) {
+                message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
+            } else {
+                showService.addVisualize(visualize);
+                message = new Message(Constants.SUCCESS, Constants.ADDSUCCESS);
+            }
         } catch (Exception e) {
             message = new Message(Constants.FAIL, Constants.ADDFAIL);
             e.printStackTrace();
@@ -76,8 +80,14 @@ public class ShowController {
     public Message addDashboard(@RequestBody Dashboard dashboard) {
         Message message;
         try {
-            showService.addDashboard(dashboard);
-            message = new Message(Constants.SUCCESS, Constants.ADDSUCCESS);
+
+            if (showService.isDashboardByVisualizename(dashboard.getDashboardname())) {
+                message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
+            } else {
+                showService.addDashboard(dashboard);
+                message = new Message(Constants.SUCCESS, Constants.ADDSUCCESS);
+            }
+
         } catch (Exception e) {
             message = new Message(Constants.FAIL, Constants.ADDFAIL);
             e.printStackTrace();
@@ -93,25 +103,33 @@ public class ShowController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/dashboardData", method = RequestMethod.POST)
-    public DashboardShowDto dashboardData(@RequestBody IntegerValue integerValue) {
-        return showService.findDashboardDataByVid(integerValue.getIntegerId());
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/addDashboardVisualize", method = RequestMethod.PUT)
-    public Message addDashboardVisualize(@RequestBody DoubleIntegerValue integerValue) {
+    @RequestMapping(value = "/dashboardVisualize", method = RequestMethod.PUT)
+    public Message dashboardVisualize(@RequestBody DoubleIntegerValue integerValue) {
+        // DoubleIntegerValue第一个dashboard，第二个visualize
         Message message;
         try {
-            // 第一个dashboard，第二个visualize
-            showService.addDashboardVisualize(integerValue);
-            message = new Message(Constants.SUCCESS, Constants.ADDSUCCESS);
+            // 判断关系是否存在
+            if (showService.isHasDashboardVisualize(integerValue)) {
+                message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
+            } else {
+                showService.addDashboardVisualize(integerValue);
+                message = new Message(Constants.SUCCESS, Constants.ADDSUCCESS);
+            }
         } catch (Exception e) {
             message = new Message(Constants.FAIL, Constants.ADDFAIL);
             e.printStackTrace();
         }
         return message;
     }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/dashboardData", method = RequestMethod.POST)
+    public DashboardShowDto dashboardData(@RequestBody IntegerValue integerValue) {
+        return showService.findDashboardDataByVid(integerValue.getIntegerId());
+    }
+
+    // todo dashboard 分页
 
 
 }

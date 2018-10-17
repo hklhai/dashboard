@@ -14,6 +14,9 @@ public class DoubleIntegerValue  implements Serializable {
     private Integer integerId1;
     private Integer integerId2;
 
+    public DoubleIntegerValue() {
+    }
+
     public DoubleIntegerValue(Integer integerId1, Integer integerId2) {
         this.integerId1 = integerId1;
         this.integerId2 = integerId2;
