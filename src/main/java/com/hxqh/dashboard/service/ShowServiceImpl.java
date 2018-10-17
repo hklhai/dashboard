@@ -63,16 +63,16 @@ public class ShowServiceImpl implements ShowService {
     private static final String DOUBLE_TYPE = "double";
     private static final String FLOAT_TYPE = "float";
 
-
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public Visualize findVisualizeByVid(Integer vid) {
-        return visualizeRepository.findByVid(vid);
+        return visualizeRepository.findOne(vid);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public ShowDto findLineByVid(Integer integerId) {
-        Visualize visualize = visualizeRepository.findByVid(integerId);
+        Visualize visualize = visualizeRepository.findOne(integerId);
         String sql = SELECT_SQL + visualize.getTablename();
         String keyShow, valueShow;
         Session currentSession = sessionFactory.getCurrentSession();
@@ -129,13 +129,13 @@ public class ShowServiceImpl implements ShowService {
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public Dashboard findDashboardByVid(Integer integerId) {
-        return dashboardRepository.finByBid(integerId);
+        return dashboardRepository.findOne(integerId);
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public DashboardShowDto findDashboardDataByVid(Integer integerId) {
-        Dashboard dashboard = dashboardRepository.finByBid(integerId);
+        Dashboard dashboard = dashboardRepository.findOne(integerId);
         List<DashboardVisualize> dashboardVisualizesList = dashboardVisualizeRepository.findByBid(integerId);
         List<ShowDto> showDtoList = new ArrayList<>();
         for (DashboardVisualize dashboardVisualize : dashboardVisualizesList) {

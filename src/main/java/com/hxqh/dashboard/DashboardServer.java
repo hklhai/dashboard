@@ -9,13 +9,9 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Created by Ocean Lin on 2018/10/11.
- *
- * @author Lin
- */
 
 /**
+ * @author Lin
  * Debug
  * SpringBoot mode
  */
@@ -35,6 +31,7 @@ public class DashboardServer extends SpringBootServletInitializer implements Emb
 
 
 /**
+ * @author Lin
  * Release
  * Tomcat mode
  */

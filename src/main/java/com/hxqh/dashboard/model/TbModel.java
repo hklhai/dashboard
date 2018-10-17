@@ -38,7 +38,6 @@ public class TbModel implements Serializable {
 
     private Integer isurl;
 
-    // bi-directional many-to-one association to RolemodelObj
     @OneToMany(mappedBy = "tbModel")
     private List<TbRolemodel> tbRolemodels;
 

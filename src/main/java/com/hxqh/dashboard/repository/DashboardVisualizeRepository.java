@@ -14,5 +14,11 @@ import java.util.List;
 @Repository
 public interface DashboardVisualizeRepository extends JpaRepository<DashboardVisualize, Integer> {
 
+
+    /**
+     * 根据Bid查询DashboardVisualize
+     * @param integerId DashboardId
+     * @return
+     */
     List<DashboardVisualize> findByBid(Integer integerId);
 }

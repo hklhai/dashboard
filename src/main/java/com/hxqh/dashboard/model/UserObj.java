@@ -45,7 +45,6 @@ public class UserObj implements Serializable {
     @Transient
     private String roleid;
 
-    //bi-directional many-to-one association to UserroleObj
     @OneToMany(mappedBy = "tbUser")
     @XStreamOmitField
     private List<TbUserrole> tbUserroles;

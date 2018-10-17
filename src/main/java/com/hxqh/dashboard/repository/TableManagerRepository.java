@@ -11,5 +11,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface TableManagerRepository extends JpaRepository<TableManager, Integer> {
-    TableManager findByTablecategory(String type);
+
+    /**
+     * 根据Tablecategory查询
+     * @param tablecategory
+     * @return TableManager
+     */
+    TableManager findByTablecategory(String tablecategory);
 }
