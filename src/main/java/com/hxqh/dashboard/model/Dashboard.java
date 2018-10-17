@@ -29,7 +29,6 @@ public class Dashboard implements Serializable {
     @XStreamOmitField
     private List<DashboardVisualize> dashboardVisualizes;
 
-
     public Dashboard() {
     }
 

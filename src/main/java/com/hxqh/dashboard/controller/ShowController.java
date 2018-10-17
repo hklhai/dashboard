@@ -129,7 +129,21 @@ public class ShowController {
         return showService.findDashboardDataByVid(integerValue.getIntegerId());
     }
 
-    // todo dashboard 分页
+    @ResponseBody
+    @RequestMapping(value = "/dashboardList", method = RequestMethod.POST)
+    public DashboardDto dashboardList(@RequestBody Dashboard dashboard,
+                                      @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                      @RequestParam(value = "size", defaultValue = "15") Integer size) {
 
+        DashboardDto dashboardDto = null;
+        Sort sort = new Sort(Sort.Direction.DESC, "bid");
+        try {
+            Pageable pageable = new PageRequest(page, size, sort);
+            dashboardDto = showService.dashboardList(dashboard, pageable);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dashboardDto;
+    }
 
 }

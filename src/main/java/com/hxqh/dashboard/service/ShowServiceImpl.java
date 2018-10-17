@@ -1,10 +1,7 @@
 package com.hxqh.dashboard.service;
 
 import com.hxqh.dashboard.model.*;
-import com.hxqh.dashboard.model.assist.DashboardShowDto;
-import com.hxqh.dashboard.model.assist.DoubleIntegerValue;
-import com.hxqh.dashboard.model.assist.ShowDto;
-import com.hxqh.dashboard.model.assist.VisualizeDto;
+import com.hxqh.dashboard.model.assist.*;
 import com.hxqh.dashboard.repository.DashboardRepository;
 import com.hxqh.dashboard.repository.DashboardVisualizeRepository;
 import com.hxqh.dashboard.repository.TableManagerRepository;
@@ -117,7 +114,6 @@ public class ShowServiceImpl implements ShowService {
         dashboardRepository.save(dashboard);
     }
 
-    @SuppressWarnings("unchecked")
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public VisualizeDto visualizeList(Visualize visualize, Pageable pageable) {
@@ -189,6 +185,22 @@ public class ShowServiceImpl implements ShowService {
             }
         }
         return false;
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public DashboardDto dashboardList(Dashboard dashboard, Pageable pageable) {
+        Page<Dashboard> dashboards = dashboardRepository.findAll(pageable);
+        //获取结果集
+        List<Dashboard> dashboardList = dashboards.getContent();
+        dashboardList = dashboardList.stream().map(e -> {
+            e.setDashboardVisualizes(null);
+            return e;
+        }).collect(Collectors.toList());
+
+        Integer totalPages = dashboards.getTotalPages();
+        DashboardDto visualizeDto = new DashboardDto(pageable, totalPages, dashboardList);
+        return visualizeDto;
     }
 
 }

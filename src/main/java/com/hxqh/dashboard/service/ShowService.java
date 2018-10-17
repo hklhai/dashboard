@@ -2,10 +2,7 @@ package com.hxqh.dashboard.service;
 
 import com.hxqh.dashboard.model.Dashboard;
 import com.hxqh.dashboard.model.Visualize;
-import com.hxqh.dashboard.model.assist.DashboardShowDto;
-import com.hxqh.dashboard.model.assist.DoubleIntegerValue;
-import com.hxqh.dashboard.model.assist.ShowDto;
-import com.hxqh.dashboard.model.assist.VisualizeDto;
+import com.hxqh.dashboard.model.assist.*;
 import org.springframework.data.domain.Pageable;
 
 /**
@@ -100,4 +97,13 @@ public interface ShowService {
      * @return 存在返回true
      */
     boolean isHasDashboardVisualize(DoubleIntegerValue integerValue);
+
+    /**
+     * visualize分页查询
+     *
+     * @param dashboard dashboard实体为后期做带条件分页查询
+     * @param pageable  分页实体类
+     * @return 分页结果
+     */
+    DashboardDto dashboardList(Dashboard dashboard, Pageable pageable);
 }
