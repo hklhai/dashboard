@@ -1,5 +1,6 @@
 package com.hxqh.dashboard.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import javax.persistence.*;
@@ -32,6 +33,7 @@ public class Visualize implements Serializable {
 
     @OneToMany(mappedBy = "visualize")
     @XStreamOmitField
+    @JsonIgnore
     private List<DashboardVisualize> dashboardVisualizes;
 
     public Visualize() {

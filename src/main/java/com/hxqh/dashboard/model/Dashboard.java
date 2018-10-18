@@ -6,6 +6,7 @@ package com.hxqh.dashboard.model;
  * @author Ocean lin
  */
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import javax.persistence.*;
@@ -25,8 +26,10 @@ public class Dashboard implements Serializable {
     private String type;
     private String businesscategory;
 
+
     @OneToMany(mappedBy = "dashboard")
     @XStreamOmitField
+    @JsonIgnore
     private List<DashboardVisualize> dashboardVisualizes;
 
     public Dashboard() {
@@ -86,5 +89,8 @@ public class Dashboard implements Serializable {
 
     public void setBusinesscategory(String businesscategory) {
         this.businesscategory = businesscategory;
+    }
+
+    public void setDashboardVisualizes() {
     }
 }

@@ -14,6 +14,7 @@ import java.util.List;
 public class VisualizeDto extends PageDto {
 
     private List<Visualize> visualizeList;
+    private List<String> distinctBusinesscategory;
 
     public VisualizeDto(Pageable page, Integer totalPages) {
         super(page, totalPages);
@@ -50,5 +51,13 @@ public class VisualizeDto extends PageDto {
 
     public void setVisualizeList(List<Visualize> visualizeList) {
         this.visualizeList = visualizeList;
+    }
+
+    public List<String> getDistinctBusinesscategory() {
+        return distinctBusinesscategory;
+    }
+
+    public void setDistinctBusinesscategory(List<String> distinctBusinesscategory) {
+        this.distinctBusinesscategory = distinctBusinesscategory;
     }
 }

@@ -18,5 +18,10 @@ public interface Constants {
     String ADDFAIL = "Add Fail!";
     String ADDFAILHASHALREADY = "Already exists!";
 
+    String DELETESUCCESS = "Delete Success!";
+    String DELETEFAIL = "Delete Fail!";
+    String EDITSUCCESS = "Edit Success!";
+    String EDITFAIL = "Edit Fail!";
+
 
 }

@@ -58,8 +58,10 @@ public class ShowServiceImpl implements ShowService {
     private static final String SELECT_SQL = "select * from ";
     private static final String CREATE_SQL_2 = "(`sid` int(20) NOT NULL AUTO_INCREMENT,  `showkey` varchar(20) DEFAULT NULL,  `showvalue` ";
     private static final String CREATE_SQL_3 = " DEFAULT NULL, PRIMARY KEY (`sid`))";
+    private static final String DROP_TABLE_SQL = " drop table ";
     private static final String DOUBLE_TYPE = "double";
     private static final String FLOAT_TYPE = "float";
+
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
@@ -117,11 +119,13 @@ public class ShowServiceImpl implements ShowService {
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public VisualizeDto visualizeList(Visualize visualize, Pageable pageable) {
+        List<String> distinctBusinesscategory = visualizeRepository.findDistinctBusinesscategory();
         Page<Visualize> visualizes = visualizeRepository.findAll(pageable);
         //获取结果集
         List<Visualize> visualizeList = visualizes.getContent();
         Integer totalPages = visualizes.getTotalPages();
         VisualizeDto visualizeDto = new VisualizeDto(pageable, totalPages, visualizeList);
+        visualizeDto.setDistinctBusinesscategory(distinctBusinesscategory);
         return visualizeDto;
     }
 
@@ -201,6 +205,47 @@ public class ShowServiceImpl implements ShowService {
         Integer totalPages = dashboards.getTotalPages();
         DashboardDto visualizeDto = new DashboardDto(pageable, totalPages, dashboardList);
         return visualizeDto;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void visualizeDelete(Integer integerId) {
+        Visualize visualize = visualizeRepository.findOne(integerId);
+        List<DashboardVisualize> dashboardVisualizes = visualize.getDashboardVisualizes();
+        if (dashboardVisualizes.size() > 0) {
+            for (int i = 0; i < dashboardVisualizes.size(); i++) {
+                DashboardVisualize dashboardVisualize = dashboardVisualizes.get(i);
+                dashboardVisualizeRepository.delete(dashboardVisualize.getDid());
+            }
+        }
+        visualizeRepository.delete(integerId);
+        // 删除表
+        String sql = DROP_TABLE_SQL + visualize.getTablename();
+        sessionFactory.getCurrentSession().createSQLQuery(sql).executeUpdate();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void dashboardDelete(Integer integerValue) {
+        Dashboard dashboard = dashboardRepository.findOne(integerValue);
+        List<DashboardVisualize> dashboardVisualizes = dashboard.getDashboardVisualizes();
+        for (int i = 0; i < dashboardVisualizes.size(); i++) {
+            DashboardVisualize dashboardVisualize = dashboardVisualizes.get(i);
+            dashboardVisualizeRepository.delete(dashboardVisualize.getDid());
+        }
+        dashboardRepository.delete(integerValue);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateVisualize(Visualize visualize) {
+        visualizeRepository.save(visualize);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateDashboard(Dashboard dashboard) {
+        dashboardRepository.save(dashboard);
     }
 
 }

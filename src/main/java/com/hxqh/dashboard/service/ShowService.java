@@ -106,4 +106,32 @@ public interface ShowService {
      * @return 分页结果
      */
     DashboardDto dashboardList(Dashboard dashboard, Pageable pageable);
+
+    /**
+     * 删除visualize，并级联删除DashboardVisualize中数据
+     *
+     * @param integerId visualize主键
+     */
+    void visualizeDelete(Integer integerId);
+
+    /**
+     * 删除dashboard,级联删除DashboardVisualize中数据
+     *
+     * @param integerValue dashboard主键
+     */
+    void dashboardDelete(Integer integerValue);
+
+    /**
+     * 更新visualize
+     *
+     * @param visualize visualize实体
+     */
+    void updateVisualize(Visualize visualize);
+
+    /**
+     * 更新dashboard
+     *
+     * @param dashboard dashboard实体
+     */
+    void updateDashboard(Dashboard dashboard);
 }
