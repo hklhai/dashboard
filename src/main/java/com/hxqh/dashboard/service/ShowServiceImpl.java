@@ -61,6 +61,8 @@ public class ShowServiceImpl implements ShowService {
     private static final String DROP_TABLE_SQL = " drop table ";
     private static final String DOUBLE_TYPE = "double";
     private static final String FLOAT_TYPE = "float";
+    private static final Integer START_NUM = 1;
+    private static final Integer END_NUM = 8;
 
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -107,6 +109,13 @@ public class ShowServiceImpl implements ShowService {
         sessionFactory.getCurrentSession().createSQLQuery(sql).executeUpdate();
         visualize.setTablename(tableName);
         tableManager.setTablemaxid(tableManager.getTablemaxid() + 1);
+        // 添加缺省的Demo数据
+        for (int i = START_NUM; i < END_NUM; i++) {
+            int rand = 1 + (int) (Math.random() * 50);
+            String insertSQL = "insert into " + tableName + "(showkey,showvalue) values (" + i + "," + rand + ")";
+            sessionFactory.getCurrentSession().createSQLQuery(insertSQL).executeUpdate();
+        }
+
         visualizeRepository.save(visualize);
     }
 
