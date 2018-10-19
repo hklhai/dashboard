@@ -177,7 +177,7 @@ public class ShowServiceImpl implements ShowService {
         for (int i = 0; i < locationList.size(); i++) {
             Location location = locationList.get(i);
 
-            if ("".equals(location.getDid())) {
+            if (null == location.getDid() || "".equals(location.getDid())) {
                 // 新增
                 Visualize visualize = visualizeRepository.findOne(location.getVid());
                 DashboardVisualize dashboardVisualize = new DashboardVisualize(dashboard, visualize,
