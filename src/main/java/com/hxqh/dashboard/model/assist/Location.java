@@ -12,6 +12,8 @@ public class Location {
     private Integer y;
     private Integer h;
     private Integer w;
+    private Integer did;
+
 
     public Location() {
     }
@@ -62,5 +64,13 @@ public class Location {
 
     public void setW(Integer w) {
         this.w = w;
+    }
+
+    public Integer getDid() {
+        return did;
+    }
+
+    public void setDid(Integer did) {
+        this.did = did;
     }
 }

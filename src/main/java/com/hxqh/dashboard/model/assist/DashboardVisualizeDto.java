@@ -15,6 +15,8 @@ public class DashboardVisualizeDto implements Serializable {
 
     private List<Location> locationList;
 
+    private List<Integer> deleteList;
+
     public DashboardVisualizeDto() {
     }
 
@@ -37,5 +39,13 @@ public class DashboardVisualizeDto implements Serializable {
 
     public void setLocationList(List<Location> locationList) {
         this.locationList = locationList;
+    }
+
+    public List<Integer> getDeleteList() {
+        return deleteList;
+    }
+
+    public void setDeleteList(List<Integer> deleteList) {
+        this.deleteList = deleteList;
     }
 }

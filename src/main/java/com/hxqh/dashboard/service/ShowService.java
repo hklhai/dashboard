@@ -25,7 +25,7 @@ public interface ShowService {
      * @param integerId
      * @return LineDouble List
      */
-    ShowDto findLineByVid(Integer integerId,Integer random);
+    ShowDto findLineByVid(Integer integerId, Integer random, Integer bid, Integer did);
 
     /**
      * 添加visualize
@@ -128,11 +128,4 @@ public interface ShowService {
      */
     void updateDashboard(Dashboard dashboard);
 
-
-    /**
-     * 更新  dashboard与Visualize关系
-     *
-     * @param dashboardVisualizeDto
-     */
-    void updateDashboardVisualize(DashboardVisualizeDto dashboardVisualizeDto);
 }

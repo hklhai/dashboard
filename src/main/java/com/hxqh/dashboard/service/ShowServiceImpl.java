@@ -63,7 +63,7 @@ public class ShowServiceImpl implements ShowService {
     private static final String FLOAT_TYPE = "float";
     private static final Integer START_NUM = 1;
     private static final Integer END_NUM = 8;
-    private static final Integer SPLIT_NUM = 100;
+    private static final Integer SPLIT_NUM = 150;
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
@@ -74,11 +74,10 @@ public class ShowServiceImpl implements ShowService {
     @SuppressWarnings("unchecked")
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public ShowDto findLineByVid(Integer integerId, Integer random) {
+    public ShowDto findLineByVid(Integer integerId, Integer random, Integer bid, Integer did) {
         Visualize visualize = visualizeRepository.findOne(integerId);
 
         String sql = SELECT_SQL_1 + random * SPLIT_NUM + SELECT_SQL_2 + visualize.getTablename();
-        // String sql = SELECT_SQL + visualize.getTablename();
         String keyShow, valueShow;
         Session currentSession = sessionFactory.getCurrentSession();
 
@@ -96,7 +95,7 @@ public class ShowServiceImpl implements ShowService {
             valueShow = list.stream().map(LineInteger::getShowvalue).collect(Collectors.toList()).toString();
         }
         ShowDto showDto = new ShowDto(visualize.getVisualizename(), visualize.getXname(), visualize.getYname(),
-                keyShow, valueShow, visualize.getType(), visualize.getVid());
+                keyShow, valueShow, visualize.getType(), visualize.getVid(), bid, did);
 
         return showDto;
     }
@@ -157,7 +156,7 @@ public class ShowServiceImpl implements ShowService {
         for (int i = 0; i < dashboardVisualizesList.size(); i++) {
             DashboardVisualize dashboardVisualize = dashboardVisualizesList.get(i);
             Integer vid = dashboardVisualize.getVisualize().getVid();
-            ShowDto showDto = findLineByVid(vid, (i + 1) * vid);
+            ShowDto showDto = findLineByVid(vid, (i + 1) * vid, dashboard.getBid(), dashboardVisualize.getDid());
             showDto.setX(dashboardVisualize.getX());
             showDto.setY(dashboardVisualize.getY());
             showDto.setH(dashboardVisualize.getH());
@@ -175,13 +174,33 @@ public class ShowServiceImpl implements ShowService {
         Dashboard dashboard = dashboardRepository.findOne(dashboardVisualizeDto.getBid());
         List<Location> locationList = dashboardVisualizeDto.getLocationList();
 
-        // 判断关系是否存在，存在更新，不存在新增
         for (int i = 0; i < locationList.size(); i++) {
             Location location = locationList.get(i);
-            Visualize visualize = visualizeRepository.findOne(location.getVid());
-            DashboardVisualize dashboardVisualize = new DashboardVisualize(dashboard, visualize,
-                    location.getX(), location.getY(), location.getH(), location.getW());
-            dashboardVisualizeRepository.save(dashboardVisualize);
+
+            if ("".equals(location.getDid())) {
+                // 新增
+                Visualize visualize = visualizeRepository.findOne(location.getVid());
+                DashboardVisualize dashboardVisualize = new DashboardVisualize(dashboard, visualize,
+                        location.getX(), location.getY(), location.getH(), location.getW());
+                dashboardVisualizeRepository.save(dashboardVisualize);
+            } else {
+                // 更新
+                DashboardVisualize dashboardVisualize = dashboardVisualizeRepository.findOne(location.getDid());
+                Visualize visualizeNew = visualizeRepository.findOne(location.getVid());
+                dashboardVisualize.setVisualize(visualizeNew);
+                dashboardVisualize.setX(location.getX());
+                dashboardVisualize.setY(location.getY());
+                dashboardVisualize.setH(location.getH());
+                dashboardVisualize.setW(location.getW());
+                dashboardVisualizeRepository.save(dashboardVisualize);
+            }
+            // 删除
+            List<Integer> deleteList = dashboardVisualizeDto.getDeleteList();
+            if (null != deleteList && deleteList.size() > 0) {
+                for (int j = 0; j < deleteList.size(); j++) {
+                    dashboardVisualizeRepository.delete(deleteList.get(i));
+                }
+            }
         }
     }
 
@@ -256,24 +275,6 @@ public class ShowServiceImpl implements ShowService {
     @Override
     public void updateDashboard(Dashboard dashboard) {
         dashboardRepository.save(dashboard);
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public void updateDashboardVisualize(DashboardVisualizeDto dashboardVisualizeDto) {
-
-        Dashboard dashboard = dashboardRepository.findOne(dashboardVisualizeDto.getBid());
-
-
-        List<Location> locationList = dashboardVisualizeDto.getLocationList();
-
-        for (int i = 0; i < locationList.size(); i++) {
-            Location location = locationList.get(i);
-
-
-        }
-
-
     }
 
 }

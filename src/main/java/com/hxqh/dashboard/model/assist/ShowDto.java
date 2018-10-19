@@ -5,7 +5,7 @@ package com.hxqh.dashboard.model.assist;
  *
  * @author Ocean lin
  */
-public class ShowDto {
+public class ShowDto extends Location {
 
     private String visualizename;
     private String xname;
@@ -22,11 +22,12 @@ public class ShowDto {
     private String type;
     private Integer vid;
 
+    private Integer did;
 
     public ShowDto() {
     }
 
-    public ShowDto(String visualizename, String xname, String yname, String showKey, String showValue, String type, Integer vid) {
+    public ShowDto(String visualizename, String xname, String yname, String showKey, String showValue, String type, Integer vid, Integer bid, Integer did) {
         this.visualizename = visualizename;
         this.xname = xname;
         this.yname = yname;
@@ -34,6 +35,15 @@ public class ShowDto {
         this.showValue = showValue;
         this.type = type;
         this.vid = vid;
+        this.did = did;
+    }
+
+    public Integer getDid() {
+        return did;
+    }
+
+    public void setDid(Integer did) {
+        this.did = did;
     }
 
     public Integer getX() {

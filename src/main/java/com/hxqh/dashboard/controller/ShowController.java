@@ -58,7 +58,7 @@ public class ShowController {
     @ResponseBody
     @RequestMapping(value = "/visualizeData", method = RequestMethod.POST)
     public ShowDto visualizeData(@RequestBody IntegerValue integerValue) {
-        return showService.findLineByVid(integerValue.getIntegerId(),1);
+        return showService.findLineByVid(integerValue.getIntegerId(), 1, 1, 1);
     }
 
     @ResponseBody
@@ -167,22 +167,6 @@ public class ShowController {
         }
         return message;
     }
-
-
-    @ResponseBody
-    @RequestMapping(value = "/dashboardVisualize", method = RequestMethod.PUT)
-    public Message updateDashboardVisualize(@RequestBody DashboardVisualizeDto dashboardVisualizeDto) {
-        Message message;
-        try {
-            showService.updateDashboardVisualize(dashboardVisualizeDto);
-            message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
-        } catch (Exception e) {
-            message = new Message(Constants.FAIL, Constants.EDITFAIL);
-            e.printStackTrace();
-        }
-        return message;
-    }
-
 
 
     @ResponseBody

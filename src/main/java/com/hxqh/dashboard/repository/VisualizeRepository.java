@@ -29,6 +29,6 @@ public interface VisualizeRepository extends JpaRepository<Visualize, Integer> {
      *
      * @return List<String>
      */
-    @Query("select distinct(u.businesscategory) from Visualize u")
+    @Query("select distinct(u.businesscategory) from Visualize u where u.businesscategory is not null")
     List<String> findDistinctBusinesscategory();
 }
