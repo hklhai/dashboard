@@ -23,5 +23,6 @@ public interface Constants {
     String EDITSUCCESS = "Edit Success!";
     String EDITFAIL = "Edit Fail!";
 
+    String USERNAME_PASSWORD_INCORRECT= "Incorrect username or password";
 
 }

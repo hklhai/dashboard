@@ -25,7 +25,7 @@ public interface ShowService {
      * @param integerId
      * @return LineDouble List
      */
-    ShowDto findLineByVid(Integer integerId);
+    ShowDto findLineByVid(Integer integerId,Integer random);
 
     /**
      * 添加visualize
@@ -71,7 +71,7 @@ public interface ShowService {
      *
      * @param integerValue
      */
-    void addDashboardVisualize(DoubleIntegerValue integerValue);
+    void addDashboardVisualize(DashboardVisualizeDto integerValue);
 
 
     /**
@@ -90,13 +90,6 @@ public interface ShowService {
      */
     boolean isDashboardByVisualizename(String dashboardname);
 
-    /**
-     * 是否存在dashboardname与Visualize
-     *
-     * @param integerValue
-     * @return 存在返回true
-     */
-    boolean isHasDashboardVisualize(DoubleIntegerValue integerValue);
 
     /**
      * visualize分页查询
@@ -134,4 +127,12 @@ public interface ShowService {
      * @param dashboard dashboard实体
      */
     void updateDashboard(Dashboard dashboard);
+
+
+    /**
+     * 更新  dashboard与Visualize关系
+     *
+     * @param dashboardVisualizeDto
+     */
+    void updateDashboardVisualize(DashboardVisualizeDto dashboardVisualizeDto);
 }

@@ -1,5 +1,6 @@
 package com.hxqh.dashboard.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import javax.persistence.*;
@@ -14,9 +15,9 @@ import java.util.List;
  */
 @Entity
 @Table(name = "tb_role")
-public class TbRole implements Serializable {
+public class Role implements Serializable {
 
-    private static final long serialVersionUID = -7288218037607497452L;
+    private static final long serialVersionUID = 1760980718942376564L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer roleid;
@@ -29,24 +30,26 @@ public class TbRole implements Serializable {
 
     private Integer sortnum;
 
-    @OneToMany(mappedBy = "tbRole")
+    @OneToMany(mappedBy = "role")
     @XStreamOmitField
-    private List<TbUserrole> tbUserroles;
+    @JsonIgnore
+    private List<UserRole> userRoles;
 
-    @OneToMany(mappedBy = "tbRole")
+    @OneToMany(mappedBy = "role")
     @XStreamOmitField
-    private List<TbRolemodel> tbRolemodels;
+    @JsonIgnore
+    private List<RoleModel> roleModels;
 
 
-    public TbRole() {
+    public Role() {
     }
 
-    public List<TbUserrole> getTbUserroles() {
-        return tbUserroles;
+    public List<UserRole> getUserroles() {
+        return userRoles;
     }
 
-    public void setTbUserroles(List<TbUserrole> tbUserroles) {
-        this.tbUserroles = tbUserroles;
+    public void setUserroles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 
     public Integer getRoleid() {
@@ -89,11 +92,11 @@ public class TbRole implements Serializable {
         this.sortnum = sortnum;
     }
 
-    public List<TbRolemodel> getTbRolemodels() {
-        return tbRolemodels;
+    public List<RoleModel> getRoleModels() {
+        return roleModels;
     }
 
-    public void setTbRolemodels(List<TbRolemodel> tbRolemodels) {
-        this.tbRolemodels = tbRolemodels;
+    public void setRoleModels(List<RoleModel> roleModels) {
+        this.roleModels = roleModels;
     }
 }

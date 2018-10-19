@@ -7,15 +7,15 @@ import org.springframework.data.domain.Pageable;
  *
  * @author Ocean lin
  */
-public class PageDto {
+public class Page {
 
     private Pageable page;
     private Integer totalPages;
 
-    public PageDto() {
+    public Page() {
     }
 
-    public PageDto(Pageable page, Integer totalPages) {
+    public Page(Pageable page, Integer totalPages) {
         this.page = page;
         this.totalPages = totalPages;
     }

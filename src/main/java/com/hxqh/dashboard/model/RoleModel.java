@@ -11,27 +11,27 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "tb_rolemodel")
-public class TbRolemodel implements Serializable {
-    private static final long serialVersionUID = 514934059612730438L;
+public class RoleModel implements Serializable {
 
+    private static final long serialVersionUID = 5091514811807859218L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer rolemodelid;
 
     @ManyToOne
     @JoinColumn(name = "MODELID")
-    private TbModel tbModel;
+    private Model model;
 
     @ManyToOne
     @JoinColumn(name = "ROLEID")
-    private TbRole tbRole;
+    private Role role;
 
-    public TbRolemodel() {
+    public RoleModel() {
     }
 
-    public TbRolemodel(TbModel tbModel, TbRole tbRole) {
-        this.tbModel = tbModel;
-        this.tbRole = tbRole;
+    public RoleModel(Model model, Role role) {
+        this.model = model;
+        this.role = role;
     }
 
     public Integer getRolemodelid() {
@@ -42,28 +42,28 @@ public class TbRolemodel implements Serializable {
         this.rolemodelid = rolemodelid;
     }
 
-    public TbModel getTbModel() {
-        return tbModel;
+    public Model getModel() {
+        return model;
     }
 
-    public void setTbModel(TbModel tbModel) {
-        this.tbModel = tbModel;
+    public void setModel(Model model) {
+        this.model = model;
     }
 
-    public TbRole getTbRole() {
-        return tbRole;
+    public Role getRole() {
+        return role;
     }
 
-    public void setTbRole(TbRole tbRole) {
-        this.tbRole = tbRole;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("TbRolemodel{");
+        final StringBuilder sb = new StringBuilder("RoleModel{");
         sb.append("rolemodelid=").append(rolemodelid);
-        sb.append(", tbModel=").append(tbModel);
-        sb.append(", tbRole=").append(tbRole);
+        sb.append(", model=").append(model);
+        sb.append(", role=").append(role);
         sb.append('}');
         return sb.toString();
     }

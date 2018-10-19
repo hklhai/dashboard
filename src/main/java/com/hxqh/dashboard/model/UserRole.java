@@ -11,22 +11,22 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "tb_userrole")
-public class TbUserrole implements Serializable {
+public class UserRole implements Serializable {
 
-    private static final long serialVersionUID = 973351636320452908L;
+    private static final long serialVersionUID = -5635451455169818687L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer userroleid;
 
     @ManyToOne
     @JoinColumn(name = "ROLEID")
-    private TbRole tbRole;
+    private Role role;
 
     @ManyToOne
     @JoinColumn(name = "USERID")
-    private UserObj tbUser;
+    private User user;
 
-    public TbUserrole() {
+    public UserRole() {
     }
 
     public Integer getUserroleid() {
@@ -37,21 +37,19 @@ public class TbUserrole implements Serializable {
         this.userroleid = userroleid;
     }
 
-    public TbRole getTbRole() {
-        return tbRole;
+    public Role getRole() {
+        return role;
     }
 
-    public void setTbRole(TbRole tbRole) {
-        this.tbRole = tbRole;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
-    public UserObj getTbUser() {
-        return this.tbUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setTbUser(UserObj tbUser) {
-        this.tbUser = tbUser;
+    public void setUser(User user) {
+        this.user = user;
     }
-
-
 }

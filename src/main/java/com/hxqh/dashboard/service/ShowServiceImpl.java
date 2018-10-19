@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -56,6 +53,9 @@ public class ShowServiceImpl implements ShowService {
 
     private static final String CREATE_SQL_1 = "create table ";
     private static final String SELECT_SQL = "select * from ";
+    private static final String SELECT_SQL_1 = "select showkey,showvalue, sid+ ";
+    private static final String SELECT_SQL_2 = " sid from ";
+
     private static final String CREATE_SQL_2 = "(`sid` int(20) NOT NULL AUTO_INCREMENT,  `showkey` varchar(20) DEFAULT NULL,  `showvalue` ";
     private static final String CREATE_SQL_3 = " DEFAULT NULL, PRIMARY KEY (`sid`))";
     private static final String DROP_TABLE_SQL = " drop table ";
@@ -63,7 +63,7 @@ public class ShowServiceImpl implements ShowService {
     private static final String FLOAT_TYPE = "float";
     private static final Integer START_NUM = 1;
     private static final Integer END_NUM = 8;
-
+    private static final Integer SPLIT_NUM = 100;
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
@@ -74,9 +74,11 @@ public class ShowServiceImpl implements ShowService {
     @SuppressWarnings("unchecked")
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public ShowDto findLineByVid(Integer integerId) {
+    public ShowDto findLineByVid(Integer integerId, Integer random) {
         Visualize visualize = visualizeRepository.findOne(integerId);
-        String sql = SELECT_SQL + visualize.getTablename();
+
+        String sql = SELECT_SQL_1 + random * SPLIT_NUM + SELECT_SQL_2 + visualize.getTablename();
+        // String sql = SELECT_SQL + visualize.getTablename();
         String keyShow, valueShow;
         Session currentSession = sessionFactory.getCurrentSession();
 
@@ -93,8 +95,8 @@ public class ShowServiceImpl implements ShowService {
             keyShow = list.stream().map(LineInteger::getShowkey).collect(Collectors.toList()).toString();
             valueShow = list.stream().map(LineInteger::getShowvalue).collect(Collectors.toList()).toString();
         }
-        ShowDto showDto = new ShowDto(visualize.getVisualizename(),
-                visualize.getXname(), visualize.getYname(), keyShow, valueShow);
+        ShowDto showDto = new ShowDto(visualize.getVisualizename(), visualize.getXname(), visualize.getYname(),
+                keyShow, valueShow, visualize.getType(), visualize.getVid());
 
         return showDto;
     }
@@ -111,7 +113,8 @@ public class ShowServiceImpl implements ShowService {
         tableManager.setTablemaxid(tableManager.getTablemaxid() + 1);
         // 添加缺省的Demo数据
         for (int i = START_NUM; i < END_NUM; i++) {
-            int rand = 1 + (int) (Math.random() * 50);
+            Random random = new Random();
+            int rand = random.nextInt(60) + 10;
             String insertSQL = "insert into " + tableName + "(showkey,showvalue) values (" + i + "," + rand + ")";
             sessionFactory.getCurrentSession().createSQLQuery(insertSQL).executeUpdate();
         }
@@ -151,8 +154,14 @@ public class ShowServiceImpl implements ShowService {
         Dashboard dashboard = dashboardRepository.findOne(integerId);
         List<DashboardVisualize> dashboardVisualizesList = dashboard.getDashboardVisualizes();
         List<ShowDto> showDtoList = new ArrayList<>();
-        for (DashboardVisualize dashboardVisualize : dashboardVisualizesList) {
-            ShowDto showDto = findLineByVid(dashboardVisualize.getVisualize().getVid());
+        for (int i = 0; i < dashboardVisualizesList.size(); i++) {
+            DashboardVisualize dashboardVisualize = dashboardVisualizesList.get(i);
+            Integer vid = dashboardVisualize.getVisualize().getVid();
+            ShowDto showDto = findLineByVid(vid, (i + 1) * vid);
+            showDto.setX(dashboardVisualize.getX());
+            showDto.setY(dashboardVisualize.getY());
+            showDto.setH(dashboardVisualize.getH());
+            showDto.setW(dashboardVisualize.getW());
             showDtoList.add(showDto);
         }
         DashboardShowDto dashboardShowDto = new DashboardShowDto(showDtoList, dashboard.getDashboardshowname(),
@@ -162,13 +171,18 @@ public class ShowServiceImpl implements ShowService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void addDashboardVisualize(DoubleIntegerValue integerValue) {
-        // DoubleIntegerValue第一个dashboard，第二个visualize
-        Dashboard dashboard = dashboardRepository.findOne(integerValue.getIntegerId1());
-        Visualize visualize = visualizeRepository.findOne(integerValue.getIntegerId2());
+    public void addDashboardVisualize(DashboardVisualizeDto dashboardVisualizeDto) {
+        Dashboard dashboard = dashboardRepository.findOne(dashboardVisualizeDto.getBid());
+        List<Location> locationList = dashboardVisualizeDto.getLocationList();
 
-        DashboardVisualize dashboardVisualize = new DashboardVisualize(dashboard, visualize);
-        dashboardVisualizeRepository.save(dashboardVisualize);
+        // 判断关系是否存在，存在更新，不存在新增
+        for (int i = 0; i < locationList.size(); i++) {
+            Location location = locationList.get(i);
+            Visualize visualize = visualizeRepository.findOne(location.getVid());
+            DashboardVisualize dashboardVisualize = new DashboardVisualize(dashboard, visualize,
+                    location.getX(), location.getY(), location.getH(), location.getW());
+            dashboardVisualizeRepository.save(dashboardVisualize);
+        }
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -185,20 +199,6 @@ public class ShowServiceImpl implements ShowService {
         return null != dashboard ? true : false;
     }
 
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
-    @Override
-    public boolean isHasDashboardVisualize(DoubleIntegerValue integerValue) {
-        Dashboard dashboard = dashboardRepository.findOne(integerValue.getIntegerId1());
-        List<DashboardVisualize> dashboardVisualizes = dashboard.getDashboardVisualizes();
-        Integer visualizeID = integerValue.getIntegerId2();
-        for (int i = 0; i < dashboardVisualizes.size(); i++) {
-            DashboardVisualize dashboardVisualize = dashboardVisualizes.get(i);
-            if (dashboardVisualize.getVisualize().getVid().equals(visualizeID)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
@@ -206,6 +206,7 @@ public class ShowServiceImpl implements ShowService {
         Page<Dashboard> dashboards = dashboardRepository.findAll(pageable);
         //获取结果集
         List<Dashboard> dashboardList = dashboards.getContent();
+        // todo
         dashboardList = dashboardList.stream().map(e -> {
             e.setDashboardVisualizes(null);
             return e;
@@ -255,6 +256,24 @@ public class ShowServiceImpl implements ShowService {
     @Override
     public void updateDashboard(Dashboard dashboard) {
         dashboardRepository.save(dashboard);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateDashboardVisualize(DashboardVisualizeDto dashboardVisualizeDto) {
+
+        Dashboard dashboard = dashboardRepository.findOne(dashboardVisualizeDto.getBid());
+
+
+        List<Location> locationList = dashboardVisualizeDto.getLocationList();
+
+        for (int i = 0; i < locationList.size(); i++) {
+            Location location = locationList.get(i);
+
+
+        }
+
+
     }
 
 }

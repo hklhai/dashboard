@@ -1,7 +1,7 @@
 package com.hxqh.dashboard.model.assist;
 
 import com.hxqh.dashboard.model.Visualize;
-import com.hxqh.dashboard.model.base.PageDto;
+import com.hxqh.dashboard.model.base.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Ocean lin
  */
-public class VisualizeDto extends PageDto {
+public class VisualizeDto extends Page {
 
     private List<Visualize> visualizeList;
     private List<String> distinctBusinesscategory;

@@ -46,4 +46,5 @@ public class DashboardShowDto {
     public void setBusinesscategory(String businesscategory) {
         this.businesscategory = businesscategory;
     }
+
 }

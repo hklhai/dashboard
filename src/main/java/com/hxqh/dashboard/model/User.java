@@ -1,5 +1,6 @@
 package com.hxqh.dashboard.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "tb_user")
-public class UserObj implements Serializable {
+public class User implements Serializable {
 
     private static final long serialVersionUID = 3367852520038806572L;
     @Id
@@ -23,7 +24,8 @@ public class UserObj implements Serializable {
 
     private String name;
 
-    private String password;
+    @JsonIgnore
+     private String password;
 
     private String address;
 
@@ -42,15 +44,13 @@ public class UserObj implements Serializable {
 
     private String department;
 
-    @Transient
-    private String roleid;
-
-    @OneToMany(mappedBy = "tbUser")
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
     @XStreamOmitField
-    private List<TbUserrole> tbUserroles;
+    private List<UserRole> userRoles;
 
 
-    public UserObj() {
+    public User() {
     }
 
     public Integer getUserid() {
@@ -75,14 +75,6 @@ public class UserObj implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getRoleid() {
-        return roleid;
-    }
-
-    public void setRoleid(String roleid) {
-        this.roleid = roleid;
     }
 
     public String getDepartment() {
@@ -149,11 +141,11 @@ public class UserObj implements Serializable {
         this.userstatus = userstatus;
     }
 
-    public List<TbUserrole> getTbUserroles() {
-        return tbUserroles;
+    public List<UserRole> getUserroles() {
+        return userRoles;
     }
 
-    public void setTbUserroles(List<TbUserrole> tbUserroles) {
-        this.tbUserroles = tbUserroles;
+    public void setUserroles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 }

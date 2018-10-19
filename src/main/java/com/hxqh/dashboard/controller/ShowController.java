@@ -58,7 +58,7 @@ public class ShowController {
     @ResponseBody
     @RequestMapping(value = "/visualizeData", method = RequestMethod.POST)
     public ShowDto visualizeData(@RequestBody IntegerValue integerValue) {
-        return showService.findLineByVid(integerValue.getIntegerId());
+        return showService.findLineByVid(integerValue.getIntegerId(),1);
     }
 
     @ResponseBody
@@ -89,9 +89,8 @@ public class ShowController {
         } catch (Exception e) {
             message = new Message(Constants.FAIL, Constants.DELETEFAIL);
             e.printStackTrace();
-        } finally {
-            return message;
         }
+        return message;
     }
 
     @ResponseBody
@@ -105,9 +104,8 @@ public class ShowController {
         } catch (Exception e) {
             message = new Message(Constants.FAIL, Constants.EDITSUCCESS);
             e.printStackTrace();
-        } finally {
-            return message;
         }
+        return message;
     }
 
 
@@ -158,23 +156,33 @@ public class ShowController {
 
     @ResponseBody
     @RequestMapping(value = "/dashboardVisualize", method = RequestMethod.POST)
-    public Message dashboardVisualize(@RequestBody DoubleIntegerValue integerValue) {
-        // DoubleIntegerValue第一个dashboard，第二个visualize
+    public Message dashboardVisualize(@RequestBody DashboardVisualizeDto dashboardVisualizeDto) {
         Message message;
         try {
-            // 判断关系是否存在
-            if (showService.isHasDashboardVisualize(integerValue)) {
-                message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
-            } else {
-                showService.addDashboardVisualize(integerValue);
-                message = new Message(Constants.SUCCESS, Constants.ADDSUCCESS);
-            }
+            showService.addDashboardVisualize(dashboardVisualizeDto);
+            message = new Message(Constants.SUCCESS, Constants.ADDSUCCESS);
         } catch (Exception e) {
             message = new Message(Constants.FAIL, Constants.ADDFAIL);
             e.printStackTrace();
         }
         return message;
     }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/dashboardVisualize", method = RequestMethod.PUT)
+    public Message updateDashboardVisualize(@RequestBody DashboardVisualizeDto dashboardVisualizeDto) {
+        Message message;
+        try {
+            showService.updateDashboardVisualize(dashboardVisualizeDto);
+            message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
+        } catch (Exception e) {
+            message = new Message(Constants.FAIL, Constants.EDITFAIL);
+            e.printStackTrace();
+        }
+        return message;
+    }
+
 
 
     @ResponseBody
@@ -187,9 +195,8 @@ public class ShowController {
         } catch (Exception e) {
             message = new Message(Constants.FAIL, Constants.DELETEFAIL);
             e.printStackTrace();
-        } finally {
-            return message;
         }
+        return message;
     }
 
     @ResponseBody
@@ -203,9 +210,8 @@ public class ShowController {
         } catch (Exception e) {
             message = new Message(Constants.FAIL, Constants.EDITSUCCESS);
             e.printStackTrace();
-        } finally {
-            return message;
         }
+        return message;
     }
 
 

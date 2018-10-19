@@ -1,5 +1,7 @@
 package com.hxqh.dashboard.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -13,9 +15,9 @@ import java.util.List;
  */
 @Entity
 @Table(name = "tb_model")
-public class TbModel implements Serializable {
+public class Model implements Serializable {
 
-    private static final long serialVersionUID = 7983321998880275784L;
+    private static final long serialVersionUID = 1545833445940178502L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer modelid;
@@ -38,13 +40,14 @@ public class TbModel implements Serializable {
 
     private Integer isurl;
 
-    @OneToMany(mappedBy = "tbModel")
-    private List<TbRolemodel> tbRolemodels;
+    @JsonIgnore
+    @OneToMany(mappedBy = "model")
+    private List<RoleModel> roleModels;
 
     @Transient
-    private List<TbModel> childList;
+    private List<Model> childList;
 
-    public TbModel() {
+    public Model() {
     }
 
     public Integer getIsurl() {
@@ -55,20 +58,20 @@ public class TbModel implements Serializable {
         this.isurl = isurl;
     }
 
-    public List<TbModel> getChildList() {
+    public List<Model> getChildList() {
         return childList;
     }
 
-    public void setChildList(List<TbModel> childList) {
+    public void setChildList(List<Model> childList) {
         this.childList = childList;
     }
 
-    public List<TbRolemodel> getTbRolemodels() {
-        return tbRolemodels;
+    public List<RoleModel> getRoleModels() {
+        return roleModels;
     }
 
-    public void setTbRolemodels(List<TbRolemodel> tbRolemodels) {
-        this.tbRolemodels = tbRolemodels;
+    public void setRoleModels(List<RoleModel> roleModels) {
+        this.roleModels = roleModels;
     }
 
     public Integer getModelid() {

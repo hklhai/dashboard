@@ -14,15 +14,58 @@ public class ShowDto {
     private String showKey;
     private String showValue;
 
+    private Integer x;
+    private Integer y;
+    private Integer h;
+    private Integer w;
+
+    private String type;
+    private Integer vid;
+
+
     public ShowDto() {
     }
 
-    public ShowDto(String visualizename, String xname, String yname, String showKey, String showValue) {
+    public ShowDto(String visualizename, String xname, String yname, String showKey, String showValue, String type, Integer vid) {
         this.visualizename = visualizename;
         this.xname = xname;
         this.yname = yname;
         this.showKey = showKey;
         this.showValue = showValue;
+        this.type = type;
+        this.vid = vid;
+    }
+
+    public Integer getX() {
+        return x;
+    }
+
+    public void setX(Integer x) {
+        this.x = x;
+    }
+
+    public Integer getY() {
+        return y;
+    }
+
+    public void setY(Integer y) {
+        this.y = y;
+    }
+
+    public Integer getH() {
+        return h;
+    }
+
+    public void setH(Integer h) {
+        this.h = h;
+    }
+
+    public Integer getW() {
+        return w;
+    }
+
+    public void setW(Integer w) {
+        this.w = w;
     }
 
     public String getVisualizename() {
@@ -63,5 +106,21 @@ public class ShowDto {
 
     public void setShowValue(String showValue) {
         this.showValue = showValue;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Integer getVid() {
+        return vid;
+    }
+
+    public void setVid(Integer vid) {
+        this.vid = vid;
     }
 }

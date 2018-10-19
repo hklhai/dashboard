@@ -1,6 +1,7 @@
 package com.hxqh.dashboard;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Debug
  * SpringBoot mode
  */
+@EnableAutoConfiguration
 @SpringBootApplication
 @ComponentScan(basePackages = "com.hxqh.dashboard.**.*")
 @RestController

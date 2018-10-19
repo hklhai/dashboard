@@ -1,6 +1,6 @@
 package com.hxqh.dashboard.repository;
 
-import com.hxqh.dashboard.model.TbUserrole;
+import com.hxqh.dashboard.model.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  * @author Ocean lin
  */
 @Repository
-public interface UserRoleRepository  extends JpaRepository<TbUserrole, Integer> {
+public interface UserRoleRepository  extends JpaRepository<UserRole, Integer> {
 }
