@@ -247,7 +247,7 @@ public class SystemController {
     @RequestMapping(value = "/roleList", method = RequestMethod.POST)
     public RoleDto roleList(@RequestBody PageInfo pageInfo) {
         RoleDto roleDto = null;
-        Sort sort = new Sort(Sort.Direction.DESC, "userid");
+        Sort sort = new Sort(Sort.Direction.DESC, "roleid");
         try {
             Pageable pageable = new PageRequest(pageInfo.getPage(), pageInfo.getSize(), sort);
             roleDto = systemService.roleList(null, pageable);

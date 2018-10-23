@@ -28,7 +28,6 @@ public class Dashboard implements Serializable {
 
 
     @OneToMany(mappedBy = "dashboard")
-    @XStreamOmitField
     @JsonIgnore
     private List<DashboardVisualize> dashboardVisualizes;
 

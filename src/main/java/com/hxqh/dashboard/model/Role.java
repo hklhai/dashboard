@@ -1,7 +1,6 @@
 package com.hxqh.dashboard.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -30,14 +29,12 @@ public class Role implements Serializable {
 
     private Integer sortnum;
 
-    @OneToMany(mappedBy = "role")
-    @XStreamOmitField
     @JsonIgnore
+    @OneToMany(mappedBy = "role")
     private List<UserRole> userRoles;
 
-    @OneToMany(mappedBy = "role")
-    @XStreamOmitField
     @JsonIgnore
+    @OneToMany(mappedBy = "role")
     private List<RoleModel> roleModels;
 
 
