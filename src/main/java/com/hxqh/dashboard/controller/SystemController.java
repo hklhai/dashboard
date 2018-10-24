@@ -10,6 +10,8 @@ import com.hxqh.dashboard.model.assist.*;
 import com.hxqh.dashboard.model.base.Message;
 import com.hxqh.dashboard.model.base.PageInfo;
 import com.hxqh.dashboard.model.base.SessionInfo;
+import com.hxqh.dashboard.model.view.VRoleModel;
+import com.hxqh.dashboard.model.view.VUserRole;
 import com.hxqh.dashboard.service.SystemService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -178,6 +181,26 @@ public class SystemController {
         return userDto;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/userRoles", method = RequestMethod.POST)
+    public Message userRoles(@RequestBody UserRolesDto userRolesDto) {
+        Message message;
+        try {
+            systemService.userRoles(userRolesDto);
+            message = new Message(Constants.SUCCESS, Constants.ADDSUCCESS);
+        } catch (Exception e) {
+            message = new Message(Constants.FAIL, Constants.ADDFAIL);
+            e.printStackTrace();
+        }
+        return message;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/userRoleList", method = RequestMethod.POST)
+    public List<VUserRole> userRoleList(@RequestBody IntegerValue integerValue) {
+        return systemService.findByUserid(integerValue.getIntegerId());
+    }
+
 
     /****************************User administration**********************/
 
@@ -257,6 +280,25 @@ public class SystemController {
         return roleDto;
     }
 
+
+    /**
+     * 角色绑定多个model   新增集成删除、修改
+     * @param roleModelsDto
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/roleModels", method = RequestMethod.POST)
+    public Message roleModels(@RequestBody RoleModelsDto roleModelsDto) {
+        Message message;
+        try {
+            systemService.roleModels(roleModelsDto);
+            message = new Message(Constants.SUCCESS, Constants.ADDSUCCESS);
+        } catch (Exception e) {
+            message = new Message(Constants.FAIL, Constants.ADDFAIL);
+            e.printStackTrace();
+        }
+        return message;
+    }
     /****************************Role administration**********************/
 
     /***************************Model administration**********************/
@@ -323,7 +365,7 @@ public class SystemController {
     @RequestMapping(value = "/modelList", method = RequestMethod.POST)
     public ModelDto modelList(@RequestBody PageInfo pageInfo) {
         ModelDto modelDto = null;
-        Sort sort = new Sort(Sort.Direction.DESC, "userid");
+        Sort sort = new Sort(Sort.Direction.DESC, "modelid");
         try {
             Pageable pageable = new PageRequest(pageInfo.getPage(), pageInfo.getSize(), sort);
             modelDto = systemService.modelList(null, pageable);
@@ -331,6 +373,13 @@ public class SystemController {
             e.printStackTrace();
         }
         return modelDto;
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/roleModelList", method = RequestMethod.POST)
+    public List<VRoleModel> roleModelList(@RequestBody IntegerValue integerValue) {
+        return systemService.findByRoleid(integerValue.getIntegerId());
     }
 
     /***************************Model administration**********************/

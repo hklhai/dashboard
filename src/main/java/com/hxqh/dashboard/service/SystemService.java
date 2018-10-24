@@ -3,10 +3,12 @@ package com.hxqh.dashboard.service;
 import com.hxqh.dashboard.model.Model;
 import com.hxqh.dashboard.model.Role;
 import com.hxqh.dashboard.model.User;
-import com.hxqh.dashboard.model.assist.ModelDto;
-import com.hxqh.dashboard.model.assist.RoleDto;
-import com.hxqh.dashboard.model.assist.UserDto;
+import com.hxqh.dashboard.model.assist.*;
+import com.hxqh.dashboard.model.view.VRoleModel;
+import com.hxqh.dashboard.model.view.VUserRole;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
  * Created by Ocean Lin on 2018/10/11.
@@ -171,4 +173,23 @@ public interface SystemService {
      * @return
      */
     ModelDto modelList(Model model, Pageable pageable);
+
+
+    /**
+     * 设置用户的属于角色
+     *
+     * @param userRolesDto
+     */
+    void userRoles(UserRolesDto userRolesDto);
+
+    /**
+     * 设置角色管理的模块信息
+     *
+     * @param roleModelsDto
+     */
+    void roleModels(RoleModelsDto roleModelsDto);
+
+    List<VUserRole> findByUserid(Integer integerId);
+
+    List<VRoleModel> findByRoleid(Integer integerId);
 }

@@ -194,12 +194,12 @@ public class ShowServiceImpl implements ShowService {
                 dashboardVisualize.setW(location.getW());
                 dashboardVisualizeRepository.save(dashboardVisualize);
             }
-            // 删除
-            List<Integer> deleteList = dashboardVisualizeDto.getDeleteList();
-            if (null != deleteList && deleteList.size() > 0) {
-                for (int j = 0; j < deleteList.size(); j++) {
-                    dashboardVisualizeRepository.delete(deleteList.get(i));
-                }
+        }
+        // 删除
+        List<Integer> deleteList = dashboardVisualizeDto.getDeleteList();
+        if (null != deleteList && deleteList.size() > 0) {
+            for (int j = 0; j < deleteList.size(); j++) {
+                dashboardVisualizeRepository.delete(deleteList.get(j));
             }
         }
     }

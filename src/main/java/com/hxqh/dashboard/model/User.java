@@ -25,7 +25,7 @@ public class User implements Serializable {
     private String name;
 
     @JsonIgnore
-     private String password;
+    private String password;
 
     private String address;
 
@@ -49,8 +49,26 @@ public class User implements Serializable {
     @XStreamOmitField
     private List<UserRole> userRoles;
 
+    @Transient
+    private List<Role> roleList;
 
     public User() {
+    }
+
+    public List<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
+
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
     }
 
     public Integer getUserid() {

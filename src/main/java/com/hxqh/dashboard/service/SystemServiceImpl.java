@@ -1,11 +1,9 @@
 package com.hxqh.dashboard.service;
 
-import com.hxqh.dashboard.model.Model;
-import com.hxqh.dashboard.model.Role;
-import com.hxqh.dashboard.model.User;
-import com.hxqh.dashboard.model.assist.ModelDto;
-import com.hxqh.dashboard.model.assist.RoleDto;
-import com.hxqh.dashboard.model.assist.UserDto;
+import com.hxqh.dashboard.model.*;
+import com.hxqh.dashboard.model.assist.*;
+import com.hxqh.dashboard.model.view.VRoleModel;
+import com.hxqh.dashboard.model.view.VUserRole;
 import com.hxqh.dashboard.repository.*;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +37,11 @@ public class SystemServiceImpl implements SystemService {
     private UserRoleRepository userRoleRepository;
     @Autowired
     private RoleModelRepository roleModelRepository;
+
+    @Autowired
+    private VUserRoleRepository vUserRoleRepository;
+    @Autowired
+    private   VRoleModelRepository vRoleModelRepository;
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
@@ -88,13 +91,15 @@ public class SystemServiceImpl implements SystemService {
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public User findUserById(Integer userId) {
-        return userRepository.findOne(userId);
+        User user = userRepository.findOne(userId);
+        return user;
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public Role findRoleById(Integer roleId) {
-        return roleRepository.findOne(roleId);
+        Role role = roleRepository.findOne(roleId);
+        return role;
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -167,6 +172,76 @@ public class SystemServiceImpl implements SystemService {
         Integer totalPages = models.getTotalPages();
         ModelDto modelDto = new ModelDto(pageable, totalPages, modelList);
         return modelDto;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void userRoles(UserRolesDto userRolesDto) {
+        User user = userRepository.findOne(userRolesDto.getUserid());
+        List<UserRoleRoleDto> userRoleList = userRolesDto.getRoleList();
+
+        for (UserRoleRoleDto roleDto : userRoleList) {
+            // insert
+            if (null == roleDto.getUserroleid() || "".equals(roleDto.getUserroleid())) {
+                Role role = roleRepository.findOne(roleDto.getRoleid());
+                userRoleRepository.save(new UserRole(role, user));
+            } else {
+                // update
+                Role role = roleRepository.findOne(roleDto.getRoleid());
+                UserRole userRole = userRoleRepository.findOne(roleDto.getUserroleid());
+                userRole.setRole(role);
+                userRoleRepository.save(userRole);
+            }
+        }
+        // delete
+        List<Integer> deleteList = userRolesDto.getDeleteList();
+        if (null != deleteList && deleteList.size() > 0) {
+            for (int j = 0; j < deleteList.size(); j++) {
+                userRoleRepository.delete(deleteList.get(j));
+            }
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void roleModels(RoleModelsDto roleModelsDto) {
+        Role role = roleRepository.findOne(roleModelsDto.getRoleid());
+        List<RoleModelModelDto> roleModelModelDtos = roleModelsDto.getModelDtoList();
+
+        for (RoleModelModelDto roleModelModelDto : roleModelModelDtos) {
+            // insert
+            if (null == roleModelModelDto.getRolemodelid() || "".equals(roleModelModelDto.getRolemodelid())) {
+                Model model = modelRepository.findOne(roleModelModelDto.getModelid());
+                roleModelRepository.save(new RoleModel(model, role));
+            } else {
+                // update
+                RoleModel roleModel = roleModelRepository.findOne(roleModelModelDto.getRolemodelid());
+                Model model = modelRepository.findOne(roleModelModelDto.getModelid());
+                roleModel.setModel(model);
+                roleModelRepository.save(roleModel);
+            }
+        }
+        // delete
+        List<Integer> deleteList = roleModelsDto.getDeleteList();
+        if (null != deleteList && deleteList.size() > 0) {
+            for (int j = 0; j < deleteList.size(); j++) {
+                roleModelRepository.delete(deleteList.get(j));
+            }
+        }
+
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public  List<VUserRole> findByUserid(Integer integerId) {
+        List<VUserRole> vUserRoleList =   vUserRoleRepository.findByUserid(integerId);
+        return vUserRoleList;
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public List<VRoleModel> findByRoleid(Integer roleid) {
+        return vRoleModelRepository.findByRoleid(roleid);
     }
 
 

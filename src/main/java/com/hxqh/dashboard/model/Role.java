@@ -37,8 +37,26 @@ public class Role implements Serializable {
     @OneToMany(mappedBy = "role")
     private List<RoleModel> roleModels;
 
+    @Transient
+    private List<Model> modelList;
 
     public Role() {
+    }
+
+    public List<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
+
+    public List<Model> getModelList() {
+        return modelList;
+    }
+
+    public void setModelList(List<Model> modelList) {
+        this.modelList = modelList;
     }
 
     public List<UserRole> getUserroles() {
