@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class DashboardDto extends Page {
     private List<Dashboard> visualizeList;
+    List<String> distinctBusinesscategory;
 
     public DashboardDto(List<Dashboard> visualizeList) {
         this.visualizeList = visualizeList;
@@ -21,6 +22,14 @@ public class DashboardDto extends Page {
     public DashboardDto(Pageable page, Integer totalPages, List<Dashboard> visualizeList) {
         super(page, totalPages);
         this.visualizeList = visualizeList;
+    }
+
+    public List<String> getDistinctBusinesscategory() {
+        return distinctBusinesscategory;
+    }
+
+    public void setDistinctBusinesscategory(List<String> distinctBusinesscategory) {
+        this.distinctBusinesscategory = distinctBusinesscategory;
     }
 
     public List<Dashboard> getVisualizeList() {

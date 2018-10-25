@@ -2,6 +2,7 @@ package com.hxqh.dashboard.repository;
 
 import com.hxqh.dashboard.model.Dashboard;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
  * @author Ocean lin
  */
 @Repository
-public interface DashboardRepository extends JpaRepository<Dashboard, Integer> {
+public interface DashboardRepository extends JpaRepository<Dashboard, Integer>, JpaSpecificationExecutor<Dashboard> {
 
     /**
      * 根据名称查询是否存在Dashboard
@@ -19,4 +20,5 @@ public interface DashboardRepository extends JpaRepository<Dashboard, Integer> {
      * @return Dashboard对象
      */
     Dashboard findByDashboardname(String dashboardname);
+
 }

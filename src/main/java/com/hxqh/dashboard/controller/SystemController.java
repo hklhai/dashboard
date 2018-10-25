@@ -177,13 +177,14 @@ public class SystemController {
 
     @ResponseBody
     @RequestMapping(value = "/userList", method = RequestMethod.POST)
-    public UserDto userList(@RequestBody PageInfo pageInfo) {
-
+    public UserDto userList(@RequestBody User user,
+                            @RequestParam(value = "page", defaultValue = "0") int page,
+                            @RequestParam(value = "size", defaultValue = "10") int size) {
         UserDto userDto = null;
         Sort sort = new Sort(Sort.Direction.DESC, "userid");
         try {
-            Pageable pageable = new PageRequest(pageInfo.getPage(), pageInfo.getSize(), sort);
-            userDto = systemService.userList(null, pageable);
+            Pageable pageable = new PageRequest(page, size, sort);
+            userDto = systemService.userList(user, pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -373,22 +374,24 @@ public class SystemController {
 
     @ResponseBody
     @RequestMapping(value = "/modelList", method = RequestMethod.POST)
-    public ModelDto modelList(@RequestBody PageInfo pageInfo) {
+    public ModelDto modelList(@RequestBody Model model,
+                              @RequestParam(value = "page", defaultValue = "0") int page,
+                              @RequestParam(value = "size", defaultValue = "10") int size) {
         ModelDto modelDto = null;
         Sort sort = new Sort(Sort.Direction.DESC, "modelid");
         try {
-            Pageable pageable = new PageRequest(pageInfo.getPage(), pageInfo.getSize(), sort);
-            modelDto = systemService.modelList(null, pageable);
+            Pageable pageable = new PageRequest(page, size, sort);
+            modelDto = systemService.modelList(model, pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return modelDto;
     }
 
-
     @ResponseBody
     @RequestMapping(value = "/roleModelList", method = RequestMethod.POST)
     public List<ViewRoleModel> roleModelList(@RequestBody IntegerValue integerValue) {
+        // todo 是否需要分页
         return systemService.findByRoleid(integerValue.getIntegerId());
     }
 
@@ -406,7 +409,6 @@ public class SystemController {
         }
         return message;
     }
-
 
 
     /***************************Model administration**********************/

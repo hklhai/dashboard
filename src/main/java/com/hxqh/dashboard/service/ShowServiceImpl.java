@@ -6,15 +6,18 @@ import com.hxqh.dashboard.repository.DashboardRepository;
 import com.hxqh.dashboard.repository.DashboardVisualizeRepository;
 import com.hxqh.dashboard.repository.TableManagerRepository;
 import com.hxqh.dashboard.repository.VisualizeRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.Predicate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,9 +42,9 @@ public class ShowServiceImpl implements ShowService {
     private DashboardVisualizeRepository dashboardVisualizeRepository;
 
 
-    private static final String LINE = "LINE";
-    private static final String BAR = "BAR";
-    private static final String PIE = "PIE";
+    private static final String LINE = "line";
+    private static final String BAR = "bar";
+    private static final String PIE = "pie";
 
     private static Map<String, String> yTypeMap = new HashMap<String, String>() {{
         put("double", "double(10,2)");
@@ -66,12 +69,22 @@ public class ShowServiceImpl implements ShowService {
     }};
 
 
+    private static Map<Integer, String> pieXMap = new HashMap<Integer, String>() {{
+        put(1, "直接访问");
+        put(2, "邮件营销");
+        put(3, "联盟广告");
+        put(4, "视频广告");
+        put(5, "搜索引擎");
+        put(6, "简介访问");
+        put(7, "抖音广告");
+    }};
+
     private static final String CREATE_SQL_1 = "create table ";
     private static final String SELECT_SQL = "select * from ";
     private static final String SELECT_SQL_1 = "select showkey,showvalue, sid+ ";
     private static final String SELECT_SQL_2 = " sid from ";
 
-    private static final String CREATE_SQL_2 = "(`sid` int(20) NOT NULL AUTO_INCREMENT,  `showkey` varchar(20) DEFAULT NULL,  `showvalue` ";
+    private static final String CREATE_SQL_2 = "(`sid` int(20) NOT NULL AUTO_INCREMENT, `showkey` varchar(20) DEFAULT NULL, `showvalue` ";
     private static final String CREATE_SQL_3 = " DEFAULT NULL, PRIMARY KEY (`sid`))";
     private static final String DROP_TABLE_SQL = " drop table ";
     private static final String DOUBLE_TYPE = "double";
@@ -109,9 +122,21 @@ public class ShowServiceImpl implements ShowService {
             keyShow = list.stream().map(LineInteger::getShowkey).collect(Collectors.toList());
             valueShow = list.stream().map(LineInteger::getShowvalue).collect(Collectors.toList());
         }
-        ShowDto showDto = new ShowDto(visualize.getVisualizename(), visualize.getXname(), visualize.getYname(),
-                keyShow, valueShow, visualize.getType(), visualize.getVid(), bid, did);
 
+        ShowDto showDto = null;
+        if (PIE.equals(visualize.getType())) {
+            List<PieDto> pieDtoList = new ArrayList<>(50);
+
+            for (int i = 0; i < keyShow.size(); i++) {
+                PieDto pieDto = new PieDto(keyShow.get(i).toString(), valueShow.get(0));
+                pieDtoList.add(pieDto);
+            }
+            showDto = new ShowDto(visualize.getVisualizename(), visualize.getXname(), visualize.getYname(),
+                    keyShow, (List) pieDtoList, visualize.getType(), visualize.getVid(), bid, did);
+        } else {
+            showDto = new ShowDto(visualize.getVisualizename(), visualize.getXname(), visualize.getYname(),
+                    keyShow, valueShow, visualize.getType(), visualize.getVid(), bid, did);
+        }
         return showDto;
     }
 
@@ -131,11 +156,10 @@ public class ShowServiceImpl implements ShowService {
             Random random = new Random();
             int rand = random.nextInt(60) + 10;
 
-            if (LINE.equals(visualize.getType())) {
-                insertSQL = "insert into " + tableName + "(showkey,showvalue) values (" + lineXMap.get(i) + "," + rand + ")";
+            if (PIE.equals(visualize.getType())) {
+                insertSQL = "insert into " + tableName + "(showkey,showvalue) values ('" + pieXMap.get(i) + "'," + rand + ")";
             } else {
-                insertSQL = "insert into " + tableName + "(showkey,showvalue) values (" + i + "," + rand + ")";
-
+                insertSQL = "insert into " + tableName + "(showkey,showvalue) values ('" + lineXMap.get(i) + "'," + rand + ")";
             }
             sessionFactory.getCurrentSession().createSQLQuery(insertSQL).executeUpdate();
         }
@@ -244,11 +268,14 @@ public class ShowServiceImpl implements ShowService {
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public DashboardDto dashboardList(Dashboard dashboard, Pageable pageable) {
+        List<String> distinctBusinesscategory = visualizeRepository.findDistinctBusinesscategory();
+
         Page<Dashboard> dashboards = dashboardRepository.findAll(pageable);
         //获取结果集
         List<Dashboard> dashboardList = dashboards.getContent();
         Integer totalPages = dashboards.getTotalPages();
         DashboardDto visualizeDto = new DashboardDto(pageable, totalPages, dashboardList);
+        visualizeDto.setDistinctBusinesscategory(distinctBusinesscategory);
         return visualizeDto;
     }
 
@@ -292,5 +319,61 @@ public class ShowServiceImpl implements ShowService {
     public void updateDashboard(Dashboard dashboard) {
         dashboardRepository.save(dashboard);
     }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public VisualizeDto visualizeList2(Visualize visualize, Pageable pageable) {
+        List<String> distinctBusinesscategory = visualizeRepository.findDistinctBusinesscategory();
+
+        Specification<Visualize> specification = (root, query, cb) -> {
+            List<Predicate> list = new ArrayList<>(5);
+
+            if (StringUtils.isNotBlank(visualize.getVisualizename())) {
+                list.add(cb.like(root.get("visualizename").as(String.class), "%" + visualize.getVisualizename() + "%"));
+            }
+            if (StringUtils.isNotBlank(visualize.getType())) {
+                list.add(cb.equal(root.get("type").as(String.class), visualize.getType()));
+            }
+            Predicate[] p = new Predicate[list.size()];
+            return cb.and(list.toArray(p));
+        };
+
+        Page<Visualize> visualizes = visualizeRepository.findAll(specification, pageable);
+
+        List<Visualize> visualizeList = visualizes.getContent();
+        Integer totalPages = visualizes.getTotalPages();
+        VisualizeDto visualizeDto = new VisualizeDto(pageable, totalPages, visualizeList);
+        visualizeDto.setDistinctBusinesscategory(distinctBusinesscategory);
+        return visualizeDto;
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public DashboardDto dashboardList2(Dashboard dashboard, Pageable pageable) {
+        List<String> distinctBusinesscategory = visualizeRepository.findDistinctBusinesscategory();
+        Specification<Dashboard> specification = (root, query, cb) -> {
+            List<Predicate> list = new ArrayList<>(5);
+
+            if (StringUtils.isNotBlank(dashboard.getDashboardname())) {
+                list.add(cb.like(root.get("dashboardname").as(String.class), "%" + dashboard.getDashboardname() + "%"));
+            }
+            if (StringUtils.isNotBlank(dashboard.getDashboarddescription())) {
+                list.add(cb.like(root.get("dashboarddescription").as(String.class), "%" + dashboard.getDashboarddescription() + "%"));
+            }
+
+            Predicate[] p = new Predicate[list.size()];
+            return cb.and(list.toArray(p));
+        };
+
+        Page<Dashboard> dashboards = dashboardRepository.findAll(specification, pageable);
+
+        //获取结果集
+        List<Dashboard> dashboardList = dashboards.getContent();
+        Integer totalPages = dashboards.getTotalPages();
+        DashboardDto visualizeDto = new DashboardDto(pageable, totalPages, dashboardList);
+        visualizeDto.setDistinctBusinesscategory(distinctBusinesscategory);
+        return visualizeDto;
+    }
+
 
 }

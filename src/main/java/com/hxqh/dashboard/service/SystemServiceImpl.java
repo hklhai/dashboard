@@ -7,12 +7,16 @@ import com.hxqh.dashboard.model.view.ViewUserModel;
 import com.hxqh.dashboard.model.view.ViewUserRole;
 import com.hxqh.dashboard.repository.*;
 import com.hxqh.dashboard.util.GroupListUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,11 +46,6 @@ public class SystemServiceImpl implements SystemService {
     private ViewRoleModelRepository viewRoleModelRepository;
     @Autowired
     private ViewUserModelRepository viewUserModelRepository;
-
-    @Autowired
-    private ModelDashboardRepository modelDashboardRepository;
-    @Autowired
-    private DashboardRepository dashboardRepository;
 
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -154,7 +153,21 @@ public class SystemServiceImpl implements SystemService {
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public UserDto userList(User user, Pageable pageable) {
-        Page<User> users = userRepository.findAll(pageable);
+        Specification<User> specification = (root, query, cb) -> {
+            List<Predicate> list = new ArrayList<>(5);
+
+            if (StringUtils.isNotBlank(user.getName())) {
+                list.add(cb.like(root.get("name").as(String.class), "%" + user.getName() + "%"));
+            }
+            if (StringUtils.isNotBlank(user.getUsername())) {
+                list.add(cb.like(root.get("username").as(String.class), "%" + user.getUsername() + "%"));
+            }
+
+            Predicate[] p = new Predicate[list.size()];
+            return cb.and(list.toArray(p));
+        };
+
+        Page<User> users = userRepository.findAll(specification, pageable);
         List<User> userList = users.getContent();
         Integer totalPages = users.getTotalPages();
         UserDto userDto = new UserDto(pageable, totalPages, userList);
@@ -174,7 +187,21 @@ public class SystemServiceImpl implements SystemService {
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public ModelDto modelList(Model model, Pageable pageable) {
-        Page<Model> models = modelRepository.findAll(pageable);
+
+        Specification<Model> specification = (root, query, cb) -> {
+            List<Predicate> list = new ArrayList<>(5);
+
+            if (StringUtils.isNotBlank(model.getModelname())) {
+                list.add(cb.like(root.get("modelname").as(String.class), "%" + model.getModelname() + "%"));
+            }
+            if (StringUtils.isNotBlank(model.getModeldesc())) {
+                list.add(cb.like(root.get("modeldesc").as(String.class), "%" + model.getModeldesc() + "%"));
+            }
+            Predicate[] p = new Predicate[list.size()];
+            return cb.and(list.toArray(p));
+        };
+
+        Page<Model> models = modelRepository.findAll(specification, pageable);
         List<Model> modelList = models.getContent();
         Integer totalPages = models.getTotalPages();
         ModelDto modelDto = new ModelDto(pageable, totalPages, modelList);
@@ -255,12 +282,9 @@ public class SystemServiceImpl implements SystemService {
     @Override
     public List<ViewUserModel> findModelList(User user) {
         List<ViewUserModel> userModelList = viewUserModelRepository.findByUserid(user.getUserid());
-        Map<Integer, List<ViewUserModel>> listMap = GroupListUtil.group(userModelList, new GroupListUtil.GroupBy<Integer>() {
-            @Override
-            public Integer groupby(Object obj) {
-                ViewUserModel d = (ViewUserModel) obj;
-                return d.getParentid();
-            }
+        Map<Integer, List<ViewUserModel>> listMap = GroupListUtil.group(userModelList, (obj) -> {
+            ViewUserModel d = (ViewUserModel) obj;
+            return d.getParentid();
         });
 
         List<ViewUserModel> topTreeModelList = listMap.get(0);

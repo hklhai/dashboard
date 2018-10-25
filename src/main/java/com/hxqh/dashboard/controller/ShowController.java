@@ -124,6 +124,23 @@ public class ShowController {
         return visualizeDto;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/visualizeList2", method = RequestMethod.POST)
+    public VisualizeDto visualizeList2(@RequestBody Visualize visualize,
+                                       @RequestParam(value = "page", defaultValue = "0") int page,
+                                       @RequestParam(value = "size", defaultValue = "10") int size) {
+        VisualizeDto visualizeDto = null;
+        Sort sort = new Sort(Sort.Direction.DESC, "vid");
+        try {
+            Pageable pageable = new PageRequest(page, size, sort);
+            visualizeDto = showService.visualizeList2(visualize, pageable);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return visualizeDto;
+    }
+
+
     /*=======================================================================================================*/
 
     @ResponseBody
@@ -213,6 +230,23 @@ public class ShowController {
         try {
             Pageable pageable = new PageRequest(pageInfo.getPage(), pageInfo.getSize(), sort);
             dashboardDto = showService.dashboardList(null, pageable);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dashboardDto;
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/dashboardList2", method = RequestMethod.POST)
+    public DashboardDto dashboardList2(@RequestBody Dashboard dashboard,
+                                       @RequestParam(value = "page", defaultValue = "0") int page,
+                                       @RequestParam(value = "size", defaultValue = "10") int size) {
+        DashboardDto dashboardDto = null;
+        Sort sort = new Sort(Sort.Direction.DESC, "bid");
+        try {
+            Pageable pageable = new PageRequest(page, size, sort);
+            dashboardDto = showService.dashboardList2(dashboard, pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }

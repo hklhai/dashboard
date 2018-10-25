@@ -10,32 +10,10 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2018-10-24 13:37:02
+Date: 2018-10-25 09:52:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for tb_bar_1
--- ----------------------------
-DROP TABLE IF EXISTS `tb_bar_1`;
-CREATE TABLE `tb_bar_1` (
-  `sid` int(20) NOT NULL AUTO_INCREMENT,
-  `showkey` varchar(20) DEFAULT NULL,
-  `showvalue` double(10,2) DEFAULT NULL,
-  PRIMARY KEY (`sid`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tb_bar_1
--- ----------------------------
-INSERT INTO `tb_bar_1` VALUES ('1', '1', '16.00');
-INSERT INTO `tb_bar_1` VALUES ('2', '2', '60.00');
-INSERT INTO `tb_bar_1` VALUES ('3', '3', '32.00');
-INSERT INTO `tb_bar_1` VALUES ('4', '4', '65.00');
-INSERT INTO `tb_bar_1` VALUES ('5', '5', '69.00');
-INSERT INTO `tb_bar_1` VALUES ('6', '6', '32.00');
-INSERT INTO `tb_bar_1` VALUES ('7', '7', '16.00');
 
 -- ----------------------------
 -- Table structure for tb_bar_2
@@ -100,7 +78,7 @@ CREATE TABLE `tb_dashboard_visualize` (
   KEY `FK3006umesaltsyga8yv3wwixda` (`vid`),
   CONSTRAINT `FK3006umesaltsyga8yv3wwixda` FOREIGN KEY (`vid`) REFERENCES `tb_visualize` (`vid`),
   CONSTRAINT `FKs0u7h9oxeym8pakpfyg3fd8i9` FOREIGN KEY (`bid`) REFERENCES `tb_dashboard` (`bid`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_dashboard_visualize
@@ -113,6 +91,10 @@ INSERT INTO `tb_dashboard_visualize` VALUES ('14', '1', '18', '7', '8', '1', '6'
 INSERT INTO `tb_dashboard_visualize` VALUES ('24', '8', '27', '6', '6', '6', '0');
 INSERT INTO `tb_dashboard_visualize` VALUES ('25', '8', '26', '6', '6', '0', '0');
 INSERT INTO `tb_dashboard_visualize` VALUES ('26', '8', '25', '8', '12', '0', '6');
+INSERT INTO `tb_dashboard_visualize` VALUES ('27', '7', '26', '6', '6', '0', '0');
+INSERT INTO `tb_dashboard_visualize` VALUES ('28', '7', '25', '7', '6', '0', '6');
+INSERT INTO `tb_dashboard_visualize` VALUES ('29', '7', '27', '6', '6', '6', '0');
+INSERT INTO `tb_dashboard_visualize` VALUES ('30', '7', '20', '7', '6', '6', '6');
 
 -- ----------------------------
 -- Table structure for tb_line_1
@@ -200,28 +182,6 @@ INSERT INTO `tb_line_5` VALUES ('4', '4', '13.00');
 INSERT INTO `tb_line_5` VALUES ('5', '5', '50.00');
 INSERT INTO `tb_line_5` VALUES ('6', '6', '22.00');
 INSERT INTO `tb_line_5` VALUES ('7', '7', '57.00');
-
--- ----------------------------
--- Table structure for tb_line_6
--- ----------------------------
-DROP TABLE IF EXISTS `tb_line_6`;
-CREATE TABLE `tb_line_6` (
-  `sid` int(20) NOT NULL AUTO_INCREMENT,
-  `showkey` varchar(20) DEFAULT NULL,
-  `showvalue` double(10,2) DEFAULT NULL,
-  PRIMARY KEY (`sid`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tb_line_6
--- ----------------------------
-INSERT INTO `tb_line_6` VALUES ('1', '1', '46.00');
-INSERT INTO `tb_line_6` VALUES ('2', '2', '67.00');
-INSERT INTO `tb_line_6` VALUES ('3', '3', '49.00');
-INSERT INTO `tb_line_6` VALUES ('4', '4', '48.00');
-INSERT INTO `tb_line_6` VALUES ('5', '5', '36.00');
-INSERT INTO `tb_line_6` VALUES ('6', '6', '51.00');
-INSERT INTO `tb_line_6` VALUES ('7', '7', '43.00');
 
 -- ----------------------------
 -- Table structure for tb_line_7
@@ -349,15 +309,36 @@ CREATE TABLE `tb_model` (
   `parentid` int(11) DEFAULT NULL,
   `remark` varchar(255) DEFAULT NULL,
   `sortnum` int(6) DEFAULT NULL,
+  `bid` int(11) DEFAULT NULL,
   PRIMARY KEY (`modelid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_model
 -- ----------------------------
-INSERT INTO `tb_model` VALUES ('1', null, null, '车辆管理descriptionhk', '车辆管理hk', null, null, null, null, null);
-INSERT INTO `tb_model` VALUES ('2', null, null, '工具台账', '工具台账', null, null, null, null, null);
-INSERT INTO `tb_model` VALUES ('3', null, null, '工单管理', '工单管理', null, null, null, null, null);
+INSERT INTO `tb_model` VALUES ('1', null, null, '车辆管理descriptionhk', '车辆管理hk', null, null, '0', null, null, null);
+INSERT INTO `tb_model` VALUES ('2', null, null, '工具台账', '工具台账', null, null, '0', null, null, null);
+INSERT INTO `tb_model` VALUES ('3', null, null, '工单管理', '工单管理', null, null, '1', null, null, null);
+
+-- ----------------------------
+-- Table structure for tb_modeldashboard
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_modeldashboard`;
+CREATE TABLE `tb_modeldashboard` (
+  `modeldashboardid` int(11) NOT NULL AUTO_INCREMENT,
+  `visit_path` int(11) DEFAULT NULL,
+  `bid` int(11) DEFAULT NULL,
+  `modelid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`modeldashboardid`),
+  KEY `FKb61am15eqk17b148bw9g1rrgy` (`bid`),
+  KEY `FK22kb0b5dj90h9top8f36ln1ck` (`modelid`),
+  CONSTRAINT `FK22kb0b5dj90h9top8f36ln1ck` FOREIGN KEY (`modelid`) REFERENCES `tb_model` (`modelid`),
+  CONSTRAINT `FKb61am15eqk17b148bw9g1rrgy` FOREIGN KEY (`bid`) REFERENCES `tb_dashboard` (`bid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_modeldashboard
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for tb_pie_1
@@ -402,28 +383,6 @@ INSERT INTO `tb_pie_2` VALUES ('4', '4', '14.00');
 INSERT INTO `tb_pie_2` VALUES ('5', '5', '7.00');
 INSERT INTO `tb_pie_2` VALUES ('6', '6', '38.00');
 INSERT INTO `tb_pie_2` VALUES ('7', '7', '5.00');
-
--- ----------------------------
--- Table structure for tb_pie_3
--- ----------------------------
-DROP TABLE IF EXISTS `tb_pie_3`;
-CREATE TABLE `tb_pie_3` (
-  `sid` int(20) NOT NULL AUTO_INCREMENT,
-  `showkey` varchar(20) DEFAULT NULL,
-  `showvalue` double(10,2) DEFAULT NULL,
-  PRIMARY KEY (`sid`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tb_pie_3
--- ----------------------------
-INSERT INTO `tb_pie_3` VALUES ('1', '1', '48.00');
-INSERT INTO `tb_pie_3` VALUES ('2', '2', '27.00');
-INSERT INTO `tb_pie_3` VALUES ('3', '3', '65.00');
-INSERT INTO `tb_pie_3` VALUES ('4', '4', '53.00');
-INSERT INTO `tb_pie_3` VALUES ('5', '5', '26.00');
-INSERT INTO `tb_pie_3` VALUES ('6', '6', '57.00');
-INSERT INTO `tb_pie_3` VALUES ('7', '7', '51.00');
 
 -- ----------------------------
 -- Table structure for tb_pie_4
@@ -503,9 +462,9 @@ CREATE TABLE `tb_tablemanager` (
 -- ----------------------------
 -- Records of tb_tablemanager
 -- ----------------------------
-INSERT INTO `tb_tablemanager` VALUES ('1', 'line', '11', 'tb_line_');
-INSERT INTO `tb_tablemanager` VALUES ('2', 'pie', '5', 'tb_pie_');
-INSERT INTO `tb_tablemanager` VALUES ('3', 'bar', '3', 'tb_bar_');
+INSERT INTO `tb_tablemanager` VALUES ('1', 'line', '11', 'ab_line_');
+INSERT INTO `tb_tablemanager` VALUES ('2', 'pie', '5', 'ab_pie_');
+INSERT INTO `tb_tablemanager` VALUES ('3', 'bar', '3', 'ab_bar_');
 
 -- ----------------------------
 -- Table structure for tb_user
@@ -585,14 +544,11 @@ INSERT INTO `tb_visualize` VALUES ('15', '工具校准单', 'tb_line_1', 'line',
 INSERT INTO `tb_visualize` VALUES ('18', null, 'tb_line_4', 'line', null, 'BNOP-line_test5', null, null, null, 'double', null, null, null, null, null);
 INSERT INTO `tb_visualize` VALUES ('19', null, 'tb_pie_2', 'pie', null, 'BNOP-line_test9', null, null, null, 'double', null, null, null, null, null);
 INSERT INTO `tb_visualize` VALUES ('20', '设备管理', 'tb_line_5', 'line', null, 'test', null, null, null, 'double', null, null, null, null, null);
-INSERT INTO `tb_visualize` VALUES ('21', 'test', 'tb_pie_3', 'pie', null, 'test2', null, null, null, 'double', null, null, null, null, null);
-INSERT INTO `tb_visualize` VALUES ('22', 'test', 'tb_bar_1', 'bar', null, 'test3', null, null, null, 'double', null, null, null, null, null);
-INSERT INTO `tb_visualize` VALUES ('23', '工具校准单', 'tb_line_6', 'line', null, 'test-bar', null, null, null, 'double', null, null, null, null, null);
 INSERT INTO `tb_visualize` VALUES ('24', '工具校准单', 'tb_line_7', 'line', null, 'test-line', null, null, null, 'double', null, null, null, null, null);
 INSERT INTO `tb_visualize` VALUES ('25', '设备管理', 'tb_pie_4', 'pie', null, '设备管理pie', null, null, null, 'double', null, null, null, null, null);
 INSERT INTO `tb_visualize` VALUES ('26', '设备管理', 'tb_line_8', 'line', null, '设备管理line', null, null, null, 'double', null, null, null, null, null);
 INSERT INTO `tb_visualize` VALUES ('27', '设备管理', 'tb_bar_2', 'bar', null, '设备管理', null, null, null, 'double', null, null, null, null, null);
-INSERT INTO `tb_visualize` VALUES ('29', null, 'tb_line_10', 'line', null, 'BNOP-line_echart', null, null, null, 'double', 'echarttitle', 'legendOrient', 'legendPos', '1', '1');
+INSERT INTO `tb_visualize` VALUES ('29', '工具校准单', 'tb_line_10', 'line', null, 'BNOP-line_echart', null, null, null, 'double', '测试保存', 'vertical', 'topCenter', '1', '1');
 
 -- ----------------------------
 -- View structure for v_role_model
@@ -604,7 +560,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `v_role_
 -- View structure for v_user_model
 -- ----------------------------
 DROP VIEW IF EXISTS `v_user_model`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `v_user_model` AS select (`t3`.`rolemodelid` + `t2`.`userroleid`) AS `usermodelid`,`t1`.`userid` AS `userid`,`t1`.`name` AS `name`,`t4`.`modelid` AS `modelid`,`t4`.`modelname` AS `modelname`,`t4`.`modeldesc` AS `modeldesc`,`t4`.`sortnum` AS `sortnum` from (((`tb_user` `t1` join `tb_userrole` `t2`) join `tb_rolemodel` `t3`) join `tb_model` `t4`) where ((`t1`.`userid` = `t2`.`userid`) and (`t2`.`roleid` = `t3`.`roleid`) and (`t3`.`modelid` = `t4`.`modelid`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `v_user_model` AS select (`t3`.`rolemodelid` + `t2`.`userroleid`) AS `usermodelid`,`t1`.`userid` AS `userid`,`t1`.`name` AS `name`,`t4`.`modelid` AS `modelid`,`t4`.`modelname` AS `modelname`,`t4`.`modeldesc` AS `modeldesc`,`t4`.`sortnum` AS `sortnum`,`t4`.`parentid` AS `parentid`,`t4`.`bid` AS `bid` from (((`tb_user` `t1` join `tb_userrole` `t2`) join `tb_rolemodel` `t3`) join `tb_model` `t4`) where ((`t1`.`userid` = `t2`.`userid`) and (`t2`.`roleid` = `t3`.`roleid`) and (`t3`.`modelid` = `t4`.`modelid`)) ;
 
 -- ----------------------------
 -- View structure for v_user_role

@@ -2,6 +2,7 @@ package com.hxqh.dashboard.repository;
 
 import com.hxqh.dashboard.model.Model;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,10 +11,11 @@ import org.springframework.stereotype.Repository;
  * @author Ocean lin
  */
 @Repository
-public interface ModelRepository extends JpaRepository<Model, Integer> {
+public interface ModelRepository extends JpaRepository<Model, Integer>, JpaSpecificationExecutor<Model> {
 
     /**
      * 根据模型名称查询
+     *
      * @param modelname 模型显示名称
      * @return model
      */

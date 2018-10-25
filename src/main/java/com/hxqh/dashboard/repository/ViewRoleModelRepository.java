@@ -2,6 +2,7 @@ package com.hxqh.dashboard.repository;
 
 import com.hxqh.dashboard.model.view.ViewRoleModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  * @author Ocean lin
  */
 @Repository
-public interface ViewRoleModelRepository extends JpaRepository<ViewRoleModel, Integer> {
+public interface ViewRoleModelRepository extends JpaRepository<ViewRoleModel, Integer>, JpaSpecificationExecutor<ViewRoleModel> {
 
     /**
      * 根据roleid查询

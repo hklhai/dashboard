@@ -131,4 +131,22 @@ public interface ShowService {
      */
     void updateDashboard(Dashboard dashboard);
 
+
+    /**
+     * visualize带条件查询分页
+     *
+     * @param visualize
+     * @param pageable
+     * @return
+     */
+    VisualizeDto visualizeList2(Visualize visualize, Pageable pageable);
+
+    /**
+     * dashboard带条件查询分页
+     *
+     * @param dashboard
+     * @param pageable
+     * @return
+     */
+    DashboardDto dashboardList2(Dashboard dashboard, Pageable pageable);
 }
