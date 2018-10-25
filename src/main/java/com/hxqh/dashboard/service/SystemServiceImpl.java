@@ -2,18 +2,19 @@ package com.hxqh.dashboard.service;
 
 import com.hxqh.dashboard.model.*;
 import com.hxqh.dashboard.model.assist.*;
-import com.hxqh.dashboard.model.view.VRoleModel;
-import com.hxqh.dashboard.model.view.VUserRole;
+import com.hxqh.dashboard.model.view.ViewRoleModel;
+import com.hxqh.dashboard.model.view.ViewUserModel;
+import com.hxqh.dashboard.model.view.ViewUserRole;
 import com.hxqh.dashboard.repository.*;
-import org.hibernate.SessionFactory;
+import com.hxqh.dashboard.util.GroupListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Ocean lin on 2018/4/8.
@@ -22,9 +23,6 @@ import java.util.List;
  */
 @Service("systemService")
 public class SystemServiceImpl implements SystemService {
-
-    @Resource
-    protected SessionFactory sessionFactory;
 
     @Autowired
     private UserRepository userRepository;
@@ -39,9 +37,17 @@ public class SystemServiceImpl implements SystemService {
     private RoleModelRepository roleModelRepository;
 
     @Autowired
-    private VUserRoleRepository vUserRoleRepository;
+    private ViewUserRoleRepository viewUserRoleRepository;
     @Autowired
-    private   VRoleModelRepository vRoleModelRepository;
+    private ViewRoleModelRepository viewRoleModelRepository;
+    @Autowired
+    private ViewUserModelRepository viewUserModelRepository;
+
+    @Autowired
+    private ModelDashboardRepository modelDashboardRepository;
+    @Autowired
+    private DashboardRepository dashboardRepository;
+
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
@@ -85,6 +91,7 @@ public class SystemServiceImpl implements SystemService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void modelAdd(Model model) {
+        model.setParentid(0);
         modelRepository.save(model);
     }
 
@@ -233,15 +240,42 @@ public class SystemServiceImpl implements SystemService {
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
-    public  List<VUserRole> findByUserid(Integer integerId) {
-        List<VUserRole> vUserRoleList =   vUserRoleRepository.findByUserid(integerId);
+    public List<ViewUserRole> findByUserid(Integer integerId) {
+        List<ViewUserRole> vUserRoleList = viewUserRoleRepository.findByUserid(integerId);
         return vUserRoleList;
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
-    public List<VRoleModel> findByRoleid(Integer roleid) {
-        return vRoleModelRepository.findByRoleid(roleid);
+    public List<ViewRoleModel> findByRoleid(Integer roleid) {
+        return viewRoleModelRepository.findByRoleid(roleid);
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public List<ViewUserModel> findModelList(User user) {
+        List<ViewUserModel> userModelList = viewUserModelRepository.findByUserid(user.getUserid());
+        Map<Integer, List<ViewUserModel>> listMap = GroupListUtil.group(userModelList, new GroupListUtil.GroupBy<Integer>() {
+            @Override
+            public Integer groupby(Object obj) {
+                ViewUserModel d = (ViewUserModel) obj;
+                return d.getParentid();
+            }
+        });
+
+        List<ViewUserModel> topTreeModelList = listMap.get(0);
+        for (ViewUserModel userModel : topTreeModelList) {
+            userModel.setViewUserModelList(listMap.get(userModel.getModelid()));
+        }
+        return topTreeModelList;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void modelDashboards(ModelDashboardDto dashboardDto) {
+        Model model = modelRepository.findOne(dashboardDto.getModelid());
+        model.setBid(dashboardDto.getBid());
+        modelRepository.save(model);
     }
 
 

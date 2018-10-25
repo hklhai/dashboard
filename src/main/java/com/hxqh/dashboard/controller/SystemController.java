@@ -10,8 +10,10 @@ import com.hxqh.dashboard.model.assist.*;
 import com.hxqh.dashboard.model.base.Message;
 import com.hxqh.dashboard.model.base.PageInfo;
 import com.hxqh.dashboard.model.base.SessionInfo;
-import com.hxqh.dashboard.model.view.VRoleModel;
-import com.hxqh.dashboard.model.view.VUserRole;
+import com.hxqh.dashboard.model.view.ViewRoleModel;
+import com.hxqh.dashboard.model.view.ViewUserModel;
+import com.hxqh.dashboard.model.view.ViewUserRole;
+import com.hxqh.dashboard.service.ShowService;
 import com.hxqh.dashboard.service.SystemService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,8 @@ public class SystemController {
 
     @Autowired
     private SystemService systemService;
-
+    @Autowired
+    private ShowService showService;
 
     @ModelAttribute
     public void getUser(@RequestParam(value = "userid", required = false) Integer userid,
@@ -68,10 +71,11 @@ public class SystemController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Message login(@RequestBody LoginDto loginDto, Map<String, Object> map) {
         User user = systemService.findUserById(loginDto.getName());
-        return webLogin(user, loginDto, map);
+        Message message = webLogin(user, loginDto, map, systemService);
+        return message;
     }
 
-    private Message webLogin(User user, LoginDto loginDto, Map<String, Object> map) {
+    private Message webLogin(User user, LoginDto loginDto, Map<String, Object> map, SystemService systemService) {
         Message message = new Message(0, "");
         Message success = new Message(1, "LoginSuccess");
         if (null != user) {
@@ -83,6 +87,11 @@ public class SystemController {
                     SessionInfo sessionInfo = new SessionInfo();
                     sessionInfo.setName(user.getName());
                     map.put("sessionInfo", sessionInfo);
+
+                    // 模块信息
+                    List<ViewUserModel> modelList = systemService.findModelList(user);
+                    success.setModelList(modelList);
+
                     return success;
                 } else {
                     message.setMessage(Constants.USERNAME_PASSWORD_INCORRECT);
@@ -197,7 +206,7 @@ public class SystemController {
 
     @ResponseBody
     @RequestMapping(value = "/userRoleList", method = RequestMethod.POST)
-    public List<VUserRole> userRoleList(@RequestBody IntegerValue integerValue) {
+    public List<ViewUserRole> userRoleList(@RequestBody IntegerValue integerValue) {
         return systemService.findByUserid(integerValue.getIntegerId());
     }
 
@@ -283,6 +292,7 @@ public class SystemController {
 
     /**
      * 角色绑定多个model   新增集成删除、修改
+     *
      * @param roleModelsDto
      * @return
      */
@@ -378,9 +388,26 @@ public class SystemController {
 
     @ResponseBody
     @RequestMapping(value = "/roleModelList", method = RequestMethod.POST)
-    public List<VRoleModel> roleModelList(@RequestBody IntegerValue integerValue) {
+    public List<ViewRoleModel> roleModelList(@RequestBody IntegerValue integerValue) {
         return systemService.findByRoleid(integerValue.getIntegerId());
     }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/modelDashBoards", method = RequestMethod.POST)
+    public Message modelDashBoards(@RequestBody ModelDashboardDto dashboardDto) {
+        Message message;
+        try {
+            systemService.modelDashboards(dashboardDto);
+            message = new Message(Constants.SUCCESS, Constants.ADDSUCCESS);
+        } catch (Exception e) {
+            message = new Message(Constants.FAIL, Constants.ADDFAIL);
+            e.printStackTrace();
+        }
+        return message;
+    }
+
+
 
     /***************************Model administration**********************/
 

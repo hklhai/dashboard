@@ -11,7 +11,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "v_role_model")
-public class VRoleModel {
+public class ViewRoleModel {
 
     @Id
     private Integer rolemodelid;
@@ -20,7 +20,7 @@ public class VRoleModel {
     private Integer modelid;
     private String modelname;
 
-    public VRoleModel() {
+    public ViewRoleModel() {
     }
 
     public Integer getRolemodelid() {

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -28,26 +27,40 @@ public class Model implements Serializable {
 
     private String modelname;
 
-    private BigDecimal modelstatus;
+    private Integer modelstatus;
 
     private Integer parentid;
 
     private String remark;
 
-    private BigDecimal sortnum;
+    private Integer sortnum;
 
     private String murl;
 
     private Integer isurl;
 
+    private Integer bid;
+
     @JsonIgnore
     @OneToMany(mappedBy = "model")
     private List<RoleModel> roleModels;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "model")
+    private List<ModelDashboard> modelDashboards;
 
     @Transient
     private List<Model> childList;
 
     public Model() {
+    }
+
+    public List<ModelDashboard> getModelDashboards() {
+        return modelDashboards;
+    }
+
+    public void setModelDashboards(List<ModelDashboard> modelDashboards) {
+        this.modelDashboards = modelDashboards;
     }
 
     public Integer getIsurl() {
@@ -114,11 +127,11 @@ public class Model implements Serializable {
         this.modelname = modelname;
     }
 
-    public BigDecimal getModelstatus() {
+    public Integer getModelstatus() {
         return this.modelstatus;
     }
 
-    public void setModelstatus(BigDecimal modelstatus) {
+    public void setModelstatus(Integer modelstatus) {
         this.modelstatus = modelstatus;
     }
 
@@ -130,11 +143,11 @@ public class Model implements Serializable {
         this.remark = remark;
     }
 
-    public BigDecimal getSortnum() {
+    public Integer getSortnum() {
         return this.sortnum;
     }
 
-    public void setSortnum(BigDecimal sortnum) {
+    public void setSortnum(Integer sortnum) {
         this.sortnum = sortnum;
     }
 
@@ -144,5 +157,13 @@ public class Model implements Serializable {
 
     public void setMurl(String murl) {
         this.murl = murl;
+    }
+
+    public Integer getBid() {
+        return bid;
+    }
+
+    public void setBid(Integer bid) {
+        this.bid = bid;
     }
 }

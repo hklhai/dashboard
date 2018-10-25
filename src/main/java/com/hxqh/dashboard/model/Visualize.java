@@ -28,8 +28,16 @@ public class Visualize implements Serializable {
     private String businesscategory;
     private String xname;
     private String yname;
-    private Integer bid;
     private String ytype;
+
+    private String echarttitle;
+    @Column(name = "legend_show",columnDefinition="bool default false")
+    private Boolean legendShow;
+    private String legendPos;
+    private String legendOrient;
+    @Column(name = "tooltip_show",columnDefinition="bool default false")
+    private Boolean tooltipShow;
+
 
     @OneToMany(mappedBy = "visualize")
     @XStreamOmitField
@@ -127,11 +135,44 @@ public class Visualize implements Serializable {
         this.yname = yname;
     }
 
-    public Integer getBid() {
-        return bid;
+
+    public String getEcharttitle() {
+        return echarttitle;
     }
 
-    public void setBid(Integer bid) {
-        this.bid = bid;
+    public void setEcharttitle(String echarttitle) {
+        this.echarttitle = echarttitle;
+    }
+
+    public Boolean getLegendShow() {
+        return legendShow;
+    }
+
+    public void setLegendShow(Boolean legendShow) {
+        this.legendShow = legendShow;
+    }
+
+    public String getLegendPos() {
+        return legendPos;
+    }
+
+    public void setLegendPos(String legendPos) {
+        this.legendPos = legendPos;
+    }
+
+    public String getLegendOrient() {
+        return legendOrient;
+    }
+
+    public void setLegendOrient(String legendOrient) {
+        this.legendOrient = legendOrient;
+    }
+
+    public Boolean getTooltipShow() {
+        return tooltipShow;
+    }
+
+    public void setTooltipShow(Boolean tooltipShow) {
+        this.tooltipShow = tooltipShow;
     }
 }

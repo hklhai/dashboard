@@ -1,5 +1,7 @@
 package com.hxqh.dashboard.model.assist;
 
+import java.util.List;
+
 /**
  * Created by Ocean lin on 2018/10/16.
  *
@@ -11,8 +13,8 @@ public class ShowDto extends Location {
     private String xname;
     private String yname;
 
-    private String showKey;
-    private String showValue;
+    private List<String> showKey;
+    private List<Object> showValue;
 
     private Integer x;
     private Integer y;
@@ -27,7 +29,7 @@ public class ShowDto extends Location {
     public ShowDto() {
     }
 
-    public ShowDto(String visualizename, String xname, String yname, String showKey, String showValue, String type, Integer vid, Integer bid, Integer did) {
+    public ShowDto(String visualizename, String xname, String yname, List<String> showKey, List<Object> showValue, String type, Integer vid, Integer bid, Integer did) {
         this.visualizename = visualizename;
         this.xname = xname;
         this.yname = yname;
@@ -102,19 +104,19 @@ public class ShowDto extends Location {
         this.yname = yname;
     }
 
-    public String getShowKey() {
+    public List<String> getShowKey() {
         return showKey;
     }
 
-    public void setShowKey(String showKey) {
+    public void setShowKey(List<String> showKey) {
         this.showKey = showKey;
     }
 
-    public String getShowValue() {
+    public List<Object> getShowValue() {
         return showValue;
     }
 
-    public void setShowValue(String showValue) {
+    public void setShowValue(List<Object> showValue) {
         this.showValue = showValue;
     }
 

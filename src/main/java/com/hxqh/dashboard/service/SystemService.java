@@ -4,8 +4,9 @@ import com.hxqh.dashboard.model.Model;
 import com.hxqh.dashboard.model.Role;
 import com.hxqh.dashboard.model.User;
 import com.hxqh.dashboard.model.assist.*;
-import com.hxqh.dashboard.model.view.VRoleModel;
-import com.hxqh.dashboard.model.view.VUserRole;
+import com.hxqh.dashboard.model.view.ViewRoleModel;
+import com.hxqh.dashboard.model.view.ViewUserModel;
+import com.hxqh.dashboard.model.view.ViewUserRole;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -189,7 +190,11 @@ public interface SystemService {
      */
     void roleModels(RoleModelsDto roleModelsDto);
 
-    List<VUserRole> findByUserid(Integer integerId);
+    List<ViewUserRole> findByUserid(Integer integerId);
 
-    List<VRoleModel> findByRoleid(Integer integerId);
-}
+    List<ViewRoleModel> findByRoleid(Integer integerId);
+
+    List<ViewUserModel> findModelList(User user);
+
+    void modelDashboards(ModelDashboardDto dashboardDto);
+ }

@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "v_user_role")
-public class VUserRole {
+public class ViewUserRole {
 
     @Id
     private Integer userroleid;
@@ -22,7 +22,7 @@ public class VUserRole {
     private Integer roleid;
     private String rolename;
 
-    public VUserRole() {
+    public ViewUserRole() {
     }
 
     public Integer getUserroleid() {

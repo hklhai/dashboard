@@ -1,6 +1,6 @@
 package com.hxqh.dashboard.repository;
 
-import com.hxqh.dashboard.model.view.VUserRole;
+import com.hxqh.dashboard.model.view.ViewUserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * @author Ocean lin
  */
 @Repository
-public interface VUserRoleRepository extends JpaRepository<VUserRole, Integer> {
+public interface ViewUserRoleRepository extends JpaRepository<ViewUserRole, Integer> {
 
-    List<VUserRole> findByUserid(Integer integerId);
+    List<ViewUserRole> findByUserid(Integer integerId);
 }

@@ -39,6 +39,10 @@ public class ShowServiceImpl implements ShowService {
     private DashboardVisualizeRepository dashboardVisualizeRepository;
 
 
+    private static final String LINE = "LINE";
+    private static final String BAR = "BAR";
+    private static final String PIE = "PIE";
+
     private static Map<String, String> yTypeMap = new HashMap<String, String>() {{
         put("double", "double(10,2)");
         put("float", "float(7,2)");
@@ -50,6 +54,17 @@ public class ShowServiceImpl implements ShowService {
         put("条形图", "bar");
         put("折线图", "line");
     }};
+
+    private static Map<Integer, String> lineXMap = new HashMap<Integer, String>() {{
+        put(1, "周一");
+        put(2, "周二");
+        put(3, "周三");
+        put(4, "周四");
+        put(5, "周五");
+        put(6, "周六");
+        put(7, "周日");
+    }};
+
 
     private static final String CREATE_SQL_1 = "create table ";
     private static final String SELECT_SQL = "select * from ";
@@ -78,21 +93,21 @@ public class ShowServiceImpl implements ShowService {
         Visualize visualize = visualizeRepository.findOne(integerId);
 
         String sql = SELECT_SQL_1 + random * SPLIT_NUM + SELECT_SQL_2 + visualize.getTablename();
-        String keyShow, valueShow;
+        List keyShow, valueShow;
         Session currentSession = sessionFactory.getCurrentSession();
 
         if (DOUBLE_TYPE.equals(visualize.getYtype())) {
             List<LineDouble> list = currentSession.createSQLQuery(sql).addEntity(LineDouble.class).list();
-            keyShow = list.stream().map(LineDouble::getShowkey).collect(Collectors.toList()).toString();
-            valueShow = list.stream().map(LineDouble::getShowvalue).collect(Collectors.toList()).toString();
+            keyShow = list.stream().map(LineDouble::getShowkey).collect(Collectors.toList());
+            valueShow = list.stream().map(LineDouble::getShowvalue).collect(Collectors.toList());
         } else if (FLOAT_TYPE.equals(visualize.getYtype())) {
             List<LineFloat> list = currentSession.createSQLQuery(sql).addEntity(LineFloat.class).list();
-            keyShow = list.stream().map(LineFloat::getShowkey).collect(Collectors.toList()).toString();
-            valueShow = list.stream().map(LineFloat::getShowvalue).collect(Collectors.toList()).toString();
+            keyShow = list.stream().map(LineFloat::getShowkey).collect(Collectors.toList());
+            valueShow = list.stream().map(LineFloat::getShowvalue).collect(Collectors.toList());
         } else {
             List<LineInteger> list = currentSession.createSQLQuery(sql).addEntity(LineInteger.class).list();
-            keyShow = list.stream().map(LineInteger::getShowkey).collect(Collectors.toList()).toString();
-            valueShow = list.stream().map(LineInteger::getShowvalue).collect(Collectors.toList()).toString();
+            keyShow = list.stream().map(LineInteger::getShowkey).collect(Collectors.toList());
+            valueShow = list.stream().map(LineInteger::getShowvalue).collect(Collectors.toList());
         }
         ShowDto showDto = new ShowDto(visualize.getVisualizename(), visualize.getXname(), visualize.getYname(),
                 keyShow, valueShow, visualize.getType(), visualize.getVid(), bid, did);
@@ -103,6 +118,7 @@ public class ShowServiceImpl implements ShowService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void addVisualize(Visualize visualize) {
+        String insertSQL;
         TableManager tableManager = tableManagerRepository.findByTablecategory(visualize.getType());
         String tableName = tableManager.getTableprefix() + tableManager.getTablemaxid();
         String yTpe = visualize.getYtype();
@@ -114,7 +130,13 @@ public class ShowServiceImpl implements ShowService {
         for (int i = START_NUM; i < END_NUM; i++) {
             Random random = new Random();
             int rand = random.nextInt(60) + 10;
-            String insertSQL = "insert into " + tableName + "(showkey,showvalue) values (" + i + "," + rand + ")";
+
+            if (LINE.equals(visualize.getType())) {
+                insertSQL = "insert into " + tableName + "(showkey,showvalue) values (" + lineXMap.get(i) + "," + rand + ")";
+            } else {
+                insertSQL = "insert into " + tableName + "(showkey,showvalue) values (" + i + "," + rand + ")";
+
+            }
             sessionFactory.getCurrentSession().createSQLQuery(insertSQL).executeUpdate();
         }
 
