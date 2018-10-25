@@ -14,5 +14,11 @@ import java.util.List;
 @Repository
 public interface ViewRoleModelRepository extends JpaRepository<ViewRoleModel, Integer> {
 
+    /**
+     * 根据roleid查询
+     *
+     * @param roleid
+     * @return
+     */
     List<ViewRoleModel> findByRoleid(Integer roleid);
 }

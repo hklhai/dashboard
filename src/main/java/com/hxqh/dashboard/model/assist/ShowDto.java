@@ -40,42 +40,52 @@ public class ShowDto extends Location {
         this.did = did;
     }
 
+    @Override
     public Integer getDid() {
         return did;
     }
 
+    @Override
     public void setDid(Integer did) {
         this.did = did;
     }
 
+    @Override
     public Integer getX() {
         return x;
     }
 
+    @Override
     public void setX(Integer x) {
         this.x = x;
     }
 
+    @Override
     public Integer getY() {
         return y;
     }
 
+    @Override
     public void setY(Integer y) {
         this.y = y;
     }
 
+    @Override
     public Integer getH() {
         return h;
     }
 
+    @Override
     public void setH(Integer h) {
         this.h = h;
     }
 
+    @Override
     public Integer getW() {
         return w;
     }
 
+    @Override
     public void setW(Integer w) {
         this.w = w;
     }
@@ -128,10 +138,12 @@ public class ShowDto extends Location {
         this.type = type;
     }
 
+    @Override
     public Integer getVid() {
         return vid;
     }
 
+    @Override
     public void setVid(Integer vid) {
         this.vid = vid;
     }

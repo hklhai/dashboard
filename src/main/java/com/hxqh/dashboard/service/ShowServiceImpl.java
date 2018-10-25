@@ -247,12 +247,6 @@ public class ShowServiceImpl implements ShowService {
         Page<Dashboard> dashboards = dashboardRepository.findAll(pageable);
         //获取结果集
         List<Dashboard> dashboardList = dashboards.getContent();
-
-//        dashboardList = dashboardList.stream().map(e -> {
-//            e.setDashboardVisualizes(null);
-//            return e;
-//        }).collect(Collectors.toList());
-
         Integer totalPages = dashboards.getTotalPages();
         DashboardDto visualizeDto = new DashboardDto(pageable, totalPages, dashboardList);
         return visualizeDto;

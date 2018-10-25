@@ -240,8 +240,8 @@ public class SystemServiceImpl implements SystemService {
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
-    public List<ViewUserRole> findByUserid(Integer integerId) {
-        List<ViewUserRole> vUserRoleList = viewUserRoleRepository.findByUserid(integerId);
+    public List<ViewUserRole> findByUserid(Integer userid) {
+        List<ViewUserRole> vUserRoleList = viewUserRoleRepository.findByUserid(userid);
         return vUserRoleList;
     }
 

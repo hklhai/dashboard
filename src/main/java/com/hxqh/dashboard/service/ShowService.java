@@ -23,6 +23,9 @@ public interface ShowService {
      * 查询展示数据
      *
      * @param integerId
+     * @param bid       dashboardId
+     * @param did       dashboardVisualizeId
+     * @param random    random随机数
      * @return LineDouble List
      */
     ShowDto findLineByVid(Integer integerId, Integer random, Integer bid, Integer did);

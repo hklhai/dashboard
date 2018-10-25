@@ -14,5 +14,11 @@ import java.util.List;
 @Repository
 public interface ViewUserModelRepository extends JpaRepository<ViewUserModel, Integer> {
 
+    /**
+     * 根据userid查询
+     *
+     * @param userid
+     * @return
+     */
     List<ViewUserModel> findByUserid(Integer userid);
 }

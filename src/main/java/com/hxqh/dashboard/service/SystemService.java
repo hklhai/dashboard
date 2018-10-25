@@ -190,11 +190,35 @@ public interface SystemService {
      */
     void roleModels(RoleModelsDto roleModelsDto);
 
-    List<ViewUserRole> findByUserid(Integer integerId);
 
-    List<ViewRoleModel> findByRoleid(Integer integerId);
+    /**
+     * 通过userid查询用户角色绑定关系
+     *
+     * @param userid
+     * @return 用户角色绑定关系
+     */
+    List<ViewUserRole> findByUserid(Integer userid);
 
+    /**
+     * 通过roleid查询角色模块绑定关系
+     *
+     * @param roleid
+     * @return 角色模块绑定关系
+     */
+    List<ViewRoleModel> findByRoleid(Integer roleid);
+
+    /**
+     * 查询用户管理模块信息
+     *
+     * @param user 用户对象
+     * @return 用户模块绑定关系
+     */
     List<ViewUserModel> findModelList(User user);
 
+    /**
+     * 模块与DashBoard绑定关系
+     *
+     * @param dashboardDto
+     */
     void modelDashboards(ModelDashboardDto dashboardDto);
- }
+}

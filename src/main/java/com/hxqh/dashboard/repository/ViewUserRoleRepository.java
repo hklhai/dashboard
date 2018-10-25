@@ -14,5 +14,11 @@ import java.util.List;
 @Repository
 public interface ViewUserRoleRepository extends JpaRepository<ViewUserRole, Integer> {
 
-    List<ViewUserRole> findByUserid(Integer integerId);
+    /**
+     * 根据userid查询用户角色关系
+     *
+     * @param userid
+     * @return
+     */
+    List<ViewUserRole> findByUserid(Integer userid);
 }

@@ -9,7 +9,18 @@ import java.util.*;
  */
 public class GroupListUtil {
 
+    /**
+     * 分组函数接口
+     *
+     * @param <T>
+     */
     public interface GroupBy<T> {
+        /**
+         * 分组函数接口
+         *
+         * @param obj 待分组对象
+         * @return
+         */
         T groupby(Object obj);
     }
 
