@@ -1,6 +1,7 @@
 package com.hxqh.dashboard.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "tb_user")
+@JsonIgnoreProperties(value = {"userRoles"})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 3367852520038806572L;
@@ -49,6 +51,7 @@ public class User implements Serializable {
     @XStreamOmitField
     private List<UserRole> userRoles;
 
+    @JsonIgnore
     @Transient
     private List<Role> roleList;
 

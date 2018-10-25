@@ -157,7 +157,7 @@ public class SystemServiceImpl implements SystemService {
             List<Predicate> list = new ArrayList<>(5);
 
             if (StringUtils.isNotBlank(user.getName())) {
-                list.add(cb.like(root.get("name").as(String.class), "%" + user.getName() + "%"));
+                list.add(cb.equal(root.get("name").as(String.class), user.getName()));
             }
             if (StringUtils.isNotBlank(user.getUsername())) {
                 list.add(cb.like(root.get("username").as(String.class), "%" + user.getUsername() + "%"));
@@ -177,7 +177,19 @@ public class SystemServiceImpl implements SystemService {
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public RoleDto roleList(Role role, Pageable pageable) {
-        Page<Role> roles = roleRepository.findAll(pageable);
+        Specification<Role> specification = (root, query, cb) -> {
+            List<Predicate> list = new ArrayList<>(5);
+            if (StringUtils.isNotBlank(role.getRolename())) {
+                list.add(cb.like(root.get("rolename").as(String.class), "%" + role.getRolename() + "%"));
+            }
+            if (StringUtils.isNotBlank(role.getRoledesc())) {
+                list.add(cb.like(root.get("roledesc").as(String.class), "%" + role.getRoledesc() + "%"));
+            }
+            Predicate[] p = new Predicate[list.size()];
+            return cb.and(list.toArray(p));
+        };
+
+        Page<Role> roles = roleRepository.findAll(specification, pageable);
         List<Role> roleList = roles.getContent();
         Integer totalPages = roles.getTotalPages();
         RoleDto roleDto = new RoleDto(pageable, totalPages, roleList);

@@ -8,7 +8,6 @@ import com.hxqh.dashboard.model.Role;
 import com.hxqh.dashboard.model.User;
 import com.hxqh.dashboard.model.assist.*;
 import com.hxqh.dashboard.model.base.Message;
-import com.hxqh.dashboard.model.base.PageInfo;
 import com.hxqh.dashboard.model.base.SessionInfo;
 import com.hxqh.dashboard.model.view.ViewRoleModel;
 import com.hxqh.dashboard.model.view.ViewUserModel;
@@ -278,18 +277,19 @@ public class SystemController {
 
     @ResponseBody
     @RequestMapping(value = "/roleList", method = RequestMethod.POST)
-    public RoleDto roleList(@RequestBody PageInfo pageInfo) {
+    public RoleDto roleList(@RequestBody Role role,
+                            @RequestParam(value = "page", defaultValue = "0") int page,
+                            @RequestParam(value = "size", defaultValue = "10") int size) {
         RoleDto roleDto = null;
         Sort sort = new Sort(Sort.Direction.DESC, "roleid");
         try {
-            Pageable pageable = new PageRequest(pageInfo.getPage(), pageInfo.getSize(), sort);
-            roleDto = systemService.roleList(null, pageable);
+            Pageable pageable = new PageRequest(page, size, sort);
+            roleDto = systemService.roleList(role, pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return roleDto;
     }
-
 
     /**
      * 角色绑定多个model   新增集成删除、修改

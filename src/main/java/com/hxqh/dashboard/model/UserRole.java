@@ -1,5 +1,7 @@
 package com.hxqh.dashboard.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -18,10 +20,12 @@ public class UserRole implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer userroleid;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ROLEID")
     private Role role;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "USERID")
     private User user;

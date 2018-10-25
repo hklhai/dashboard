@@ -37,6 +37,7 @@ public class Role implements Serializable {
     @OneToMany(mappedBy = "role")
     private List<RoleModel> roleModels;
 
+    @JsonIgnore
     @Transient
     private List<Model> modelList;
 
