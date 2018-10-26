@@ -173,16 +173,17 @@ public class ShowServiceImpl implements ShowService {
         dashboardRepository.save(dashboard);
     }
 
+    @Deprecated
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public VisualizeDto visualizeList(Visualize visualize, Pageable pageable) {
-        List<String> distinctBusinesscategory = visualizeRepository.findDistinctBusinesscategory();
+        List<String> distinctBusinessCategory = visualizeRepository.findDistinctBusinesscategory();
         Page<Visualize> visualizes = visualizeRepository.findAll(pageable);
         //获取结果集
         List<Visualize> visualizeList = visualizes.getContent();
         Integer totalPages = visualizes.getTotalPages();
         VisualizeDto visualizeDto = new VisualizeDto(pageable, totalPages, visualizeList);
-        visualizeDto.setDistinctBusinesscategory(distinctBusinesscategory);
+        visualizeDto.setDistinctBusinesscategory(distinctBusinessCategory);
         return visualizeDto;
     }
 
@@ -264,18 +265,18 @@ public class ShowServiceImpl implements ShowService {
         return null != dashboard ? true : false;
     }
 
-
+    @Deprecated
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public DashboardDto dashboardList(Dashboard dashboard, Pageable pageable) {
-        List<String> distinctBusinesscategory = visualizeRepository.findDistinctBusinesscategory();
+        List<String> distinctBusinessCategory = visualizeRepository.findDistinctBusinesscategory();
 
         Page<Dashboard> dashboards = dashboardRepository.findAll(pageable);
         //获取结果集
         List<Dashboard> dashboardList = dashboards.getContent();
         Integer totalPages = dashboards.getTotalPages();
         DashboardDto visualizeDto = new DashboardDto(pageable, totalPages, dashboardList);
-        visualizeDto.setDistinctBusinesscategory(distinctBusinesscategory);
+        visualizeDto.setDistinctBusinesscategory(distinctBusinessCategory);
         return visualizeDto;
     }
 
@@ -323,7 +324,7 @@ public class ShowServiceImpl implements ShowService {
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public VisualizeDto visualizeList2(Visualize visualize, Pageable pageable) {
-        List<String> distinctBusinesscategory = visualizeRepository.findDistinctBusinesscategory();
+        List<String> distinctBusinessCategory = visualizeRepository.findDistinctBusinesscategory();
 
         Specification<Visualize> specification = (root, query, cb) -> {
             List<Predicate> list = new ArrayList<>(5);
@@ -343,14 +344,14 @@ public class ShowServiceImpl implements ShowService {
         List<Visualize> visualizeList = visualizes.getContent();
         Integer totalPages = visualizes.getTotalPages();
         VisualizeDto visualizeDto = new VisualizeDto(pageable, totalPages, visualizeList);
-        visualizeDto.setDistinctBusinesscategory(distinctBusinesscategory);
+        visualizeDto.setDistinctBusinesscategory(distinctBusinessCategory);
         return visualizeDto;
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public DashboardDto dashboardList2(Dashboard dashboard, Pageable pageable) {
-        List<String> distinctBusinesscategory = visualizeRepository.findDistinctBusinesscategory();
+        List<String> distinctBusinessCategory = visualizeRepository.findDistinctBusinesscategory();
         Specification<Dashboard> specification = (root, query, cb) -> {
             List<Predicate> list = new ArrayList<>(5);
 
@@ -371,7 +372,7 @@ public class ShowServiceImpl implements ShowService {
         List<Dashboard> dashboardList = dashboards.getContent();
         Integer totalPages = dashboards.getTotalPages();
         DashboardDto visualizeDto = new DashboardDto(pageable, totalPages, dashboardList);
-        visualizeDto.setDistinctBusinesscategory(distinctBusinesscategory);
+        visualizeDto.setDistinctBusinesscategory(distinctBusinessCategory);
         return visualizeDto;
     }
 

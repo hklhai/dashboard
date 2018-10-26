@@ -17,8 +17,8 @@ public interface ViewUserRoleRepository extends JpaRepository<ViewUserRole, Inte
     /**
      * 根据userid查询用户角色关系
      *
-     * @param userid
+     * @param userId
      * @return
      */
-    List<ViewUserRole> findByUserid(Integer userid);
+    List<ViewUserRole> findByUserid(Integer userId);
 }

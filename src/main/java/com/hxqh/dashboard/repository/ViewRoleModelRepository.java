@@ -18,8 +18,8 @@ public interface ViewRoleModelRepository extends JpaRepository<ViewRoleModel, In
     /**
      * 根据roleid查询
      *
-     * @param roleid
+     * @param roleId
      * @return
      */
-    List<ViewRoleModel> findByRoleid(Integer roleid);
+    List<ViewRoleModel> findByRoleid(Integer roleId);
 }

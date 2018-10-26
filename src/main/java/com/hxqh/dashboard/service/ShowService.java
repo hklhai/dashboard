@@ -51,6 +51,7 @@ public interface ShowService {
      * @param pageable  分页实体类
      * @return
      */
+    @Deprecated
     VisualizeDto visualizeList(Visualize visualize, Pageable pageable);
 
     /**
@@ -101,6 +102,7 @@ public interface ShowService {
      * @param pageable  分页实体类
      * @return 分页结果
      */
+    @Deprecated
     DashboardDto dashboardList(Dashboard dashboard, Pageable pageable);
 
     /**

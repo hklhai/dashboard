@@ -177,6 +177,9 @@ public class SystemServiceImpl implements SystemService {
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public RoleDto roleList(Role role, Pageable pageable) {
+
+        List<ViewUserRole> hashRoleList = viewUserRoleRepository.findByUserid(role.getUserid());
+
         Specification<Role> specification = (root, query, cb) -> {
             List<Predicate> list = new ArrayList<>(5);
             if (StringUtils.isNotBlank(role.getRolename())) {
@@ -193,12 +196,15 @@ public class SystemServiceImpl implements SystemService {
         List<Role> roleList = roles.getContent();
         Integer totalPages = roles.getTotalPages();
         RoleDto roleDto = new RoleDto(pageable, totalPages, roleList);
+        roleDto.setHashRoleList(hashRoleList);
         return roleDto;
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public ModelDto modelList(Model model, Pageable pageable) {
+
+        List<ViewRoleModel> hasModelList = viewRoleModelRepository.findByRoleid(model.getRoleid());
 
         Specification<Model> specification = (root, query, cb) -> {
             List<Predicate> list = new ArrayList<>(5);
@@ -217,6 +223,7 @@ public class SystemServiceImpl implements SystemService {
         List<Model> modelList = models.getContent();
         Integer totalPages = models.getTotalPages();
         ModelDto modelDto = new ModelDto(pageable, totalPages, modelList);
+        modelDto.setHasModelList(hasModelList);
         return modelDto;
     }
 
@@ -279,15 +286,15 @@ public class SystemServiceImpl implements SystemService {
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
-    public List<ViewUserRole> findByUserid(Integer userid) {
-        List<ViewUserRole> vUserRoleList = viewUserRoleRepository.findByUserid(userid);
-        return vUserRoleList;
+    public List<ViewUserRole> findByUserid(Integer userId) {
+        List<ViewUserRole> viewUserRoleList = viewUserRoleRepository.findByUserid(userId);
+        return viewUserRoleList;
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
-    public List<ViewRoleModel> findByRoleid(Integer roleid) {
-        return viewRoleModelRepository.findByRoleid(roleid);
+    public List<ViewRoleModel> findByRoleid(Integer roleId) {
+        return viewRoleModelRepository.findByRoleid(roleId);
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)

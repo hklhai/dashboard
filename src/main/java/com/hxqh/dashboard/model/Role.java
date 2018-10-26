@@ -41,7 +41,18 @@ public class Role implements Serializable {
     @Transient
     private List<Model> modelList;
 
+    @Transient
+    private Integer userid;
+
     public Role() {
+    }
+
+    public Integer getUserid() {
+        return userid;
+    }
+
+    public void setUserid(Integer userid) {
+        this.userid = userid;
     }
 
     public List<UserRole> getUserRoles() {

@@ -52,7 +52,18 @@ public class Model implements Serializable {
     @Transient
     private List<Model> childList;
 
+    @Transient
+    private Integer roleid;
+
     public Model() {
+    }
+
+    public Integer getRoleid() {
+        return roleid;
+    }
+
+    public void setRoleid(Integer roleid) {
+        this.roleid = roleid;
     }
 
     public List<ModelDashboard> getModelDashboards() {

@@ -391,7 +391,6 @@ public class SystemController {
     @ResponseBody
     @RequestMapping(value = "/roleModelList", method = RequestMethod.POST)
     public List<ViewRoleModel> roleModelList(@RequestBody IntegerValue integerValue) {
-        // todo 是否需要分页
         return systemService.findByRoleid(integerValue.getIntegerId());
     }
 
