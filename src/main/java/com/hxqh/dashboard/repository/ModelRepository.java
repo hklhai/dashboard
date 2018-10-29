@@ -30,6 +30,6 @@ public interface ModelRepository extends JpaRepository<Model, Integer>, JpaSpeci
      * @param modelid   主键
      * @return model对象
      */
-    @Query("select u from Model u where u.modelname=:modelname and u.modelid<>:modelid")
+    @Query("select u from Model u where u.modelname=?1 and u.modelid<>?2")
     Model findByModelnameAndModelidNot(String modelname, Integer modelid);
 }

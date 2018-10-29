@@ -30,6 +30,6 @@ public interface RoleRepository extends JpaRepository<Role, Integer>, JpaSpecifi
      * @param roleid
      * @return Role对象
      */
-    @Query("select u from Role u where u.rolename=:rolename and u.roleid<>:roleid")
+    @Query("select u from Role u where u.rolename=?1 and u.roleid<>?2")
     Role findRoleByNameAndRoleidNot(String rolename, Integer roleid);
 }

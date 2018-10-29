@@ -40,6 +40,6 @@ public interface VisualizeRepository extends JpaRepository<Visualize, Integer>, 
      * @param vid
      * @return
      */
-    @Query("select u from Visualize u where u.visualizename=:visualizename and u.vid<>:vid")
+    @Query("select u from Visualize u where u.visualizename=?1 and u.vid<>?2")
     Visualize findByVisualizenameAndVidNot(String visualizename, Integer vid);
 }

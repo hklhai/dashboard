@@ -160,7 +160,19 @@ public interface ShowService {
      */
     HSSFWorkbook exportVisualizeExcel();
 
+    /**
+     * 根据仪表板名称和主键查询
+     *
+     * @param dashboardDb
+     * @return
+     */
     boolean isDashboardByDashboardNameAndBidNot(Dashboard dashboardDb);
 
+    /**
+     * 根据视图名称和主键查询
+     *
+     * @param visualizeDb
+     * @return
+     */
     boolean isVisualizeByVisualizenameAndVidNot(Visualize visualizeDb);
 }

@@ -30,6 +30,6 @@ public interface DashboardRepository extends JpaRepository<Dashboard, Integer>, 
      * @param bid
      * @return
      */
-    @Query("select u from Dashboard u where u.dashboardname=:dashboardname and u.bid<>:bid")
+    @Query("select u from Dashboard u where u.dashboardname=?1 and u.bid<>?2")
     Dashboard findByDashboardnameAndBidNot(String dashboardname, Integer bid);
 }

@@ -33,6 +33,6 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
      * @param userid
      * @return 用户对象
      */
-    @Query("select u from User u where u.name=:name and u.userid<>:userid")
+    @Query("select u from User u where u.name=?1 and u.userid<>?2")
     User findUserByNameAndUseridNot(String name, Integer userid);
 }
