@@ -1,9 +1,16 @@
 package com.hxqh.dashboard.model.view;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -14,7 +21,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "v_user_model")
-public class ViewUserModel {
+public class ViewUserModel extends JsonDeserializer<List> {
 
     @Id
     private Integer usermodeluid;
@@ -48,6 +55,7 @@ public class ViewUserModel {
         return viewUserModelList;
     }
 
+    @JsonDeserialize(using = ViewUserModel.class, as = List.class, contentAs = String.class)
     public void setViewUserModelList(List<ViewUserModel> viewUserModelList) {
         this.viewUserModelList = viewUserModelList;
     }
@@ -122,5 +130,15 @@ public class ViewUserModel {
 
     public void setParentid(Integer parentid) {
         this.parentid = parentid;
+    }
+
+    @Override
+    public List deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+        Object value = jsonParser.readValueAs(Object.class);
+        if (value instanceof List) {
+            return (List) value;
+        } else {
+            return null;
+        }
     }
 }

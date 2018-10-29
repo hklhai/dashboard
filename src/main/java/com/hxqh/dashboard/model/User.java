@@ -2,7 +2,6 @@ package com.hxqh.dashboard.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -48,7 +47,6 @@ public class User implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    @XStreamOmitField
     private List<UserRole> userRoles;
 
     @JsonIgnore

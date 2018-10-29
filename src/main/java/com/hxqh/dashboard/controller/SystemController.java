@@ -90,7 +90,6 @@ public class SystemController {
                     // 模块信息
                     List<ViewUserModel> modelList = systemService.findModelList(user);
                     success.setModelList(modelList);
-
                     return success;
                 } else {
                     message.setMessage(Constants.USERNAME_PASSWORD_INCORRECT);

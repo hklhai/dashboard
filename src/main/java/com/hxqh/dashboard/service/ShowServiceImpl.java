@@ -13,7 +13,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -96,6 +98,7 @@ public class ShowServiceImpl implements ShowService {
     private static final Integer START_NUM = 1;
     private static final Integer END_NUM = 8;
     private static final Integer SPLIT_NUM = 150;
+    private static final Integer EXCEL_EXPORT_SIZE = 4;
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
@@ -398,8 +401,10 @@ public class ShowServiceImpl implements ShowService {
 
     @Override
     public HSSFWorkbook exportVisualizeExcel() {
-        // todo 分页
-        List<Visualize> visualizeList = visualizeRepository.findAll();
+        Sort sort = new Sort(Sort.Direction.DESC, "vid");
+        Pageable pageable = new PageRequest(0, EXCEL_EXPORT_SIZE, sort);
+        Page<Visualize> visualizes = visualizeRepository.findAll(pageable);
+        Integer totalPages = visualizes.getTotalPages();
 
         HSSFWorkbook wb = new HSSFWorkbook();
         HSSFSheet sheet = wb.createSheet("业务对接明细表");
@@ -414,16 +419,23 @@ public class ShowServiceImpl implements ShowService {
             sheet.setColumnWidth(i, 100 * 40);
         }
 
-        for (int i = 0; i < visualizeList.size(); i++) {
-            row = sheet.createRow(i + 1);
-            Visualize visualize = visualizeList.get(i);
-            row.createCell(0).setCellValue(visualize.getBusinesscategory());
-            row.createCell(1).setCellValue(visualize.getVisualizename());
-            row.createCell(2).setCellValue(visualize.getTablename());
-            row.createCell(3).setCellValue(visualize.getType());
-            row.createCell(4).setCellValue(visualize.getYtype());
-        }
+        int count = 1;
+        for (int page = 0; page < totalPages; page++) {
+            pageable = new PageRequest(page, EXCEL_EXPORT_SIZE, sort);
+            visualizes = visualizeRepository.findAll(pageable);
+            List<Visualize> visualizeList = visualizes.getContent();
 
+            for (int i = 0; i < visualizeList.size(); i++) {
+                row = sheet.createRow(count);
+                Visualize visualize = visualizeList.get(i);
+                row.createCell(0).setCellValue(visualize.getBusinesscategory());
+                row.createCell(1).setCellValue(visualize.getVisualizename());
+                row.createCell(2).setCellValue(visualize.getTablename());
+                row.createCell(3).setCellValue(visualize.getType());
+                row.createCell(4).setCellValue(visualize.getYtype());
+                count++;
+            }
+        }
         return wb;
     }
 
