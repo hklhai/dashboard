@@ -170,7 +170,7 @@ public class SystemServiceImpl implements SystemService {
         Page<User> users = userRepository.findAll(specification, pageable);
         List<User> userList = users.getContent();
         Integer totalPages = users.getTotalPages();
-        UserDto userDto = new UserDto(pageable, totalPages, userList);
+        UserDto userDto = new UserDto(pageable, totalPages, users.getTotalElements(), userList);
         return userDto;
     }
 
@@ -195,8 +195,7 @@ public class SystemServiceImpl implements SystemService {
         Page<Role> roles = roleRepository.findAll(specification, pageable);
         List<Role> roleList = roles.getContent();
         Integer totalPages = roles.getTotalPages();
-        RoleDto roleDto = new RoleDto(pageable, totalPages, roleList);
-        roleDto.setHashRoleList(hashRoleList);
+        RoleDto roleDto = new RoleDto(pageable, totalPages, roles.getTotalElements(), roleList, hashRoleList);
         return roleDto;
     }
 
@@ -222,8 +221,7 @@ public class SystemServiceImpl implements SystemService {
         Page<Model> models = modelRepository.findAll(specification, pageable);
         List<Model> modelList = models.getContent();
         Integer totalPages = models.getTotalPages();
-        ModelDto modelDto = new ModelDto(pageable, totalPages, modelList);
-        modelDto.setHasModelList(hasModelList);
+        ModelDto modelDto = new ModelDto(pageable, totalPages, models.getTotalElements(), modelList, hasModelList);
         return modelDto;
     }
 

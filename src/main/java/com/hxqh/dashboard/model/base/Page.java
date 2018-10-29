@@ -11,13 +11,23 @@ public class Page {
 
     private Pageable page;
     private Integer totalPages;
+    private Long total;
 
     public Page() {
     }
 
-    public Page(Pageable page, Integer totalPages) {
+    public Page(Pageable page, Integer totalPages, Long total) {
         this.page = page;
         this.totalPages = totalPages;
+        this.total = total;
+    }
+
+    public Long getTotal() {
+        return total;
+    }
+
+    public void setTotal(Long total) {
+        this.total = total;
     }
 
     public Pageable getPage() {

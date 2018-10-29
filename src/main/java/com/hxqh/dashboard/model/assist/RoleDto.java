@@ -23,9 +23,15 @@ public class RoleDto extends Page {
         this.roleList = roleList;
     }
 
-    public RoleDto(Pageable page, Integer totalPages, List<Role> roleList) {
-        super(page, totalPages);
+    public RoleDto(List<Role> roleList, List<ViewUserRole> hashRoleList) {
         this.roleList = roleList;
+        this.hashRoleList = hashRoleList;
+    }
+
+    public RoleDto(Pageable page, Integer totalPages, Long total, List<Role> roleList, List<ViewUserRole> hashRoleList) {
+        super(page, totalPages, total);
+        this.roleList = roleList;
+        this.hashRoleList = hashRoleList;
     }
 
     public List<Role> getRoleList() {

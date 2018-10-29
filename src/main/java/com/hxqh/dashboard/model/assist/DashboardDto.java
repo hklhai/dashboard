@@ -19,9 +19,15 @@ public class DashboardDto extends Page {
         this.visualizeList = visualizeList;
     }
 
-    public DashboardDto(Pageable page, Integer totalPages, List<Dashboard> visualizeList) {
-        super(page, totalPages);
+    public DashboardDto(List<Dashboard> visualizeList, List<String> distinctBusinesscategory) {
         this.visualizeList = visualizeList;
+        this.distinctBusinesscategory = distinctBusinesscategory;
+    }
+
+    public DashboardDto(Pageable page, Integer totalPages, Long total, List<Dashboard> visualizeList, List<String> distinctBusinesscategory) {
+        super(page, totalPages, total);
+        this.visualizeList = visualizeList;
+        this.distinctBusinesscategory = distinctBusinesscategory;
     }
 
     public List<String> getDistinctBusinesscategory() {

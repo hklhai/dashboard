@@ -222,7 +222,8 @@ public class ShowController {
     @ResponseBody
     @RequestMapping(value = "/dashboardData", method = RequestMethod.POST)
     public DashboardShowDto dashboardData(@RequestBody IntegerValue integerValue) {
-        return showService.findDashboardDataByVid(integerValue.getIntegerId());
+        DashboardShowDto showDto = showService.findDashboardDataByVid(integerValue.getIntegerId());
+        return showDto;
     }
 
     @ResponseBody

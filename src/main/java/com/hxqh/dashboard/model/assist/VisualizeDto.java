@@ -16,13 +16,16 @@ public class VisualizeDto extends Page {
     private List<Visualize> visualizeList;
     private List<String> distinctBusinesscategory;
 
-    public VisualizeDto(Pageable page, Integer totalPages) {
-        super(page, totalPages);
+
+    public VisualizeDto(List<Visualize> visualizeList, List<String> distinctBusinesscategory) {
+        this.visualizeList = visualizeList;
+        this.distinctBusinesscategory = distinctBusinesscategory;
     }
 
-    public VisualizeDto(Pageable page, Integer totalPages, List<Visualize> visualizeList) {
-        super(page, totalPages);
+    public VisualizeDto(Pageable page, Integer totalPages, Long total, List<Visualize> visualizeList, List<String> distinctBusinesscategory) {
+        super(page, totalPages, total);
         this.visualizeList = visualizeList;
+        this.distinctBusinesscategory = distinctBusinesscategory;
     }
 
     @Override

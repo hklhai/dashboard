@@ -186,8 +186,7 @@ public class ShowServiceImpl implements ShowService {
         //获取结果集
         List<Visualize> visualizeList = visualizes.getContent();
         Integer totalPages = visualizes.getTotalPages();
-        VisualizeDto visualizeDto = new VisualizeDto(pageable, totalPages, visualizeList);
-        visualizeDto.setDistinctBusinesscategory(distinctBusinessCategory);
+        VisualizeDto visualizeDto = new VisualizeDto(pageable, totalPages, visualizes.getTotalElements(), visualizeList, distinctBusinessCategory);
         return visualizeDto;
     }
 
@@ -279,8 +278,7 @@ public class ShowServiceImpl implements ShowService {
         //获取结果集
         List<Dashboard> dashboardList = dashboards.getContent();
         Integer totalPages = dashboards.getTotalPages();
-        DashboardDto visualizeDto = new DashboardDto(pageable, totalPages, dashboardList);
-        visualizeDto.setDistinctBusinesscategory(distinctBusinessCategory);
+        DashboardDto visualizeDto = new DashboardDto(pageable, totalPages, dashboards.getTotalElements(), dashboardList, distinctBusinessCategory);
         return visualizeDto;
     }
 
@@ -347,8 +345,7 @@ public class ShowServiceImpl implements ShowService {
 
         List<Visualize> visualizeList = visualizes.getContent();
         Integer totalPages = visualizes.getTotalPages();
-        VisualizeDto visualizeDto = new VisualizeDto(pageable, totalPages, visualizeList);
-        visualizeDto.setDistinctBusinesscategory(distinctBusinessCategory);
+        VisualizeDto visualizeDto = new VisualizeDto(pageable, totalPages, visualizes.getTotalElements(), visualizeList, distinctBusinessCategory);
         return visualizeDto;
     }
 
@@ -375,8 +372,7 @@ public class ShowServiceImpl implements ShowService {
         //获取结果集
         List<Dashboard> dashboardList = dashboards.getContent();
         Integer totalPages = dashboards.getTotalPages();
-        DashboardDto visualizeDto = new DashboardDto(pageable, totalPages, dashboardList);
-        visualizeDto.setDistinctBusinesscategory(distinctBusinessCategory);
+        DashboardDto visualizeDto = new DashboardDto(pageable, totalPages, dashboards.getTotalElements(), dashboardList, distinctBusinessCategory);
         return visualizeDto;
     }
 

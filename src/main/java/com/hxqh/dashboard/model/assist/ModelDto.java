@@ -22,9 +22,15 @@ public class ModelDto extends Page {
         this.modelList = modelList;
     }
 
-    public ModelDto(Pageable page, Integer totalPages, List<Model> modelList) {
-        super(page, totalPages);
+    public ModelDto(List<Model> modelList, List<ViewRoleModel> hasModelList) {
         this.modelList = modelList;
+        this.hasModelList = hasModelList;
+    }
+
+    public ModelDto(Pageable page, Integer totalPages, Long total, List<Model> modelList, List<ViewRoleModel> hasModelList) {
+        super(page, totalPages, total);
+        this.modelList = modelList;
+        this.hasModelList = hasModelList;
     }
 
     public List<Model> getModelList() {

@@ -19,8 +19,8 @@ public class UserDto extends Page {
         this.userList = userList;
     }
 
-    public UserDto(Pageable page, Integer totalPages, List<User> userList) {
-        super(page, totalPages);
+    public UserDto(Pageable page, Integer totalPages, Long total, List<User> userList) {
+        super(page, totalPages, total);
         this.userList = userList;
     }
 
