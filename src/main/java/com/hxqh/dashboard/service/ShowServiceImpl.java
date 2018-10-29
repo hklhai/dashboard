@@ -211,6 +211,7 @@ public class ShowServiceImpl implements ShowService {
             showDto.setY(dashboardVisualize.getY());
             showDto.setH(dashboardVisualize.getH());
             showDto.setW(dashboardVisualize.getW());
+
             showDtoList.add(showDto);
         }
         DashboardShowDto dashboardShowDto = new DashboardShowDto(showDtoList, dashboard.getDashboardshowname(),
@@ -230,8 +231,11 @@ public class ShowServiceImpl implements ShowService {
             if (null == location.getDid() || "".equals(location.getDid())) {
                 // 新增
                 Visualize visualize = visualizeRepository.findOne(location.getVid());
-                DashboardVisualize dashboardVisualize = new DashboardVisualize(dashboard, visualize,
-                        location.getX(), location.getY(), location.getH(), location.getW());
+                DashboardVisualize dashboardVisualize = new DashboardVisualize(dashboard, visualize, location.getX(),
+                        location.getY(), location.getH(), location.getW(), visualize.getXname(), visualize.getYname(),
+                        visualize.getEcharttitle(), visualize.getLegendShow(), visualize.getLegendPos(),
+                        visualize.getLegendOrient(), visualize.getTooltipShow()
+                );
                 dashboardVisualizeRepository.save(dashboardVisualize);
             } else {
                 // 更新
@@ -242,6 +246,14 @@ public class ShowServiceImpl implements ShowService {
                 dashboardVisualize.setY(location.getY());
                 dashboardVisualize.setH(location.getH());
                 dashboardVisualize.setW(location.getW());
+                dashboardVisualize.setXname(visualizeNew.getXname());
+                dashboardVisualize.setYname(visualizeNew.getYname());
+                dashboardVisualize.setEcharttitle(visualizeNew.getEcharttitle());
+                dashboardVisualize.setLegendShow(visualizeNew.getLegendShow());
+                dashboardVisualize.setLegendPos(visualizeNew.getLegendPos());
+                dashboardVisualize.setLegendOrient(visualizeNew.getLegendOrient());
+                dashboardVisualize.setTooltipShow(visualizeNew.getTooltipShow());
+
                 dashboardVisualizeRepository.save(dashboardVisualize);
             }
         }

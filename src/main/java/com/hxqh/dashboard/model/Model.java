@@ -45,10 +45,6 @@ public class Model implements Serializable {
     @OneToMany(mappedBy = "model")
     private List<RoleModel> roleModels;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "model")
-    private List<ModelDashboard> modelDashboards;
-
     @Transient
     private List<Model> childList;
 
@@ -64,14 +60,6 @@ public class Model implements Serializable {
 
     public void setRoleid(Integer roleid) {
         this.roleid = roleid;
-    }
-
-    public List<ModelDashboard> getModelDashboards() {
-        return modelDashboards;
-    }
-
-    public void setModelDashboards(List<ModelDashboard> modelDashboards) {
-        this.modelDashboards = modelDashboards;
     }
 
     public Integer getIsurl() {
