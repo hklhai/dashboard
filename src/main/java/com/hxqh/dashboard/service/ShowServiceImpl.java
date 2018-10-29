@@ -7,6 +7,8 @@ import com.hxqh.dashboard.repository.DashboardVisualizeRepository;
 import com.hxqh.dashboard.repository.TableManagerRepository;
 import com.hxqh.dashboard.repository.VisualizeRepository;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,8 +81,10 @@ public class ShowServiceImpl implements ShowService {
         put(7, "抖音广告");
     }};
 
+    private static final String[] excelHeader = {"业务类别", "视图名称", "表名", "视图类型", "数值类型"};
+
+
     private static final String CREATE_SQL_1 = "create table ";
-    private static final String SELECT_SQL = "select * from ";
     private static final String SELECT_SQL_1 = "select showkey,showvalue, sid+ ";
     private static final String SELECT_SQL_2 = " sid from ";
 
@@ -374,6 +378,37 @@ public class ShowServiceImpl implements ShowService {
         DashboardDto visualizeDto = new DashboardDto(pageable, totalPages, dashboardList);
         visualizeDto.setDistinctBusinesscategory(distinctBusinessCategory);
         return visualizeDto;
+    }
+
+    @Override
+    public HSSFWorkbook exportVisualizeExcel() {
+        // todo 分页
+        List<Visualize> visualizeList = visualizeRepository.findAll();
+
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet("业务对接明细表");
+        HSSFRow row = sheet.createRow((int) 0);
+        HSSFCellStyle style = wb.createCellStyle();
+        style.setAlignment(HorizontalAlignment.CENTER);
+        for (int i = 0; i < excelHeader.length; i++) {
+            HSSFCell cell = row.createCell(i);
+            cell.setCellValue(excelHeader[i]);
+            cell.setCellStyle(style);
+            sheet.autoSizeColumn(i);
+            sheet.setColumnWidth(i, 100 * 40);
+        }
+
+        for (int i = 0; i < visualizeList.size(); i++) {
+            row = sheet.createRow(i + 1);
+            Visualize visualize = visualizeList.get(i);
+            row.createCell(0).setCellValue(visualize.getBusinesscategory());
+            row.createCell(1).setCellValue(visualize.getVisualizename());
+            row.createCell(2).setCellValue(visualize.getTablename());
+            row.createCell(3).setCellValue(visualize.getType());
+            row.createCell(4).setCellValue(visualize.getYtype());
+        }
+
+        return wb;
     }
 
 

@@ -3,6 +3,7 @@ package com.hxqh.dashboard.service;
 import com.hxqh.dashboard.model.Dashboard;
 import com.hxqh.dashboard.model.Visualize;
 import com.hxqh.dashboard.model.assist.*;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.data.domain.Pageable;
 
 /**
@@ -151,4 +152,11 @@ public interface ShowService {
      * @return
      */
     DashboardDto dashboardList2(Dashboard dashboard, Pageable pageable);
+
+    /**
+     * 导出Excel
+     *
+     * @return
+     */
+    HSSFWorkbook exportVisualizeExcel();
 }

@@ -17,7 +17,9 @@ import java.util.List;
 public class ViewUserModel {
 
     @Id
-    private Integer usermodelid;
+    private Integer usermodeluid;
+    private Integer rolemodelid;
+    private Integer userroleid;
     private Integer userid;
     private String name;
     private Integer modelid;
@@ -50,12 +52,28 @@ public class ViewUserModel {
         this.viewUserModelList = viewUserModelList;
     }
 
-    public Integer getUsermodelid() {
-        return usermodelid;
+    public Integer getUsermodeluid() {
+        return usermodeluid;
     }
 
-    public void setUsermodelid(Integer usermodelid) {
-        this.usermodelid = usermodelid;
+    public void setUsermodeluid(Integer usermodeluid) {
+        this.usermodeluid = usermodeluid;
+    }
+
+    public Integer getRolemodelid() {
+        return rolemodelid;
+    }
+
+    public void setRolemodelid(Integer rolemodelid) {
+        this.rolemodelid = rolemodelid;
+    }
+
+    public Integer getUserroleid() {
+        return userroleid;
+    }
+
+    public void setUserroleid(Integer userroleid) {
+        this.userroleid = userroleid;
     }
 
     public Integer getUserid() {

@@ -8,6 +8,7 @@ import com.hxqh.dashboard.model.assist.*;
 import com.hxqh.dashboard.model.base.Message;
 import com.hxqh.dashboard.model.base.PageInfo;
 import com.hxqh.dashboard.service.ShowService;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +17,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
 import java.util.Map;
 
 /**
@@ -252,5 +255,17 @@ public class ShowController {
         }
         return dashboardDto;
     }
+
+    @RequestMapping(value = "/excel/export")
+    public void exportExcel(HttpServletResponse response) throws Exception {
+        HSSFWorkbook wb = showService.exportVisualizeExcel();
+        response.setContentType("application/vnd.ms-excel");
+        response.setHeader("Content-disposition", "attachment;filename=export_visualize.xls");
+        OutputStream ouputStream = response.getOutputStream();
+        wb.write(ouputStream);
+        ouputStream.flush();
+        ouputStream.close();
+    }
+
 
 }
