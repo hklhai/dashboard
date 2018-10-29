@@ -286,8 +286,22 @@ public class ShowServiceImpl implements ShowService {
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
-    public boolean isDashboardByVisualizename(String dashboardname) {
+    public boolean isVisualizeByVisualizenameAndVidNot(Visualize visualizeDb) {
+        Visualize visualize = visualizeRepository.findByVisualizenameAndVidNot(visualizeDb.getVisualizename(),visualizeDb.getVid());
+        return null != visualize ? true : false;    }
+
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public boolean isDashboardByDashboardName(String dashboardname) {
         Dashboard dashboard = dashboardRepository.findByDashboardname(dashboardname);
+        return null != dashboard ? true : false;
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public boolean isDashboardByDashboardNameAndBidNot(Dashboard dashboardDb) {
+        Dashboard dashboard = dashboardRepository.findByDashboardnameAndBidNot(dashboardDb.getDashboardname(),dashboardDb.getBid());
         return null != dashboard ? true : false;
     }
 
@@ -438,6 +452,8 @@ public class ShowServiceImpl implements ShowService {
         }
         return wb;
     }
+
+
 
 
 }

@@ -61,6 +61,13 @@ public class SystemServiceImpl implements SystemService {
         return null != user ? true : false;
     }
 
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public boolean isUserByNameAndID(User dbUser) {
+        User user = userRepository.findUserByNameAndUseridNot(dbUser.getName(), dbUser.getUserid());
+        return null != user ? true : false;
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void addUser(User user) {
@@ -74,6 +81,13 @@ public class SystemServiceImpl implements SystemService {
         return null != role ? true : false;
     }
 
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public boolean isRoleByNameAndRoleid(Role roleDb) {
+        Role role = roleRepository.findRoleByNameAndRoleidNot(roleDb.getRolename(), roleDb.getRoleid());
+        return null != role ? true : false;
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void roleAdd(Role role) {
@@ -84,6 +98,13 @@ public class SystemServiceImpl implements SystemService {
     @Override
     public boolean isModelByName(String modelname) {
         Model model = modelRepository.findByModelname(modelname);
+        return null != model ? true : false;
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public boolean isModelByNameAndModelid(Model modelDb) {
+        Model model = modelRepository.findByModelnameAndModelidNot(modelDb.getModelname(), modelDb.getModelid());
         return null != model ? true : false;
     }
 

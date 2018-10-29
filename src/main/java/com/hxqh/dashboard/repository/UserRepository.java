@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {
 
+
     /**
      * 根据用户名查询
      *
@@ -24,4 +25,14 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
     @Query("select u from User u where u.name=:name")
     User findUserByName(@Param("name") String name);
 
+
+    /**
+     * 根据用户名及ID查询
+     *
+     * @param name
+     * @param userid
+     * @return 用户对象
+     */
+    @Query("select u from User u where u.name=:name and u.userid<>:userid")
+    User findUserByNameAndUseridNot(String name, Integer userid);
 }

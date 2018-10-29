@@ -3,6 +3,7 @@ package com.hxqh.dashboard.repository;
 import com.hxqh.dashboard.model.Dashboard;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -21,4 +22,14 @@ public interface DashboardRepository extends JpaRepository<Dashboard, Integer>, 
      */
     Dashboard findByDashboardname(String dashboardname);
 
+
+    /**
+     * 根据id和名称查询是否存在
+     *
+     * @param dashboardname
+     * @param bid
+     * @return
+     */
+    @Query("select u from Dashboard u where u.dashboardname=:dashboardname and u.bid<>:bid")
+    Dashboard findByDashboardnameAndBidNot(String dashboardname, Integer bid);
 }

@@ -151,10 +151,10 @@ public class SystemController {
     public Message userUpdate(User userDb, @RequestBody User user) {
         Message message = null;
         try {
-            if (systemService.isUserByName(user.getName())) {
+            BeanUtils.copyProperties(user, userDb, ObjectUtil.getNullPropertyNames(user));
+            if (systemService.isUserByNameAndID(userDb)) {
                 message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
             } else {
-                BeanUtils.copyProperties(user, userDb, ObjectUtil.getNullPropertyNames(user));
                 systemService.updateUser(userDb);
                 message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
             }
@@ -252,10 +252,11 @@ public class SystemController {
     public Message roleUpdate(Role roleDb, @RequestBody Role role) {
         Message message = null;
         try {
-            if (systemService.isRoleByName(role.getRolename())) {
+            BeanUtils.copyProperties(role, roleDb, ObjectUtil.getNullPropertyNames(role));
+
+            if (systemService.isRoleByNameAndRoleid(roleDb)) {
                 message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
             } else {
-                BeanUtils.copyProperties(role, roleDb, ObjectUtil.getNullPropertyNames(role));
                 systemService.updateRole(roleDb);
                 message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
             }
@@ -350,10 +351,11 @@ public class SystemController {
     public Message modelUpdate(Model modelDb, @RequestBody Model model) {
         Message message = null;
         try {
-            if (systemService.isModelByName(model.getModelname())) {
+            BeanUtils.copyProperties(model, modelDb, ObjectUtil.getNullPropertyNames(model));
+
+            if (systemService.isModelByNameAndModelid(modelDb)) {
                 message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
             } else {
-                BeanUtils.copyProperties(model, modelDb, ObjectUtil.getNullPropertyNames(model));
                 systemService.updateModel(modelDb);
                 message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
             }

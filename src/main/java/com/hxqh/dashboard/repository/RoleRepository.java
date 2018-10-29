@@ -3,6 +3,7 @@ package com.hxqh.dashboard.repository;
 import com.hxqh.dashboard.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -20,4 +21,15 @@ public interface RoleRepository extends JpaRepository<Role, Integer>, JpaSpecifi
      * @return Role对象
      */
     Role findByRolename(String rolename);
+
+
+    /**
+     * 根据角色名称和主键查询
+     *
+     * @param rolename
+     * @param roleid
+     * @return Role对象
+     */
+    @Query("select u from Role u where u.rolename=:rolename and u.roleid<>:roleid")
+    Role findRoleByNameAndRoleidNot(String rolename, Integer roleid);
 }

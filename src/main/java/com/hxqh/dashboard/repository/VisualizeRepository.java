@@ -32,4 +32,14 @@ public interface VisualizeRepository extends JpaRepository<Visualize, Integer>, 
      */
     @Query("select distinct(u.businesscategory) from Visualize u where u.businesscategory is not null")
     List<String> findDistinctBusinesscategory();
+
+    /**
+     * 根据id和名称查询是否存在
+     *
+     * @param visualizename
+     * @param vid
+     * @return
+     */
+    @Query("select u from Visualize u where u.visualizename=:visualizename and u.vid<>:vid")
+    Visualize findByVisualizenameAndVidNot(String visualizename, Integer vid);
 }

@@ -93,7 +93,7 @@ public interface ShowService {
      * @param dashboardname
      * @return 存在返回true
      */
-    boolean isDashboardByVisualizename(String dashboardname);
+    boolean isDashboardByDashboardName(String dashboardname);
 
 
     /**
@@ -159,4 +159,8 @@ public interface ShowService {
      * @return
      */
     HSSFWorkbook exportVisualizeExcel();
+
+    boolean isDashboardByDashboardNameAndBidNot(Dashboard dashboardDb);
+
+    boolean isVisualizeByVisualizenameAndVidNot(Visualize visualizeDb);
 }

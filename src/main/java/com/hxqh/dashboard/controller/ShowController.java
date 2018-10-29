@@ -102,8 +102,13 @@ public class ShowController {
         Message message = null;
         try {
             BeanUtils.copyProperties(visualize, visualizeDb, ObjectUtil.getNullPropertyNames(visualize));
-            showService.updateVisualize(visualizeDb);
-            message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
+
+            if (showService.isVisualizeByVisualizenameAndVidNot (visualizeDb)) {
+                message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
+            } else {
+                showService.updateVisualize(visualizeDb);
+                message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
+            }
         } catch (Exception e) {
             message = new Message(Constants.FAIL, Constants.EDITSUCCESS);
             e.printStackTrace();
@@ -152,7 +157,7 @@ public class ShowController {
         Message message;
         try {
 
-            if (showService.isDashboardByVisualizename(dashboard.getDashboardname())) {
+            if (showService.isDashboardByDashboardName(dashboard.getDashboardname())) {
                 message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
             } else {
                 showService.addDashboard(dashboard);
@@ -209,8 +214,12 @@ public class ShowController {
         Message message = null;
         try {
             BeanUtils.copyProperties(dashboard, dashboardDb, ObjectUtil.getNullPropertyNames(dashboard));
-            showService.updateDashboard(dashboardDb);
-            message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
+            if (showService.isDashboardByDashboardNameAndBidNot(dashboardDb)) {
+                message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
+            } else {
+                showService.updateDashboard(dashboardDb);
+                message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
+            }
         } catch (Exception e) {
             message = new Message(Constants.FAIL, Constants.EDITSUCCESS);
             e.printStackTrace();

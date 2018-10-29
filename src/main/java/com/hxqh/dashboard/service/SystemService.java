@@ -35,6 +35,15 @@ public interface SystemService {
      */
     boolean isUserByName(String name);
 
+
+    /**
+     * 是否存在User
+     *
+     * @param user
+     * @return 存在返回true
+     */
+    boolean isUserByNameAndID(User user);
+
     /**
      * 添加User
      *
@@ -52,6 +61,15 @@ public interface SystemService {
     boolean isRoleByName(String rolename);
 
     /**
+     * 根据角色名称、角色主键判断是否存在
+     *
+     * @param roleDb
+     * @return
+     */
+    boolean isRoleByNameAndRoleid(Role roleDb);
+
+
+    /**
      * 添加Role
      *
      * @param role
@@ -66,6 +84,14 @@ public interface SystemService {
      * @return 存在返回true
      */
     boolean isModelByName(String modelname);
+
+    /**
+     * 根据模块名称和模块主键查询
+     *
+     * @param modelDb
+     * @return 存在返回true
+     */
+    boolean isModelByNameAndModelid(Model modelDb);
 
     /**
      * 添加Model
@@ -221,4 +247,6 @@ public interface SystemService {
      * @param dashboardDto
      */
     void modelDashboards(ModelDashboardDto dashboardDto);
+
+
 }
