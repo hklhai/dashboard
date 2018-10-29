@@ -81,7 +81,7 @@ public class ShowServiceImpl implements ShowService {
         put(7, "抖音广告");
     }};
 
-    private static final String[] excelHeader = {"业务类别", "视图名称", "表名", "视图类型", "数值类型"};
+    private static final String[] EXCEL_HEADER = {"业务类别", "视图名称", "表名", "视图类型", "数值类型"};
 
 
     private static final String CREATE_SQL_1 = "create table ";
@@ -107,6 +107,8 @@ public class ShowServiceImpl implements ShowService {
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public ShowDto findLineByVid(Integer integerId, Integer random, Integer bid, Integer did) {
+        ShowDto showDto = null;
+
         Visualize visualize = visualizeRepository.findOne(integerId);
 
         String sql = SELECT_SQL_1 + random * SPLIT_NUM + SELECT_SQL_2 + visualize.getTablename();
@@ -127,7 +129,6 @@ public class ShowServiceImpl implements ShowService {
             valueShow = list.stream().map(LineInteger::getShowvalue).collect(Collectors.toList());
         }
 
-        ShowDto showDto = null;
         if (PIE.equals(visualize.getType())) {
             List<PieDto> pieDtoList = new ArrayList<>(50);
 
@@ -137,10 +138,17 @@ public class ShowServiceImpl implements ShowService {
             }
             showDto = new ShowDto(visualize.getVisualizename(), visualize.getXname(), visualize.getYname(),
                     keyShow, (List) pieDtoList, visualize.getType(), visualize.getVid(), bid, did);
+
+
         } else {
             showDto = new ShowDto(visualize.getVisualizename(), visualize.getXname(), visualize.getYname(),
                     keyShow, valueShow, visualize.getType(), visualize.getVid(), bid, did);
         }
+        showDto.setEcharttitle(visualize.getEcharttitle());
+        showDto.setLegendShow(visualize.getLegendShow());
+        showDto.setLegendPos(visualize.getLegendPos());
+        showDto.setLegendOrient(visualize.getLegendOrient());
+        showDto.setTooltipShow(visualize.getTooltipShow());
         return showDto;
     }
 
@@ -398,9 +406,9 @@ public class ShowServiceImpl implements ShowService {
         HSSFRow row = sheet.createRow((int) 0);
         HSSFCellStyle style = wb.createCellStyle();
         style.setAlignment(HorizontalAlignment.CENTER);
-        for (int i = 0; i < excelHeader.length; i++) {
+        for (int i = 0; i < EXCEL_HEADER.length; i++) {
             HSSFCell cell = row.createCell(i);
-            cell.setCellValue(excelHeader[i]);
+            cell.setCellValue(EXCEL_HEADER[i]);
             cell.setCellStyle(style);
             sheet.autoSizeColumn(i);
             sheet.setColumnWidth(i, 100 * 40);

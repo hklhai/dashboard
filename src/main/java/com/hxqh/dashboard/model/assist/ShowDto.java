@@ -26,6 +26,12 @@ public class ShowDto extends Location {
 
     private Integer did;
 
+    private String echarttitle;
+    private Boolean legendShow;
+    private String legendPos;
+    private String legendOrient;
+    private Boolean tooltipShow;
+
     public ShowDto() {
     }
 
@@ -38,6 +44,46 @@ public class ShowDto extends Location {
         this.type = type;
         this.vid = vid;
         this.did = did;
+    }
+
+    public String getEcharttitle() {
+        return echarttitle;
+    }
+
+    public void setEcharttitle(String echarttitle) {
+        this.echarttitle = echarttitle;
+    }
+
+    public Boolean getLegendShow() {
+        return legendShow;
+    }
+
+    public void setLegendShow(Boolean legendShow) {
+        this.legendShow = legendShow;
+    }
+
+    public String getLegendPos() {
+        return legendPos;
+    }
+
+    public void setLegendPos(String legendPos) {
+        this.legendPos = legendPos;
+    }
+
+    public String getLegendOrient() {
+        return legendOrient;
+    }
+
+    public void setLegendOrient(String legendOrient) {
+        this.legendOrient = legendOrient;
+    }
+
+    public Boolean getTooltipShow() {
+        return tooltipShow;
+    }
+
+    public void setTooltipShow(Boolean tooltipShow) {
+        this.tooltipShow = tooltipShow;
     }
 
     @Override
