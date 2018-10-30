@@ -1,5 +1,6 @@
 package com.hxqh.dashboard.service;
 
+import com.hxqh.dashboard.common.Constants;
 import com.hxqh.dashboard.model.*;
 import com.hxqh.dashboard.model.assist.*;
 import com.hxqh.dashboard.repository.DashboardRepository;
@@ -45,9 +46,6 @@ public class ShowServiceImpl implements ShowService {
     @Autowired
     private DashboardVisualizeRepository dashboardVisualizeRepository;
 
-
-    private static final String LINE = "line";
-    private static final String BAR = "bar";
     private static final String PIE = "pie";
 
     private static Map<String, String> yTypeMap = new HashMap<String, String>() {{
@@ -98,7 +96,6 @@ public class ShowServiceImpl implements ShowService {
     private static final Integer START_NUM = 1;
     private static final Integer END_NUM = 8;
     private static final Integer SPLIT_NUM = 150;
-    private static final Integer EXCEL_EXPORT_SIZE = 4;
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
@@ -287,8 +284,9 @@ public class ShowServiceImpl implements ShowService {
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public boolean isVisualizeByVisualizenameAndVidNot(Visualize visualizeDb) {
-        Visualize visualize = visualizeRepository.findByVisualizenameAndVidNot(visualizeDb.getVisualizename(),visualizeDb.getVid());
-        return null != visualize ? true : false;    }
+        Visualize visualize = visualizeRepository.findByVisualizenameAndVidNot(visualizeDb.getVisualizename(), visualizeDb.getVid());
+        return null != visualize ? true : false;
+    }
 
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -301,7 +299,7 @@ public class ShowServiceImpl implements ShowService {
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public boolean isDashboardByDashboardNameAndBidNot(Dashboard dashboardDb) {
-        Dashboard dashboard = dashboardRepository.findByDashboardnameAndBidNot(dashboardDb.getDashboardname(),dashboardDb.getBid());
+        Dashboard dashboard = dashboardRepository.findByDashboardnameAndBidNot(dashboardDb.getDashboardname(), dashboardDb.getBid());
         return null != dashboard ? true : false;
     }
 
@@ -416,7 +414,7 @@ public class ShowServiceImpl implements ShowService {
     @Override
     public HSSFWorkbook exportVisualizeExcel() {
         Sort sort = new Sort(Sort.Direction.DESC, "vid");
-        Pageable pageable = new PageRequest(0, EXCEL_EXPORT_SIZE, sort);
+        Pageable pageable = new PageRequest(0, Constants.EXCEL_EXPORT_SIZE, sort);
         Page<Visualize> visualizes = visualizeRepository.findAll(pageable);
         Integer totalPages = visualizes.getTotalPages();
 
@@ -435,7 +433,7 @@ public class ShowServiceImpl implements ShowService {
 
         int count = 1;
         for (int page = 0; page < totalPages; page++) {
-            pageable = new PageRequest(page, EXCEL_EXPORT_SIZE, sort);
+            pageable = new PageRequest(page, Constants.EXCEL_EXPORT_SIZE, sort);
             visualizes = visualizeRepository.findAll(pageable);
             List<Visualize> visualizeList = visualizes.getContent();
 
@@ -452,8 +450,6 @@ public class ShowServiceImpl implements ShowService {
         }
         return wb;
     }
-
-
 
 
 }

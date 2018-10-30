@@ -159,7 +159,7 @@ public class SystemController {
                 message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
             }
         } catch (Exception e) {
-            message = new Message(Constants.FAIL, Constants.EDITSUCCESS);
+            message = new Message(Constants.FAIL, Constants.EDITFAIL);
             e.printStackTrace();
         }
         return message;
@@ -261,7 +261,7 @@ public class SystemController {
                 message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
             }
         } catch (Exception e) {
-            message = new Message(Constants.FAIL, Constants.EDITSUCCESS);
+            message = new Message(Constants.FAIL, Constants.EDITFAIL);
             e.printStackTrace();
         }
         return message;
@@ -360,7 +360,7 @@ public class SystemController {
                 message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
             }
         } catch (Exception e) {
-            message = new Message(Constants.FAIL, Constants.EDITSUCCESS);
+            message = new Message(Constants.FAIL, Constants.EDITFAIL);
             e.printStackTrace();
         }
         return message;

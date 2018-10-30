@@ -23,6 +23,9 @@ public interface Constants {
     String EDITSUCCESS = "Edit Success!";
     String EDITFAIL = "Edit Fail!";
 
-    String USERNAME_PASSWORD_INCORRECT= "Incorrect username or password";
+    String USERNAME_PASSWORD_INCORRECT = "Incorrect username or password";
+
+    Integer EXCEL_EXPORT_SIZE = 100;
+
 
 }
