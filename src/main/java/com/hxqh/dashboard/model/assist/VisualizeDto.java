@@ -15,7 +15,7 @@ public class VisualizeDto extends Page {
 
     private List<Visualize> visualizeList;
     private List<String> distinctBusinesscategory;
-
+    private List<Integer> hasBindList;
 
     public VisualizeDto(List<Visualize> visualizeList, List<String> distinctBusinesscategory) {
         this.visualizeList = visualizeList;
@@ -62,5 +62,13 @@ public class VisualizeDto extends Page {
 
     public void setDistinctBusinesscategory(List<String> distinctBusinesscategory) {
         this.distinctBusinesscategory = distinctBusinesscategory;
+    }
+
+    public List<Integer> getHasBindList() {
+        return hasBindList;
+    }
+
+    public void setHasBindList(List<Integer> hasBindList) {
+        this.hasBindList = hasBindList;
     }
 }

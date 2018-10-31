@@ -42,6 +42,9 @@ public class Visualize implements Serializable {
     @JsonIgnore
     private List<DashboardVisualize> dashboardVisualizes;
 
+    @Transient
+    private Integer bid;
+
     public Visualize() {
     }
 
@@ -51,6 +54,14 @@ public class Visualize implements Serializable {
 
     public void setDashboardVisualizes(List<DashboardVisualize> dashboardVisualizes) {
         this.dashboardVisualizes = dashboardVisualizes;
+    }
+
+    public Integer getBid() {
+        return bid;
+    }
+
+    public void setBid(Integer bid) {
+        this.bid = bid;
     }
 
     public String getYtype() {

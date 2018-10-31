@@ -103,7 +103,7 @@ public class ShowController {
         try {
             BeanUtils.copyProperties(visualize, visualizeDb, ObjectUtil.getNullPropertyNames(visualize));
 
-            if (showService.isVisualizeByVisualizenameAndVidNot (visualizeDb)) {
+            if (showService.isVisualizeByVisualizenameAndVidNot(visualizeDb)) {
                 message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
             } else {
                 showService.updateVisualize(visualizeDb);
@@ -136,10 +136,12 @@ public class ShowController {
     @RequestMapping(value = "/visualizeList2", method = RequestMethod.POST)
     public VisualizeDto visualizeList2(@RequestBody Visualize visualize,
                                        @RequestParam(value = "page", defaultValue = "0") int page,
-                                       @RequestParam(value = "size", defaultValue = "10") int size) {
+                                       @RequestParam(value = "size", defaultValue = "10") int size,
+                                       @RequestParam(value = "bid", defaultValue = "0") int bid) {
         VisualizeDto visualizeDto = null;
         Sort sort = new Sort(Sort.Direction.DESC, "vid");
         try {
+            visualize.setBid(bid);
             Pageable pageable = new PageRequest(page, size, sort);
             visualizeDto = showService.visualizeList2(visualize, pageable);
         } catch (Exception e) {

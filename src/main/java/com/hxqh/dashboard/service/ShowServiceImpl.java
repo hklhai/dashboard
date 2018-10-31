@@ -361,6 +361,15 @@ public class ShowServiceImpl implements ShowService {
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public VisualizeDto visualizeList2(Visualize visualize, Pageable pageable) {
+
+        List<Integer> hasBindList = new ArrayList<>(10);
+        if (0 != visualize.getBid()) {
+            Dashboard dashboard = dashboardRepository.findOne(visualize.getBid());
+            List<DashboardVisualize> dashboardVisualizeList = dashboard.getDashboardVisualizes();
+            List<Visualize> collect = dashboardVisualizeList.stream().map(DashboardVisualize::getVisualize).collect(Collectors.toList());
+            hasBindList = collect.stream().map(Visualize::getVid).collect(Collectors.toList());
+        }
+
         List<String> distinctBusinessCategory = visualizeRepository.findDistinctBusinesscategory();
 
         Specification<Visualize> specification = (root, query, cb) -> {
@@ -381,6 +390,7 @@ public class ShowServiceImpl implements ShowService {
         List<Visualize> visualizeList = visualizes.getContent();
         Integer totalPages = visualizes.getTotalPages();
         VisualizeDto visualizeDto = new VisualizeDto(pageable, totalPages, visualizes.getTotalElements(), visualizeList, distinctBusinessCategory);
+        visualizeDto.setHasBindList(hasBindList);
         return visualizeDto;
     }
 
@@ -389,7 +399,7 @@ public class ShowServiceImpl implements ShowService {
     public DashboardDto dashboardList2(Dashboard dashboard, Pageable pageable) {
         List<String> distinctBusinessCategory = visualizeRepository.findDistinctBusinesscategory();
         Specification<Dashboard> specification = (root, query, cb) -> {
-            List<Predicate> list = new ArrayList<>(5);
+            List<Predicate> list = new ArrayList<>(10);
 
             if (StringUtils.isNotBlank(dashboard.getDashboardname())) {
                 list.add(cb.like(root.get("dashboardname").as(String.class), "%" + dashboard.getDashboardname() + "%"));
