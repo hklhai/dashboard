@@ -175,4 +175,6 @@ public interface ShowService {
      * @return
      */
     boolean isVisualizeByVisualizenameAndVidNot(Visualize visualizeDb);
+
+    void insertData(InsertInfo insertInfo);
 }

@@ -38,6 +38,9 @@ public class DashboardVisualize {
     @Column(name = "tooltip_show",columnDefinition="bool default false")
     private Boolean tooltipShow;
 
+    private String background;
+    private String echartTitPos;
+    private String echartTitColor;
 
     public DashboardVisualize() {
     }
@@ -56,6 +59,30 @@ public class DashboardVisualize {
         this.legendPos = legendPos;
         this.legendOrient = legendOrient;
         this.tooltipShow = tooltipShow;
+    }
+
+    public String getBackground() {
+        return background;
+    }
+
+    public void setBackground(String background) {
+        this.background = background;
+    }
+
+    public String getEchartTitPos() {
+        return echartTitPos;
+    }
+
+    public void setEchartTitPos(String echartTitPos) {
+        this.echartTitPos = echartTitPos;
+    }
+
+    public String getEchartTitColor() {
+        return echartTitColor;
+    }
+
+    public void setEchartTitColor(String echartTitColor) {
+        this.echartTitColor = echartTitColor;
     }
 
     public String getXname() {

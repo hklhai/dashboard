@@ -96,6 +96,7 @@ public class ShowServiceImpl implements ShowService {
     private static final Integer START_NUM = 1;
     private static final Integer END_NUM = 8;
     private static final Integer SPLIT_NUM = 150;
+    private static final String TRUNCATE_TABLE = "TRUNCATE TABLE ";
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
@@ -244,6 +245,10 @@ public class ShowServiceImpl implements ShowService {
                         visualize.getEcharttitle(), visualize.getLegendShow(), visualize.getLegendPos(),
                         visualize.getLegendOrient(), visualize.getTooltipShow()
                 );
+
+                dashboardVisualize.setBackground(visualize.getBackground());
+                dashboardVisualize.setEchartTitPos(visualize.getEchartTitPos());
+                dashboardVisualize.setEchartTitColor(visualize.getEchartTitColor());
                 dashboardVisualizeRepository.save(dashboardVisualize);
             } else {
                 // 更新
@@ -261,6 +266,9 @@ public class ShowServiceImpl implements ShowService {
                 dashboardVisualize.setLegendPos(visualizeNew.getLegendPos());
                 dashboardVisualize.setLegendOrient(visualizeNew.getLegendOrient());
                 dashboardVisualize.setTooltipShow(visualizeNew.getTooltipShow());
+                dashboardVisualize.setBackground(visualizeNew.getBackground());
+                dashboardVisualize.setEchartTitPos(visualizeNew.getEchartTitPos());
+                dashboardVisualize.setEchartTitColor(visualizeNew.getEchartTitColor());
 
                 dashboardVisualizeRepository.save(dashboardVisualize);
             }
@@ -286,6 +294,36 @@ public class ShowServiceImpl implements ShowService {
     public boolean isVisualizeByVisualizenameAndVidNot(Visualize visualizeDb) {
         Visualize visualize = visualizeRepository.findByVisualizenameAndVidNot(visualizeDb.getVisualizename(), visualizeDb.getVid());
         return null != visualize ? true : false;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void insertData(InsertInfo insertInfo) {
+        Visualize visualize = visualizeRepository.findOne(insertInfo.getVid());
+
+        // todo 是否保留history
+        sessionFactory.getCurrentSession().createSQLQuery(TRUNCATE_TABLE + visualize.getTablename()).executeUpdate();
+        if (null != insertInfo.getLineIntegerList() && insertInfo.getLineIntegerList().size() > 0) {
+            insertInfo.getLineIntegerList().forEach(lineInteger -> {
+                String insertSQL;
+                insertSQL = "insert into " + visualize.getTablename() + "(showkey,showvalue) values ('" + lineInteger.getShowkey() + "'," + lineInteger.getShowvalue() + ")";
+                sessionFactory.getCurrentSession().createSQLQuery(insertSQL).executeUpdate();
+            });
+        }
+        if (null != insertInfo.getLineFloatList() && insertInfo.getLineFloatList().size() > 0) {
+            insertInfo.getLineFloatList().forEach(lineFloat -> {
+                String insertSQL;
+                insertSQL = "insert into " + visualize.getTablename() + "(showkey,showvalue) values ('" + lineFloat.getShowkey() + "'," + lineFloat.getShowvalue() + ")";
+                sessionFactory.getCurrentSession().createSQLQuery(insertSQL).executeUpdate();
+            });
+        }
+        if (null != insertInfo.getLineDoubleList() && insertInfo.getLineDoubleList().size() > 0) {
+            insertInfo.getLineDoubleList().forEach(lineDouble -> {
+                String insertSQL;
+                insertSQL = "insert into " + visualize.getTablename() + "(showkey,showvalue) values ('" + lineDouble.getShowkey() + "'," + lineDouble.getShowvalue() + ")";
+                sessionFactory.getCurrentSession().createSQLQuery(insertSQL).executeUpdate();
+            });
+        }
     }
 
 

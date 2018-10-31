@@ -30,13 +30,16 @@ public class Visualize implements Serializable {
     private String ytype;
 
     private String echarttitle;
-    @Column(name = "legend_show",columnDefinition="bool default false")
+    @Column(name = "legend_show", columnDefinition = "bool default false")
     private Boolean legendShow;
     private String legendPos;
     private String legendOrient;
-    @Column(name = "tooltip_show",columnDefinition="bool default false")
+    @Column(name = "tooltip_show", columnDefinition = "bool default false")
     private Boolean tooltipShow;
 
+    private String background;
+    private String echartTitPos;
+    private String echartTitColor;
 
     @OneToMany(mappedBy = "visualize")
     @JsonIgnore
@@ -46,6 +49,30 @@ public class Visualize implements Serializable {
     private Integer bid;
 
     public Visualize() {
+    }
+
+    public String getBackground() {
+        return background;
+    }
+
+    public void setBackground(String background) {
+        this.background = background;
+    }
+
+    public String getEchartTitPos() {
+        return echartTitPos;
+    }
+
+    public void setEchartTitPos(String echartTitPos) {
+        this.echartTitPos = echartTitPos;
+    }
+
+    public String getEchartTitColor() {
+        return echartTitColor;
+    }
+
+    public void setEchartTitColor(String echartTitColor) {
+        this.echartTitColor = echartTitColor;
     }
 
     public List<DashboardVisualize> getDashboardVisualizes() {
