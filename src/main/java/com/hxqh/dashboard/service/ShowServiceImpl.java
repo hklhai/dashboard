@@ -150,6 +150,7 @@ public class ShowServiceImpl implements ShowService {
         showDto.setLegendPos(visualize.getLegendPos());
         showDto.setLegendOrient(visualize.getLegendOrient());
         showDto.setTooltipShow(visualize.getTooltipShow());
+        sessionFactory.close();
         return showDto;
     }
 
@@ -176,7 +177,7 @@ public class ShowServiceImpl implements ShowService {
             }
             sessionFactory.getCurrentSession().createSQLQuery(insertSQL).executeUpdate();
         }
-
+        sessionFactory.close();
         visualizeRepository.save(visualize);
     }
 
@@ -324,6 +325,7 @@ public class ShowServiceImpl implements ShowService {
                 sessionFactory.getCurrentSession().createSQLQuery(insertSQL).executeUpdate();
             });
         }
+        sessionFactory.close();
     }
 
 
@@ -370,6 +372,7 @@ public class ShowServiceImpl implements ShowService {
         // 删除表
         String sql = DROP_TABLE_SQL + visualize.getTablename();
         sessionFactory.getCurrentSession().createSQLQuery(sql).executeUpdate();
+        sessionFactory.close();
     }
 
     @Transactional(rollbackFor = Exception.class)
