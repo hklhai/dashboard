@@ -32,6 +32,10 @@ public class ShowDto extends Location {
     private String legendOrient;
     private Boolean tooltipShow;
 
+    private String background;
+    private String echartTitPos;
+    private String echartTitColor;
+
     public ShowDto() {
     }
 
@@ -44,6 +48,30 @@ public class ShowDto extends Location {
         this.type = type;
         this.vid = vid;
         this.did = did;
+    }
+
+    public String getBackground() {
+        return background;
+    }
+
+    public void setBackground(String background) {
+        this.background = background;
+    }
+
+    public String getEchartTitPos() {
+        return echartTitPos;
+    }
+
+    public void setEchartTitPos(String echartTitPos) {
+        this.echartTitPos = echartTitPos;
+    }
+
+    public String getEchartTitColor() {
+        return echartTitColor;
+    }
+
+    public void setEchartTitColor(String echartTitColor) {
+        this.echartTitColor = echartTitColor;
     }
 
     public String getEcharttitle() {

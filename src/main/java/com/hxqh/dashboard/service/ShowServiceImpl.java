@@ -150,6 +150,10 @@ public class ShowServiceImpl implements ShowService {
         showDto.setLegendPos(visualize.getLegendPos());
         showDto.setLegendOrient(visualize.getLegendOrient());
         showDto.setTooltipShow(visualize.getTooltipShow());
+        showDto.setBackground(visualize.getBackground());
+        showDto.setEchartTitPos(visualize.getEchartTitPos());
+        showDto.setEchartTitColor(visualize.getEchartTitColor());
+
         return showDto;
     }
 
@@ -176,7 +180,7 @@ public class ShowServiceImpl implements ShowService {
             }
             sessionFactory.getCurrentSession().createSQLQuery(insertSQL).executeUpdate();
         }
-         visualizeRepository.save(visualize);
+        visualizeRepository.save(visualize);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -323,7 +327,7 @@ public class ShowServiceImpl implements ShowService {
                 sessionFactory.getCurrentSession().createSQLQuery(insertSQL).executeUpdate();
             });
         }
-     }
+    }
 
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
