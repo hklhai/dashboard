@@ -375,7 +375,6 @@ public class ShowServiceImpl implements ShowService {
         // 删除表
         String sql = DROP_TABLE_SQL + visualize.getTablename();
         sessionFactory.getCurrentSession().createSQLQuery(sql).executeUpdate();
-        sessionFactory.close();
     }
 
     @Transactional(rollbackFor = Exception.class)
