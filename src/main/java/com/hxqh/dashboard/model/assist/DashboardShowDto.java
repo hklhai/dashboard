@@ -13,6 +13,7 @@ public class DashboardShowDto {
 
     private String dashboardshowname;
     private String businesscategory;
+    private Integer refresh;
 
     public DashboardShowDto() {
     }
@@ -21,6 +22,14 @@ public class DashboardShowDto {
         this.showDtoList = showDtoList;
         this.dashboardshowname = dashboardshowname;
         this.businesscategory = businesscategory;
+    }
+
+    public Integer getRefresh() {
+        return refresh;
+    }
+
+    public void setRefresh(Integer refresh) {
+        this.refresh = refresh;
     }
 
     public List<ShowDto> getShowDtoList() {

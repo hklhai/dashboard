@@ -134,7 +134,7 @@ public class ShowServiceImpl implements ShowService {
             List<PieDto> pieDtoList = new ArrayList<>(50);
 
             for (int i = 0; i < keyShow.size(); i++) {
-                PieDto pieDto = new PieDto(keyShow.get(i).toString(), valueShow.get(0));
+                PieDto pieDto = new PieDto(keyShow.get(i).toString(), valueShow.get(i));
                 pieDtoList.add(pieDto);
             }
             showDto = new ShowDto(visualize.getVisualizename(), visualize.getXname(), visualize.getYname(),
@@ -229,6 +229,7 @@ public class ShowServiceImpl implements ShowService {
         }
         DashboardShowDto dashboardShowDto = new DashboardShowDto(showDtoList, dashboard.getDashboardshowname(),
                 dashboard.getBusinesscategory());
+        dashboardShowDto.setRefresh(dashboard.getRefresh());
         return dashboardShowDto;
     }
 
