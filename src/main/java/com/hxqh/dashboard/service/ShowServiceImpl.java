@@ -186,6 +186,7 @@ public class ShowServiceImpl implements ShowService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void addDashboard(Dashboard dashboard) {
+        dashboard.setRefresh(0);
         dashboardRepository.save(dashboard);
     }
 

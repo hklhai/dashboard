@@ -24,7 +24,7 @@ public class Dashboard implements Serializable {
     private String dashboardshowname;
     private String type;
     private String businesscategory;
-
+    private Integer refresh;
 
     @OneToMany(mappedBy = "dashboard")
     @JsonIgnore
@@ -39,6 +39,14 @@ public class Dashboard implements Serializable {
 
     public void setDashboardVisualizes(List<DashboardVisualize> dashboardVisualizes) {
         this.dashboardVisualizes = dashboardVisualizes;
+    }
+
+    public Integer getRefresh() {
+        return refresh;
+    }
+
+    public void setRefresh(Integer refresh) {
+        this.refresh = refresh;
     }
 
     public Integer getBid() {
