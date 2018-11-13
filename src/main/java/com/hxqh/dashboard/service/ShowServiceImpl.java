@@ -85,7 +85,7 @@ public class ShowServiceImpl implements ShowService {
         put(7, "抖音广告");
     }};
 
-    private static final String[] EXCEL_HEADER = {"业务类别", "视图名称", "表名", "视图类型", "数值类型"};
+    private static final String[] EXCEL_HEADER = {"业务类别", "视图名称", "表名", "视图类型", "数值类型","业务处理逻辑描述"};
 
 
     private static final String CREATE_SQL_1 = "create table ";
@@ -485,7 +485,7 @@ public class ShowServiceImpl implements ShowService {
             cell.setCellValue(EXCEL_HEADER[i]);
             cell.setCellStyle(style);
             sheet.autoSizeColumn(i);
-            sheet.setColumnWidth(i, 100 * 40);
+            sheet.setColumnWidth(i, 100 * 60);
         }
 
         int count = 1;
@@ -502,6 +502,7 @@ public class ShowServiceImpl implements ShowService {
                 row.createCell(2).setCellValue(visualize.getTablename());
                 row.createCell(3).setCellValue(visualize.getType());
                 row.createCell(4).setCellValue(visualize.getYtype());
+                row.createCell(5).setCellValue(visualize.getVisualizedescription());
                 count++;
             }
         }
