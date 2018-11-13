@@ -7,6 +7,7 @@ import com.hxqh.dashboard.repository.DashboardRepository;
 import com.hxqh.dashboard.repository.DashboardVisualizeRepository;
 import com.hxqh.dashboard.repository.TableManagerRepository;
 import com.hxqh.dashboard.repository.VisualizeRepository;
+import com.hxqh.dashboard.util.JdbcUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -23,6 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.Predicate;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -159,7 +163,7 @@ public class ShowServiceImpl implements ShowService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void addVisualize(Visualize visualize) {
+    public void addVisualize(Visualize visualize) throws Exception {
         String insertSQL;
         TableManager tableManager = tableManagerRepository.findByTablecategory(visualize.getType());
         String tableName = tableManager.getTableprefix() + tableManager.getTablemaxid();

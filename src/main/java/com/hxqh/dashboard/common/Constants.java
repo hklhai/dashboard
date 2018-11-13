@@ -8,7 +8,6 @@ package com.hxqh.dashboard.common;
 public interface Constants {
 
     String OS = System.getProperty("os.name");
-
     // String CHROMEDRIVER = OS.toLowerCase().startsWith("win") == true ? "E:\\Program\\chromedriver.exe" : "/usr/bin/chromedriver";
 
     Integer SUCCESS = 1;
@@ -27,5 +26,10 @@ public interface Constants {
 
     Integer EXCEL_EXPORT_SIZE = 100;
 
+    String TABLEPREFIX = "Tables_in_";
+    String COLOUMN_PREFIX = "SHOW FULL COLUMNS FROM ";
+    String SHOW_TAB_SQL = "SHOW tables";
+    String TABLE_COLUMN_NAME = "Field";
+    String TABLE_COLUMN_TYPE = "Type";
 
 }

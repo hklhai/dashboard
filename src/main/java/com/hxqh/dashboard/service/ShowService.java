@@ -36,7 +36,7 @@ public interface ShowService {
      *
      * @param visualize
      */
-    void addVisualize(Visualize visualize);
+    void addVisualize(Visualize visualize) throws Exception ;
 
     /**
      * 添加dashboard
