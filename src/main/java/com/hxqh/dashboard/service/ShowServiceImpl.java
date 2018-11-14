@@ -163,12 +163,23 @@ public class ShowServiceImpl implements ShowService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void addVisualize(Visualize visualize) throws Exception {
+
+        StringBuilder sql = new StringBuilder(150);
         String insertSQL;
+        // 获取表名称
         TableManager tableManager = tableManagerRepository.findByTablecategory(visualize.getType());
         String tableName = tableManager.getTableprefix() + tableManager.getTablemaxid();
-        String yTpe = visualize.getYtype();
-        String sql = CREATE_SQL_1 + tableName + CREATE_SQL_2 + yTypeMap.get(yTpe) + CREATE_SQL_3;
-        sessionFactory.getCurrentSession().createSQLQuery(sql).executeUpdate();
+
+        // 构造建表语句
+        List<ColumnMap> columnMapList = visualize.getColumnMapList();
+        sql.append("create table ").append(tableName).append(" (`sid` int(20) NOT NULL AUTO_INCREMENT,");
+        for (int i = 0; i < columnMapList.size(); i++) {
+            ColumnMap columnMap = columnMapList.get(i);
+            sql.append("`").append(columnMap.getColumnname()).append("` ").append(columnMap.getColumntype()).append(" DEFAULT NULL, ");
+        }
+        sql.append(", PRIMARY KEY (`sid`))");
+
+        sessionFactory.getCurrentSession().createSQLQuery(sql.toString()).executeUpdate();
         visualize.setTablename(tableName);
         tableManager.setTablemaxid(tableManager.getTablemaxid() + 1);
         // 添加缺省的Demo数据

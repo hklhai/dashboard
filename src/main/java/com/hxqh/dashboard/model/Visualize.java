@@ -1,6 +1,7 @@
 package com.hxqh.dashboard.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hxqh.dashboard.model.assist.Columns;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -45,14 +46,45 @@ public class Visualize implements Serializable {
     @JsonIgnore
     private List<DashboardVisualize> dashboardVisualizes;
 
+    @OneToMany(mappedBy = "visualize")
+    @JsonIgnore
+    private List<ColumnMap> columnMapList;
+
+    @JsonIgnore
+    @Transient
+    private List<Columns> columnList;
+
     @Transient
     private Integer bid;
 
     private String sourcetablename;
-    private String columns;
-
+    private Integer columnsnumber;
 
     public Visualize() {
+    }
+
+    public List<Columns> getColumnList() {
+        return columnList;
+    }
+
+    public void setColumnList(List<Columns> columnList) {
+        this.columnList = columnList;
+    }
+
+    public List<ColumnMap> getColumnMapList() {
+        return columnMapList;
+    }
+
+    public void setColumnMapList(List<ColumnMap> columnMapList) {
+        this.columnMapList = columnMapList;
+    }
+
+    public Integer getColumnsnumber() {
+        return columnsnumber;
+    }
+
+    public void setColumnsnumber(Integer columnsnumber) {
+        this.columnsnumber = columnsnumber;
     }
 
     public String getSourcetablename() {
@@ -61,14 +93,6 @@ public class Visualize implements Serializable {
 
     public void setSourcetablename(String sourcetablename) {
         this.sourcetablename = sourcetablename;
-    }
-
-    public String getColumns() {
-        return columns;
-    }
-
-    public void setColumns(String columns) {
-        this.columns = columns;
     }
 
     public String getBackground() {
