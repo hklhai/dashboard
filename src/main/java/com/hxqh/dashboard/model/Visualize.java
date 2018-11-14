@@ -1,7 +1,6 @@
 package com.hxqh.dashboard.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hxqh.dashboard.model.assist.Columns;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -46,13 +45,9 @@ public class Visualize implements Serializable {
     @JsonIgnore
     private List<DashboardVisualize> dashboardVisualizes;
 
-    @OneToMany(mappedBy = "visualize")
+    @OneToMany(mappedBy = "visualize", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<ColumnMap> columnMapList;
-
-    @JsonIgnore
-    @Transient
-    private List<Columns> columnList;
 
     @Transient
     private Integer bid;
@@ -61,14 +56,6 @@ public class Visualize implements Serializable {
     private Integer columnsnumber;
 
     public Visualize() {
-    }
-
-    public List<Columns> getColumnList() {
-        return columnList;
-    }
-
-    public void setColumnList(List<Columns> columnList) {
-        this.columnList = columnList;
     }
 
     public List<ColumnMap> getColumnMapList() {

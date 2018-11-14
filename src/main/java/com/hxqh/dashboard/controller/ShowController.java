@@ -69,13 +69,13 @@ public class ShowController {
 
     @ResponseBody
     @RequestMapping(value = "/visualizeAdd", method = RequestMethod.POST)
-    public Message addVisualize(@RequestBody Visualize visualize) {
+    public Message addVisualize(@RequestBody VDto vDto) {
         Message message;
         try {
-            if (showService.isVisualizeByVisualizename(visualize.getVisualizename())) {
+            if (showService.isVisualizeByVisualizename(vDto.getVisualize().getVisualizename())) {
                 message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
             } else {
-                showService.addVisualize(visualize);
+                showService.addVisualize(vDto);
                 message = new Message(Constants.SUCCESS, Constants.ADDSUCCESS);
             }
         } catch (Exception e) {
@@ -309,14 +309,14 @@ public class ShowController {
 
     @ResponseBody
     @RequestMapping(value = "/columnList", method = RequestMethod.GET)
-    public List<Column> columnList(@RequestParam String tablename) {
-        List<Column> columnList = new ArrayList<>();
+    public List<ColumnDto> columnList(@RequestParam String tablename) {
+        List<ColumnDto> columnDtoList = new ArrayList<>();
         try {
-            columnList = showService.columnList(tablename);
+            columnDtoList = showService.columnList(tablename);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return columnList;
+        return columnDtoList;
     }
 
 

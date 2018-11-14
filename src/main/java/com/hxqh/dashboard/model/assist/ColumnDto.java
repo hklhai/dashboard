@@ -5,15 +5,15 @@ package com.hxqh.dashboard.model.assist;
  *
  * @author Ocean lin
  */
-public class Column {
+public class ColumnDto {
 
     private String field;
-    private String  type;
+    private String type;
 
-    public Column() {
+    public ColumnDto() {
     }
 
-    public Column(String field, String type) {
+    public ColumnDto(String field, String type) {
         this.field = field;
         this.type = type;
     }

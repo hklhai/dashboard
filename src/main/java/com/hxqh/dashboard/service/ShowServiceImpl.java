@@ -10,6 +10,7 @@ import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -162,38 +163,63 @@ public class ShowServiceImpl implements ShowService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void addVisualize(Visualize visualize) throws Exception {
+    public void addVisualize(VDto vDto) throws Exception {
 
+        List<ColumnMap> columns = new ArrayList<>(15);
+        Visualize visualize = vDto.getVisualize();
         StringBuilder sql = new StringBuilder(150);
-        String insertSQL;
+        StringBuilder insertDemoSql = new StringBuilder(300);
+        Integer rand;
         // 获取表名称
         TableManager tableManager = tableManagerRepository.findByTablecategory(visualize.getType());
         String tableName = tableManager.getTableprefix() + tableManager.getTablemaxid();
 
         // 构造建表语句
-        List<ColumnMap> columnMapList = visualize.getColumnMapList();
+        List<ColumnDto> columnMapList = vDto.getColumnList();
+
         sql.append("create table ").append(tableName).append(" (`sid` int(20) NOT NULL AUTO_INCREMENT,");
         for (int i = 0; i < columnMapList.size(); i++) {
-            ColumnMap columnMap = columnMapList.get(i);
-            sql.append("`").append(columnMap.getColumnname()).append("` ").append(columnMap.getColumntype()).append(" DEFAULT NULL, ");
+            ColumnDto columnDto = columnMapList.get(i);
+            sql.append("`").append(columnDto.getField()).append("` ").append(columnDto.getType()).append(" DEFAULT NULL, ");
+            ColumnMap columnMap = new ColumnMap();
+            BeanUtils.copyProperties(columnDto, columnMap);
+            columnMap.setVisualize(visualize);
+            columns.add(columnMap);
         }
-        sql.append(", PRIMARY KEY (`sid`))");
+        sql.append(" PRIMARY KEY (`sid`))");
 
         sessionFactory.getCurrentSession().createSQLQuery(sql.toString()).executeUpdate();
         visualize.setTablename(tableName);
-        tableManager.setTablemaxid(tableManager.getTablemaxid() + 1);
+
         // 添加缺省的Demo数据
         for (int i = START_NUM; i < END_NUM; i++) {
             Random random = new Random();
-            int rand = random.nextInt(60) + 10;
 
-            if (PIE.equals(visualize.getType())) {
-                insertSQL = "insert into " + tableName + "(showkey,showvalue) values ('" + pieXMap.get(i) + "'," + rand + ")";
-            } else {
-                insertSQL = "insert into " + tableName + "(showkey,showvalue) values ('" + lineXMap.get(i) + "'," + rand + ")";
+            insertDemoSql.append("insert into ").append(tableName).append("(");
+            for (int j = 0; j < columnMapList.size(); j++) {
+                ColumnDto columnDto = columnMapList.get(j);
+                insertDemoSql.append(columnDto.getField()).append(",");
             }
-            sessionFactory.getCurrentSession().createSQLQuery(insertSQL).executeUpdate();
+            insertDemoSql.setLength(insertDemoSql.length() - 1);
+            if (PIE.equals(visualize.getType())) {
+                insertDemoSql.append(") values ('").append(pieXMap.get(i)).append("'");
+            } else {
+                insertDemoSql.append(") values ('").append(lineXMap.get(i)).append("'");
+            }
+            for (int j = 1; j < columnMapList.size(); j++) {
+                rand = random.nextInt(60) + 10;
+                insertDemoSql.append(",").append(rand);
+            }
+            insertDemoSql.setLength(insertDemoSql.length() - 1);
+            insertDemoSql.append(")");
+
+            sessionFactory.getCurrentSession().createSQLQuery(insertDemoSql.toString()).executeUpdate();
+            insertDemoSql.setLength(0);
         }
+        // 管理表更新
+        tableManager.setTablemaxid(tableManager.getTablemaxid() + 1);
+        visualize.setColumnMapList(columns);
+        visualize.setColumnsnumber(columnMapList.size());
         visualizeRepository.save(visualize);
     }
 
@@ -365,8 +391,8 @@ public class ShowServiceImpl implements ShowService {
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
-    public List<Column> columnList(String tablename) throws Exception {
-        List<Column> columnList = new ArrayList<>(50);
+    public List<ColumnDto> columnList(String tablename) throws Exception {
+        List<ColumnDto> columnDtoList = new ArrayList<>(50);
         Database database = databaseRepository.findOne(1);
 
         String url = "jdbc:mysql://" + database.getIp() + ":" + database.getPort() + "/" + database.getDatabase() + Constants.URL_SUFFIX;
@@ -375,10 +401,10 @@ public class ShowServiceImpl implements ShowService {
         PreparedStatement st = conn.prepareStatement(sql);
         ResultSet rs = st.executeQuery();
         while (rs.next()) {
-            Column column = new Column(rs.getString(Constants.TABLE_COLUMN_NAME), rs.getString(Constants.TABLE_COLUMN_TYPE));
-            columnList.add(column);
+            ColumnDto columnDto = new ColumnDto(rs.getString(Constants.TABLE_COLUMN_NAME), rs.getString(Constants.TABLE_COLUMN_TYPE));
+            columnDtoList.add(columnDto);
         }
-        return columnList;
+        return columnDtoList;
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)

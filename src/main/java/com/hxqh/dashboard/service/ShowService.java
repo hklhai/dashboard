@@ -37,9 +37,9 @@ public interface ShowService {
     /**
      * 添加visualize
      *
-     * @param visualize
+     * @param vDto
      */
-    void addVisualize(Visualize visualize) throws Exception;
+    void addVisualize(VDto vDto) throws Exception;
 
     /**
      * 添加dashboard
@@ -183,7 +183,7 @@ public interface ShowService {
 
     List<String> tableList() throws Exception;
 
-    List<Column> columnList(String tablename) throws Exception;
+    List<ColumnDto> columnList(String tablename) throws Exception;
 
     List<Database> databaseList();
 }

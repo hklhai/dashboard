@@ -12,27 +12,26 @@ public class ColumnMap {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer columnmapid;
+    private Integer columnmid;
 
     @ManyToOne
-    @JoinColumn(name = "VID")
+    @JoinColumn(name = "VID", referencedColumnName = "vid")
     private Visualize visualize;
 
-    private String columnname;
-    private String columntype;
+    private String field;
+    private String type;
     private String columnshow;
 
 
     public ColumnMap() {
     }
 
-
-    public Integer getColumnmapid() {
-        return columnmapid;
+    public Integer getColumnmid() {
+        return columnmid;
     }
 
-    public void setColumnmapid(Integer columnmapid) {
-        this.columnmapid = columnmapid;
+    public void setColumnmid(Integer columnmid) {
+        this.columnmid = columnmid;
     }
 
     public Visualize getVisualize() {
@@ -43,20 +42,20 @@ public class ColumnMap {
         this.visualize = visualize;
     }
 
-    public String getColumnname() {
-        return columnname;
+    public String getField() {
+        return field;
     }
 
-    public void setColumnname(String columnname) {
-        this.columnname = columnname;
+    public void setField(String field) {
+        this.field = field;
     }
 
-    public String getColumntype() {
-        return columntype;
+    public String getType() {
+        return type;
     }
 
-    public void setColumntype(String columntype) {
-        this.columntype = columntype;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getColumnshow() {
