@@ -48,7 +48,27 @@ public class Visualize implements Serializable {
     @Transient
     private Integer bid;
 
+    private String sourcetablename;
+    private String columns;
+
+
     public Visualize() {
+    }
+
+    public String getSourcetablename() {
+        return sourcetablename;
+    }
+
+    public void setSourcetablename(String sourcetablename) {
+        this.sourcetablename = sourcetablename;
+    }
+
+    public String getColumns() {
+        return columns;
+    }
+
+    public void setColumns(String columns) {
+        this.columns = columns;
     }
 
     public String getBackground() {

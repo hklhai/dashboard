@@ -31,5 +31,5 @@ public interface Constants {
     String SHOW_TAB_SQL = "SHOW tables";
     String TABLE_COLUMN_NAME = "Field";
     String TABLE_COLUMN_TYPE = "Type";
-
+    String URL_SUFFIX = "?characterEncoding=utf8&useSSL=false";
 }

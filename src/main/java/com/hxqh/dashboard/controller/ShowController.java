@@ -3,6 +3,7 @@ package com.hxqh.dashboard.controller;
 import com.hxqh.dashboard.common.Constants;
 import com.hxqh.dashboard.common.ObjectUtil;
 import com.hxqh.dashboard.model.Dashboard;
+import com.hxqh.dashboard.model.Database;
 import com.hxqh.dashboard.model.Visualize;
 import com.hxqh.dashboard.model.assist.*;
 import com.hxqh.dashboard.model.base.Message;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -277,6 +280,43 @@ public class ShowController {
         wb.write(ouputStream);
         ouputStream.flush();
         ouputStream.close();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/databaseList", method = RequestMethod.GET)
+    public List<Database> databaseList() {
+        List<Database> databases = new ArrayList<>();
+        try {
+            databases = showService.databaseList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return databases;
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/tableList", method = RequestMethod.GET)
+    public List<String> tableList() {
+        List<String> stringList = new ArrayList<>();
+        try {
+            stringList = showService.tableList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return stringList;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/columnList", method = RequestMethod.GET)
+    public List<Column> columnList(@RequestParam String tablename) {
+        List<Column> columnList = new ArrayList<>();
+        try {
+            columnList = showService.columnList(tablename);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return columnList;
     }
 
 

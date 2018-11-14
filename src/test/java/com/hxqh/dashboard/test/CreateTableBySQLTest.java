@@ -32,7 +32,7 @@ public class CreateTableBySQLTest {
     public void testSearch() throws Exception {
         //1.获取连接
         Connection conn = JdbcUtil.getConnection(
-                "jdbc:mysql://localhost:3306/food", "root", "mysql", "com.mysql.jdbc.Driver"
+                "jdbc:mysql://spark4:3306/dashboard", "root", "mysql", "com.mysql.jdbc.Driver"
         );
         // 3.sql语句
 //        String tab = "SHOW FULL COLUMNS FROM hk";
@@ -46,7 +46,7 @@ public class CreateTableBySQLTest {
 //            System.out.println(rs.getString("Field") + ":" + rs.getString("Type"));
 //        }
         while (rs.next()) {
-            System.out.println(rs.getString("Tables_in_food"));
+            System.out.println(rs.getString("Tables_in_dashboard"));
         }
         // 7.释放资源
         JdbcUtil.closeResource(conn, rs, st);

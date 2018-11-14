@@ -1,10 +1,13 @@
 package com.hxqh.dashboard.service;
 
 import com.hxqh.dashboard.model.Dashboard;
+import com.hxqh.dashboard.model.Database;
 import com.hxqh.dashboard.model.Visualize;
 import com.hxqh.dashboard.model.assist.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
  * Created by Ocean lin on 2018/10/15.
@@ -36,7 +39,7 @@ public interface ShowService {
      *
      * @param visualize
      */
-    void addVisualize(Visualize visualize) throws Exception ;
+    void addVisualize(Visualize visualize) throws Exception;
 
     /**
      * 添加dashboard
@@ -177,4 +180,10 @@ public interface ShowService {
     boolean isVisualizeByVisualizenameAndVidNot(Visualize visualizeDb);
 
     void insertData(InsertInfo insertInfo);
+
+    List<String> tableList() throws Exception;
+
+    List<Column> columnList(String tablename) throws Exception;
+
+    List<Database> databaseList();
 }

@@ -3,10 +3,7 @@ package com.hxqh.dashboard.service;
 import com.hxqh.dashboard.common.Constants;
 import com.hxqh.dashboard.model.*;
 import com.hxqh.dashboard.model.assist.*;
-import com.hxqh.dashboard.repository.DashboardRepository;
-import com.hxqh.dashboard.repository.DashboardVisualizeRepository;
-import com.hxqh.dashboard.repository.TableManagerRepository;
-import com.hxqh.dashboard.repository.VisualizeRepository;
+import com.hxqh.dashboard.repository.*;
 import com.hxqh.dashboard.util.JdbcUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
@@ -49,6 +46,8 @@ public class ShowServiceImpl implements ShowService {
     private DashboardRepository dashboardRepository;
     @Autowired
     private DashboardVisualizeRepository dashboardVisualizeRepository;
+    @Autowired
+    private DatabaseRepository databaseRepository;
 
     private static final String PIE = "pie";
 
@@ -85,7 +84,7 @@ public class ShowServiceImpl implements ShowService {
         put(7, "抖音广告");
     }};
 
-    private static final String[] EXCEL_HEADER = {"业务类别", "视图名称", "表名", "视图类型", "数值类型","业务处理逻辑描述"};
+    private static final String[] EXCEL_HEADER = {"业务类别", "视图名称", "表名", "视图类型", "数值类型", "业务处理逻辑描述"};
 
 
     private static final String CREATE_SQL_1 = "create table ";
@@ -335,6 +334,48 @@ public class ShowServiceImpl implements ShowService {
         }
     }
 
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public List<String> tableList() throws Exception {
+        List<String> nameList = new ArrayList<>(50);
+        Database database = databaseRepository.findOne(1);
+        // todo 后期完善数据库配置
+        String url = "jdbc:mysql://" + database.getIp() + ":" + database.getPort() + "/" + database.getDatabase();
+        Connection conn = JdbcUtil.getConnection(url, database.getUser(), database.getPassword(), database.getDrivername());
+        String sql = Constants.SHOW_TAB_SQL;
+        PreparedStatement st = conn.prepareStatement(sql);
+        ResultSet rs = st.executeQuery();
+        while (rs.next()) {
+            String string = rs.getString(Constants.TABLEPREFIX + database.getDatabase());
+            nameList.add(string);
+        }
+        return nameList;
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public List<Column> columnList(String tablename) throws Exception {
+        List<Column> columnList = new ArrayList<>(50);
+        Database database = databaseRepository.findOne(1);
+
+        String url = "jdbc:mysql://" + database.getIp() + ":" + database.getPort() + "/" + database.getDatabase() + Constants.URL_SUFFIX;
+        Connection conn = JdbcUtil.getConnection(url, database.getUser(), database.getPassword(), database.getDrivername());
+        String sql = Constants.COLOUMN_PREFIX + tablename;
+        PreparedStatement st = conn.prepareStatement(sql);
+        ResultSet rs = st.executeQuery();
+        while (rs.next()) {
+            Column column = new Column(rs.getString(Constants.TABLE_COLUMN_NAME), rs.getString(Constants.TABLE_COLUMN_TYPE));
+            columnList.add(column);
+        }
+        return columnList;
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public List<Database> databaseList() {
+        List<Database> databaseList = databaseRepository.findAll();
+        return databaseList;
+    }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
