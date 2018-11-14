@@ -5,7 +5,6 @@ import com.hxqh.dashboard.model.*;
 import com.hxqh.dashboard.model.assist.*;
 import com.hxqh.dashboard.repository.*;
 import com.hxqh.dashboard.util.JdbcUtil;
-import com.hxqh.dashboard.util.MatrixUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -50,6 +49,8 @@ public class ShowServiceImpl implements ShowService {
     private DashboardVisualizeRepository dashboardVisualizeRepository;
     @Autowired
     private DatabaseRepository databaseRepository;
+    @Autowired
+    private ColumnMapRepository columnMapRepository;
 
     private static final String PIE = "pie";
 
@@ -89,7 +90,6 @@ public class ShowServiceImpl implements ShowService {
     private static final Integer START_NUM = 1;
     private static final Integer END_NUM = 8;
     private static final Integer SPLIT_NUM = 150;
-    private static final String TRUNCATE_TABLE = "TRUNCATE TABLE ";
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
@@ -109,7 +109,6 @@ public class ShowServiceImpl implements ShowService {
         String sql = "select * from " + visualize.getTablename();
         Session currentSession = sessionFactory.getCurrentSession();
         List list = currentSession.createSQLQuery(sql).list();
-
         // 构造矩阵
         Integer x = visualize.getColumnsnumber() - 1;
         Integer y = list.size();
@@ -136,12 +135,19 @@ public class ShowServiceImpl implements ShowService {
                 showkeys.add((String) o[1]);
             }
 
-            MatrixUtils.transpose(matrix, x, y, target);
-            for (int i = 0; i < target.length; i++) {
-                showValues.add(Arrays.asList(target[i]));
+            // MatrixUtils.transpose(matrix, x, y, target);
+            for (int i = 0; i < matrix.length; i++) {
+                showValues.add(Arrays.asList(matrix[i]));
             }
             showDto.setShowValue(showValues);
         }
+
+        // todo 转换 可能包含多种信息
+        List<ColumnMap> columnMapList = columnMapRepository.findByVid(visualize.getVid());
+
+        List<String> showLabel = columnMapList.stream().map(ColumnMap::getColumnshow).collect(Collectors.toList());
+        showDto.setShowLabel(showLabel);
+
         showDto.setShowKey(showkeys);
         showDto.setDid(did);
         BeanUtils.copyProperties(visualize, showDto);
@@ -150,9 +156,9 @@ public class ShowServiceImpl implements ShowService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void addVisualize(VDto vDto) throws Exception {
+    public void addVisualize(VisualDto visualDto) throws Exception {
         List<ColumnMap> columns = new ArrayList<>(15);
-        Visualize visualize = vDto.getVisualize();
+        Visualize visualize = visualDto.getVisualize();
         StringBuilder sql = new StringBuilder(150);
         StringBuilder insertDemoSql = new StringBuilder(300);
 
@@ -161,7 +167,7 @@ public class ShowServiceImpl implements ShowService {
         String tableName = tableManager.getTableprefix() + tableManager.getTablemaxid();
 
         // 构造建表语句
-        List<ColumnDto> columnMapList = getGenerateTable(vDto, columns, visualize, sql, tableName);
+        List<ColumnDto> columnMapList = getGenerateTable(visualDto, columns, visualize, sql, tableName);
 
         // 添加缺省的Demo数据
         generateDemoData(visualize, insertDemoSql, tableName, columnMapList);
@@ -174,8 +180,8 @@ public class ShowServiceImpl implements ShowService {
         visualizeRepository.save(visualize);
     }
 
-    private List<ColumnDto> getGenerateTable(VDto vDto, List<ColumnMap> columns, Visualize visualize, StringBuilder sql, String tableName) {
-        List<ColumnDto> columnMapList = vDto.getColumnList();
+    private List<ColumnDto> getGenerateTable(VisualDto visualDto, List<ColumnMap> columns, Visualize visualize, StringBuilder sql, String tableName) {
+        List<ColumnDto> columnMapList = visualDto.getColumnList();
 
         sql.append("create table ").append(tableName).append(" (`sid` int(20) NOT NULL AUTO_INCREMENT,");
         for (int i = 0; i < columnMapList.size(); i++) {
@@ -228,18 +234,6 @@ public class ShowServiceImpl implements ShowService {
         dashboardRepository.save(dashboard);
     }
 
-    @Deprecated
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
-    @Override
-    public VisualizeDto visualizeList(Visualize visualize, Pageable pageable) {
-        List<String> distinctBusinessCategory = visualizeRepository.findDistinctBusinesscategory();
-        Page<Visualize> visualizes = visualizeRepository.findAll(pageable);
-        //获取结果集
-        List<Visualize> visualizeList = visualizes.getContent();
-        Integer totalPages = visualizes.getTotalPages();
-        VisualizeDto visualizeDto = new VisualizeDto(pageable, totalPages, visualizes.getTotalElements(), visualizeList, distinctBusinessCategory);
-        return visualizeDto;
-    }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
@@ -339,36 +333,6 @@ public class ShowServiceImpl implements ShowService {
         return null != visualize ? true : false;
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public void insertData(InsertInfo insertInfo) {
-        Visualize visualize = visualizeRepository.findOne(insertInfo.getVid());
-
-        // todo 是否保留history
-        sessionFactory.getCurrentSession().createSQLQuery(TRUNCATE_TABLE + visualize.getTablename()).executeUpdate();
-        if (null != insertInfo.getLineIntegerList() && insertInfo.getLineIntegerList().size() > 0) {
-            insertInfo.getLineIntegerList().forEach(lineInteger -> {
-                String insertSQL;
-                insertSQL = "insert into " + visualize.getTablename() + "(showkey,showvalue) values ('" + lineInteger.getShowkey() + "'," + lineInteger.getShowvalue() + ")";
-                sessionFactory.getCurrentSession().createSQLQuery(insertSQL).executeUpdate();
-            });
-        }
-        if (null != insertInfo.getLineFloatList() && insertInfo.getLineFloatList().size() > 0) {
-            insertInfo.getLineFloatList().forEach(lineFloat -> {
-                String insertSQL;
-                insertSQL = "insert into " + visualize.getTablename() + "(showkey,showvalue) values ('" + lineFloat.getShowkey() + "'," + lineFloat.getShowvalue() + ")";
-                sessionFactory.getCurrentSession().createSQLQuery(insertSQL).executeUpdate();
-            });
-        }
-        if (null != insertInfo.getLineDoubleList() && insertInfo.getLineDoubleList().size() > 0) {
-            insertInfo.getLineDoubleList().forEach(lineDouble -> {
-                String insertSQL;
-                insertSQL = "insert into " + visualize.getTablename() + "(showkey,showvalue) values ('" + lineDouble.getShowkey() + "'," + lineDouble.getShowvalue() + ")";
-                sessionFactory.getCurrentSession().createSQLQuery(insertSQL).executeUpdate();
-            });
-        }
-    }
-
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public List<String> tableList() throws Exception {
@@ -427,19 +391,6 @@ public class ShowServiceImpl implements ShowService {
         return null != dashboard ? true : false;
     }
 
-    @Deprecated
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
-    @Override
-    public DashboardDto dashboardList(Dashboard dashboard, Pageable pageable) {
-        List<String> distinctBusinessCategory = visualizeRepository.findDistinctBusinesscategory();
-
-        Page<Dashboard> dashboards = dashboardRepository.findAll(pageable);
-        //获取结果集
-        List<Dashboard> dashboardList = dashboards.getContent();
-        Integer totalPages = dashboards.getTotalPages();
-        DashboardDto visualizeDto = new DashboardDto(pageable, totalPages, dashboards.getTotalElements(), dashboardList, distinctBusinessCategory);
-        return visualizeDto;
-    }
 
     @Transactional(rollbackFor = Exception.class)
     @Override

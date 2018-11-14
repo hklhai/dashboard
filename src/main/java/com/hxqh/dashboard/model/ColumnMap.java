@@ -22,6 +22,7 @@ public class ColumnMap {
     private String type;
     private String columnshow;
 
+    // todo 增加颜色等
 
     public ColumnMap() {
     }

@@ -69,13 +69,13 @@ public class ShowController {
 
     @ResponseBody
     @RequestMapping(value = "/visualizeAdd", method = RequestMethod.POST)
-    public Message addVisualize(@RequestBody VDto vDto) {
+    public Message addVisualize(@RequestBody VisualDto visualDto) {
         Message message;
         try {
-            if (showService.isVisualizeByVisualizename(vDto.getVisualize().getVisualizename())) {
+            if (showService.isVisualizeByVisualizename(visualDto.getVisualize().getVisualizename())) {
                 message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
             } else {
-                showService.addVisualize(vDto);
+                showService.addVisualize(visualDto);
                 message = new Message(Constants.SUCCESS, Constants.ADDSUCCESS);
             }
         } catch (Exception e) {
@@ -119,21 +119,6 @@ public class ShowController {
         return message;
     }
 
-
-    @ResponseBody
-    @RequestMapping(value = "/visualizeList", method = RequestMethod.POST)
-    public VisualizeDto visualizeList(@RequestBody PageInfo pageInfo) {
-
-        VisualizeDto visualizeDto = null;
-        Sort sort = new Sort(Sort.Direction.DESC, "vid");
-        try {
-            Pageable pageable = new PageRequest(pageInfo.getPage(), pageInfo.getSize(), sort);
-            visualizeDto = showService.visualizeList(null, pageable);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return visualizeDto;
-    }
 
     @ResponseBody
     @RequestMapping(value = "/visualizeList2", method = RequestMethod.POST)
@@ -240,19 +225,6 @@ public class ShowController {
         return showDto;
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/dashboardList", method = RequestMethod.POST)
-    public DashboardDto dashboardList(@RequestBody PageInfo pageInfo) {
-        DashboardDto dashboardDto = null;
-        Sort sort = new Sort(Sort.Direction.DESC, "bid");
-        try {
-            Pageable pageable = new PageRequest(pageInfo.getPage(), pageInfo.getSize(), sort);
-            dashboardDto = showService.dashboardList(null, pageable);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return dashboardDto;
-    }
 
 
     @ResponseBody

@@ -56,6 +56,8 @@ public class Visualize implements Serializable {
     private Integer columnsnumber;
     private Integer dbid;
 
+    // todo 增加视图配置等
+
     public Visualize() {
     }
 

@@ -37,9 +37,10 @@ public interface ShowService {
     /**
      * 添加visualize
      *
-     * @param vDto
+     * @param visualDto
+     * @throws Exception
      */
-    void addVisualize(VDto vDto) throws Exception;
+    void addVisualize(VisualDto visualDto) throws Exception;
 
     /**
      * 添加dashboard
@@ -48,15 +49,6 @@ public interface ShowService {
      */
     void addDashboard(Dashboard dashboard);
 
-    /**
-     * visualize列表
-     *
-     * @param visualize visualize实体为后期做带条件分页查询
-     * @param pageable  分页实体类
-     * @return
-     */
-    @Deprecated
-    VisualizeDto visualizeList(Visualize visualize, Pageable pageable);
 
     /**
      * 查询Dashboard
@@ -98,16 +90,6 @@ public interface ShowService {
      */
     boolean isDashboardByDashboardName(String dashboardname);
 
-
-    /**
-     * visualize分页查询
-     *
-     * @param dashboard dashboard实体为后期做带条件分页查询
-     * @param pageable  分页实体类
-     * @return 分页结果
-     */
-    @Deprecated
-    DashboardDto dashboardList(Dashboard dashboard, Pageable pageable);
 
     /**
      * 删除visualize，并级联删除DashboardVisualize中数据
@@ -179,11 +161,28 @@ public interface ShowService {
      */
     boolean isVisualizeByVisualizenameAndVidNot(Visualize visualizeDb);
 
-    void insertData(InsertInfo insertInfo);
-
+    /**
+     * 获取数据库中表列表
+     *
+     * @return
+     * @throws Exception
+     */
     List<String> tableList() throws Exception;
 
+
+    /**
+     * 获取表字段列表
+     *
+     * @param tablename
+     * @return
+     * @throws Exception
+     */
     List<ColumnDto> columnList(String tablename) throws Exception;
 
+    /**
+     * 获取数据库列表
+     *
+     * @return
+     */
     List<Database> databaseList();
 }

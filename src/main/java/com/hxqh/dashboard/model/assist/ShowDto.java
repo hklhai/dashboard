@@ -15,6 +15,7 @@ public class ShowDto extends Location {
 
     private List<String> showKey;
     private List<List<Object>> showValue;
+    private List<String> showLabel;
 
     private Integer x;
     private Integer y;
@@ -39,6 +40,14 @@ public class ShowDto extends Location {
     public ShowDto() {
     }
 
+
+    public List<String> getShowLabel() {
+        return showLabel;
+    }
+
+    public void setShowLabel(List<String> showLabel) {
+        this.showLabel = showLabel;
+    }
 
     public String getBackground() {
         return background;

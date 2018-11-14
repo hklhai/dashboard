@@ -1,7 +1,6 @@
 package com.hxqh.dashboard.model.assist;
 
 import com.hxqh.dashboard.model.Visualize;
-import com.hxqh.dashboard.model.assist.ColumnDto;
 
 import java.util.List;
 
@@ -10,15 +9,15 @@ import java.util.List;
  *
  * @author Ocean lin
  */
-public class VDto
+public class VisualDto
 {
     private Visualize visualize;
     private List<ColumnDto> columnList;
 
-    public VDto() {
+    public VisualDto() {
     }
 
-    public VDto(Visualize visualize, List<ColumnDto> columnList) {
+    public VisualDto(Visualize visualize, List<ColumnDto> columnList) {
         this.visualize = visualize;
         this.columnList = columnList;
     }

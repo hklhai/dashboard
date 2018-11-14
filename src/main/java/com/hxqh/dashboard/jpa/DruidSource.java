@@ -194,8 +194,17 @@ public class DruidSource {
         this.connectionProperties = connectionProperties;
     }
 
-    @Bean     //声明其为Bean实例
-    @Primary  //在同样的DataSource中，首先使用被标注的DataSource
+
+    /**
+     * 声明其为Bean实例
+     * <p>
+     * 在同样的DataSource中，首先使用被标注的DataSource
+     *
+     * @return
+     * @throws SQLException
+     */
+    @Bean
+    @Primary
     public DataSource dataSource() throws SQLException {
         DruidDataSource datasource = new DruidDataSource();
 
