@@ -113,16 +113,13 @@ public class ShowServiceImpl implements ShowService {
         Integer x = visualize.getColumnsnumber() - 1;
         Integer y = list.size();
         Object[][] matrix = new Object[x][y];
-        Object[][] target = new Object[y][x];
 
         if (PIE.equals(visualize.getType())) {
             List<Object> pieDtoList = new ArrayList<>(50);
             for (int i = 0; i < list.size(); i++) {
                 Object[] o = (Object[]) list.get(i);
-                for (int j = 0; j < x; j++) {
-                    PieDto pieDto = new PieDto((String) o[1], o[2]);
-                    pieDtoList.add(pieDto);
-                }
+                PieDto pieDto = new PieDto((String) o[1], o[2]);
+                pieDtoList.add(pieDto);
             }
             showValues.add(pieDtoList);
             showDto.setShowValue(showValues);
@@ -135,7 +132,6 @@ public class ShowServiceImpl implements ShowService {
                 showkeys.add((String) o[1]);
             }
 
-            // MatrixUtils.transpose(matrix, x, y, target);
             for (int i = 0; i < matrix.length; i++) {
                 showValues.add(Arrays.asList(matrix[i]));
             }
@@ -403,6 +399,13 @@ public class ShowServiceImpl implements ShowService {
                 dashboardVisualizeRepository.delete(dashboardVisualize.getDid());
             }
         }
+        List<ColumnMap> columnMapList = visualize.getColumnMapList();
+        if (columnMapList.size() > 0) {
+            for (int i = 0; i < columnMapList.size(); i++) {
+                columnMapRepository.delete(columnMapList.get(i).getColumnmid());
+            }
+        }
+
         visualizeRepository.delete(integerId);
         // 删除表
         String sql = DROP_TABLE_SQL + visualize.getTablename();
