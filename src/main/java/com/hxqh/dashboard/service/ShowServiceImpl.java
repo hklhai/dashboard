@@ -373,9 +373,10 @@ public class ShowServiceImpl implements ShowService {
     @Override
     public List<String> tableList() throws Exception {
         List<String> nameList = new ArrayList<>(50);
-        Database database = databaseRepository.findOne(1);
         // todo 后期完善数据库配置
-        String url = "jdbc:mysql://" + database.getIp() + ":" + database.getPort() + "/" + database.getDatabase();
+        Database database = databaseRepository.findOne(1);
+
+        String url = "jdbc:" + database.getDbtype() + "://" + database.getIp() + ":" + database.getPort() + "/" + database.getDatabase();
         Connection conn = JdbcUtil.getConnection(url, database.getUser(), database.getPassword(), database.getDrivername());
         String sql = Constants.SHOW_TAB_SQL;
         PreparedStatement st = conn.prepareStatement(sql);
@@ -393,7 +394,7 @@ public class ShowServiceImpl implements ShowService {
         List<ColumnDto> columnDtoList = new ArrayList<>(50);
         Database database = databaseRepository.findOne(1);
 
-        String url = "jdbc:mysql://" + database.getIp() + ":" + database.getPort() + "/" + database.getDatabase() + Constants.URL_SUFFIX;
+        String url = "jdbc:" + database.getDbtype() + "://" + database.getIp() + ":" + database.getPort() + "/" + database.getDatabase() + Constants.URL_SUFFIX;
         Connection conn = JdbcUtil.getConnection(url, database.getUser(), database.getPassword(), database.getDrivername());
         String sql = Constants.COLOUMN_PREFIX + tablename;
         PreparedStatement st = conn.prepareStatement(sql);

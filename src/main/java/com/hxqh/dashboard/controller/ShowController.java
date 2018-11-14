@@ -298,6 +298,7 @@ public class ShowController {
     @ResponseBody
     @RequestMapping(value = "/tableList", method = RequestMethod.GET)
     public List<String> tableList() {
+        // 传入编号    public List<String> tableList(@RequestParam Integer dbid) {
         List<String> stringList = new ArrayList<>();
         try {
             stringList = showService.tableList();

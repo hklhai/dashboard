@@ -54,8 +54,17 @@ public class Visualize implements Serializable {
 
     private String sourcetablename;
     private Integer columnsnumber;
+    private Integer dbid;
 
     public Visualize() {
+    }
+
+    public Integer getDbid() {
+        return dbid;
+    }
+
+    public void setDbid(Integer dbid) {
+        this.dbid = dbid;
     }
 
     public List<ColumnMap> getColumnMapList() {

@@ -21,8 +21,17 @@ public class Database {
     private String drivername;
     private Integer valid;
     private String datasourcename;
+    private String dbtype;
 
     public Database() {
+    }
+
+    public String getDbtype() {
+        return dbtype;
+    }
+
+    public void setDbtype(String dbtype) {
+        this.dbtype = dbtype;
     }
 
     public String getDatasourcename() {
