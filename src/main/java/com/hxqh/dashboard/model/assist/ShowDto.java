@@ -37,9 +37,119 @@ public class ShowDto extends Location {
     private String echartTitPos;
     private String echartTitColor;
 
+
+    private String xName;
+    private String xAxisLabel;
+    private Boolean xAxisLine;
+    private Boolean xSplitLine;
+    private Boolean xInverse;
+    private Boolean alignWithLabel;
+    private Boolean xToy;
+    private Boolean dataZoom;
+
+    private String yAxisLabel;
+    private Boolean yAxisLine;
+    private Boolean ySplitLine;
+    private Boolean yInverse;
+
     public ShowDto() {
     }
 
+    public String getyAxisLabel() {
+        return yAxisLabel;
+    }
+
+    public void setyAxisLabel(String yAxisLabel) {
+        this.yAxisLabel = yAxisLabel;
+    }
+
+    public Boolean getyAxisLine() {
+        return yAxisLine;
+    }
+
+    public void setyAxisLine(Boolean yAxisLine) {
+        this.yAxisLine = yAxisLine;
+    }
+
+    public Boolean getySplitLine() {
+        return ySplitLine;
+    }
+
+    public void setySplitLine(Boolean ySplitLine) {
+        this.ySplitLine = ySplitLine;
+    }
+
+    public Boolean getyInverse() {
+        return yInverse;
+    }
+
+    public void setyInverse(Boolean yInverse) {
+        this.yInverse = yInverse;
+    }
+
+    public Boolean getxToy() {
+        return xToy;
+    }
+
+    public void setxToy(Boolean xToy) {
+        this.xToy = xToy;
+    }
+
+    public Boolean getDataZoom() {
+        return dataZoom;
+    }
+
+    public void setDataZoom(Boolean dataZoom) {
+        this.dataZoom = dataZoom;
+    }
+
+    public String getxName() {
+        return xName;
+    }
+
+    public void setxName(String xName) {
+        this.xName = xName;
+    }
+
+    public String getxAxisLabel() {
+        return xAxisLabel;
+    }
+
+    public void setxAxisLabel(String xAxisLabel) {
+        this.xAxisLabel = xAxisLabel;
+    }
+
+    public Boolean getxAxisLine() {
+        return xAxisLine;
+    }
+
+    public void setxAxisLine(Boolean xAxisLine) {
+        this.xAxisLine = xAxisLine;
+    }
+
+    public Boolean getxSplitLine() {
+        return xSplitLine;
+    }
+
+    public void setxSplitLine(Boolean xSplitLine) {
+        this.xSplitLine = xSplitLine;
+    }
+
+    public Boolean getxInverse() {
+        return xInverse;
+    }
+
+    public void setxInverse(Boolean xInverse) {
+        this.xInverse = xInverse;
+    }
+
+    public Boolean getAlignWithLabel() {
+        return alignWithLabel;
+    }
+
+    public void setAlignWithLabel(Boolean alignWithLabel) {
+        this.alignWithLabel = alignWithLabel;
+    }
 
     public List<String> getShowLabel() {
         return showLabel;

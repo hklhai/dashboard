@@ -15,9 +15,23 @@ import java.util.List;
 @Repository
 public interface ColumnMapRepository extends JpaRepository<ColumnMap, Integer> {
 
+    /**
+     * 查询视图对应列信息，过滤字符串
+     *
+     * @param vid
+     * @return
+     */
     @Query("select c from ColumnMap c where c.visualize.vid=?1 and c.type not like 'varchar%\' ")
-    List<ColumnMap> findByVid(Integer vid);
+    List<ColumnMap> findByVidAndType(Integer vid);
 
 
-
+    /**
+     * 查询是否存在相同字段
+     *
+     * @param field
+     * @param vid
+     * @return
+     */
+    @Query("select c from ColumnMap c where c.field=?1 and  c.visualize.vid=?2 ")
+    ColumnMap findByFieldAndVid(String field, Integer vid);
 }

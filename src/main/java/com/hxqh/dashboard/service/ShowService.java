@@ -1,5 +1,6 @@
 package com.hxqh.dashboard.service;
 
+import com.hxqh.dashboard.model.ColumnMap;
 import com.hxqh.dashboard.model.Dashboard;
 import com.hxqh.dashboard.model.Database;
 import com.hxqh.dashboard.model.Visualize;
@@ -185,4 +186,34 @@ public interface ShowService {
      * @return
      */
     List<Database> databaseList();
+
+    /**
+     * 查询是图对应字段列表
+     *
+     * @param vid
+     * @return
+     */
+    List<ColumnMap> columnMapList(Integer vid);
+
+    /**
+     * 判断列是否已经存在
+     *
+     * @param columnMap
+     * @return
+     */
+    boolean isSameColumn(ColumnMap columnMap);
+
+    /**
+     * 更新列
+     *
+     * @param columnMap
+     */
+    void columnMapUpdate(ColumnMap columnMap);
+
+    /**
+     * 新增列
+     *
+     * @param columnMap
+     */
+    void columnMapAdd(ColumnMap columnMap);
 }

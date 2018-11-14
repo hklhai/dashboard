@@ -56,9 +56,129 @@ public class Visualize implements Serializable {
     private Integer columnsnumber;
     private Integer dbid;
 
-    // todo 增加视图配置等
+
+    private String xAxisLabel;
+    @Column(name = "xaxisline", columnDefinition = "bool default true")
+    private Boolean xAxisLine;
+    @Column(name = "xsplitline", columnDefinition = "bool default true")
+    private Boolean xSplitLine;
+    @Column(name = "xinverse", columnDefinition = "bool default false")
+    private Boolean xInverse;
+    @Column(name = "alignwithlabel", columnDefinition = "bool default false")
+    private Boolean alignWithLabel;
+    @Column(name = "xtoy", columnDefinition = "bool default false")
+    private Boolean xToy;
+    @Column(name = "datazoom", columnDefinition = "bool default false")
+    private Boolean dataZoom;
+
+    private String yAxisLabel;
+    @Column(name = "yaxisline", columnDefinition = "bool default true")
+    private Boolean yAxisLine;
+    @Column(name = "ysplitline", columnDefinition = "bool default true")
+    private Boolean ySplitLine;
+    @Column(name = "yinverse", columnDefinition = "bool default false")
+    private Boolean yInverse;
+
+    /**
+     * y轴（可能多个y轴）：
+     * {
+     * yName: ''       y轴名称
+     * yAxisLabel: ''  y轴标签单位
+     * yAxisLine: true   y轴轴线是否显示
+     * ySplitLine: true  y轴分割线是否显示
+     * yInverse: true   y轴翻转（当有负数据时）
+     * }
+     */
 
     public Visualize() {
+    }
+
+    public String getyAxisLabel() {
+        return yAxisLabel;
+    }
+
+    public void setyAxisLabel(String yAxisLabel) {
+        this.yAxisLabel = yAxisLabel;
+    }
+
+    public Boolean getyAxisLine() {
+        return yAxisLine;
+    }
+
+    public void setyAxisLine(Boolean yAxisLine) {
+        this.yAxisLine = yAxisLine;
+    }
+
+    public Boolean getySplitLine() {
+        return ySplitLine;
+    }
+
+    public void setySplitLine(Boolean ySplitLine) {
+        this.ySplitLine = ySplitLine;
+    }
+
+    public Boolean getyInverse() {
+        return yInverse;
+    }
+
+    public void setyInverse(Boolean yInverse) {
+        this.yInverse = yInverse;
+    }
+
+    public Boolean getxToy() {
+        return xToy;
+    }
+
+    public void setxToy(Boolean xToy) {
+        this.xToy = xToy;
+    }
+
+    public Boolean getDataZoom() {
+        return dataZoom;
+    }
+
+    public void setDataZoom(Boolean dataZoom) {
+        this.dataZoom = dataZoom;
+    }
+
+    public String getxAxisLabel() {
+        return xAxisLabel;
+    }
+
+    public void setxAxisLabel(String xAxisLabel) {
+        this.xAxisLabel = xAxisLabel;
+    }
+
+    public Boolean getxAxisLine() {
+        return xAxisLine;
+    }
+
+    public void setxAxisLine(Boolean xAxisLine) {
+        this.xAxisLine = xAxisLine;
+    }
+
+    public Boolean getxSplitLine() {
+        return xSplitLine;
+    }
+
+    public void setxSplitLine(Boolean xSplitLine) {
+        this.xSplitLine = xSplitLine;
+    }
+
+    public Boolean getxInverse() {
+        return xInverse;
+    }
+
+    public void setxInverse(Boolean xInverse) {
+        this.xInverse = xInverse;
+    }
+
+    public Boolean getAlignWithLabel() {
+        return alignWithLabel;
+    }
+
+    public void setAlignWithLabel(Boolean alignWithLabel) {
+        this.alignWithLabel = alignWithLabel;
     }
 
     public Integer getDbid() {

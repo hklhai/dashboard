@@ -1,6 +1,7 @@
 package com.hxqh.dashboard.service;
 
 import com.hxqh.dashboard.common.Constants;
+import com.hxqh.dashboard.common.ObjectUtil;
 import com.hxqh.dashboard.model.*;
 import com.hxqh.dashboard.model.assist.*;
 import com.hxqh.dashboard.repository.*;
@@ -139,9 +140,13 @@ public class ShowServiceImpl implements ShowService {
         }
 
         // todo 转换 可能包含多种信息
-        List<ColumnMap> columnMapList = columnMapRepository.findByVid(visualize.getVid());
+        List<ColumnMap> columnMapList = columnMapRepository.findByVidAndType(visualize.getVid());
 
         List<String> showLabel = columnMapList.stream().map(ColumnMap::getColumnshow).collect(Collectors.toList());
+        showLabel = showLabel.stream().map(e -> {
+            e = null == e ? "" : e;
+            return e;
+        }).collect(Collectors.toList());
         showDto.setShowLabel(showLabel);
 
         showDto.setShowKey(showkeys);
@@ -273,36 +278,23 @@ public class ShowServiceImpl implements ShowService {
             if (null == location.getDid() || "".equals(location.getDid())) {
                 // 新增
                 Visualize visualize = visualizeRepository.findOne(location.getVid());
+
+
                 DashboardVisualize dashboardVisualize = new DashboardVisualize(dashboard, visualize, location.getX(),
                         location.getY(), location.getH(), location.getW(), visualize.getXname(), visualize.getYname(),
                         visualize.getEcharttitle(), visualize.getLegendShow(), visualize.getLegendPos(),
                         visualize.getLegendOrient(), visualize.getTooltipShow()
                 );
-
-                dashboardVisualize.setBackground(visualize.getBackground());
-                dashboardVisualize.setEchartTitPos(visualize.getEchartTitPos());
-                dashboardVisualize.setEchartTitColor(visualize.getEchartTitColor());
+                BeanUtils.copyProperties(visualize, dashboardVisualize);
                 dashboardVisualizeRepository.save(dashboardVisualize);
             } else {
                 // 更新
                 DashboardVisualize dashboardVisualize = dashboardVisualizeRepository.findOne(location.getDid());
                 Visualize visualizeNew = visualizeRepository.findOne(location.getVid());
                 dashboardVisualize.setVisualize(visualizeNew);
-                dashboardVisualize.setX(location.getX());
-                dashboardVisualize.setY(location.getY());
-                dashboardVisualize.setH(location.getH());
-                dashboardVisualize.setW(location.getW());
-                dashboardVisualize.setXname(visualizeNew.getXname());
-                dashboardVisualize.setYname(visualizeNew.getYname());
-                dashboardVisualize.setEcharttitle(visualizeNew.getEcharttitle());
-                dashboardVisualize.setLegendShow(visualizeNew.getLegendShow());
-                dashboardVisualize.setLegendPos(visualizeNew.getLegendPos());
-                dashboardVisualize.setLegendOrient(visualizeNew.getLegendOrient());
-                dashboardVisualize.setTooltipShow(visualizeNew.getTooltipShow());
-                dashboardVisualize.setBackground(visualizeNew.getBackground());
-                dashboardVisualize.setEchartTitPos(visualizeNew.getEchartTitPos());
-                dashboardVisualize.setEchartTitColor(visualizeNew.getEchartTitColor());
 
+                BeanUtils.copyProperties(location, dashboardVisualize);
+                BeanUtils.copyProperties(visualizeNew, dashboardVisualize);
                 dashboardVisualizeRepository.save(dashboardVisualize);
             }
         }
@@ -371,6 +363,13 @@ public class ShowServiceImpl implements ShowService {
     public List<Database> databaseList() {
         List<Database> databaseList = databaseRepository.findAll();
         return databaseList;
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public List<ColumnMap> columnMapList(Integer vid) {
+        List<ColumnMap> columnMapList = columnMapRepository.findByVidAndType(vid);
+        return columnMapList;
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -540,5 +539,28 @@ public class ShowServiceImpl implements ShowService {
         return wb;
     }
 
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public boolean isSameColumn(ColumnMap columnMap) {
+        ColumnMap dbColumnMap = columnMapRepository.findByFieldAndVid(columnMap.getField(), columnMap.getVid());
+        return null != dbColumnMap ? true : false;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void columnMapUpdate(ColumnMap columnMap) {
+        ColumnMap dbColumnMap = columnMapRepository.findOne(columnMap.getVid());
+        BeanUtils.copyProperties(columnMap, dbColumnMap);
+        BeanUtils.copyProperties(columnMap, dbColumnMap, ObjectUtil.getNullPropertyNames(columnMap));
+        columnMapRepository.save(dbColumnMap);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void columnMapAdd(ColumnMap columnMap) {
+        // ALTER TABLE table_name ADD column_name datatype
+        // todo
+        columnMapRepository.save(columnMap);
+    }
 
 }

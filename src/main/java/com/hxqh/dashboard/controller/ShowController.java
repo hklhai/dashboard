@@ -2,12 +2,12 @@ package com.hxqh.dashboard.controller;
 
 import com.hxqh.dashboard.common.Constants;
 import com.hxqh.dashboard.common.ObjectUtil;
+import com.hxqh.dashboard.model.ColumnMap;
 import com.hxqh.dashboard.model.Dashboard;
 import com.hxqh.dashboard.model.Database;
 import com.hxqh.dashboard.model.Visualize;
 import com.hxqh.dashboard.model.assist.*;
 import com.hxqh.dashboard.model.base.Message;
-import com.hxqh.dashboard.model.base.PageInfo;
 import com.hxqh.dashboard.service.ShowService;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.BeanUtils;
@@ -226,7 +226,6 @@ public class ShowController {
     }
 
 
-
     @ResponseBody
     @RequestMapping(value = "/dashboardList2", method = RequestMethod.POST)
     public DashboardDto dashboardList2(@RequestBody Dashboard dashboard,
@@ -280,6 +279,12 @@ public class ShowController {
         return stringList;
     }
 
+    /**
+     * 获取数据库表中列
+     *
+     * @param tablename
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/columnList", method = RequestMethod.GET)
     public List<ColumnDto> columnList(@RequestParam String tablename) {
@@ -290,6 +295,63 @@ public class ShowController {
             e.printStackTrace();
         }
         return columnDtoList;
+    }
+
+
+    /**
+     * 获取列对应关系
+     *
+     * @param
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/columnMapList", method = RequestMethod.GET)
+    public List<ColumnMap> columnMapList(@RequestParam Integer vid) {
+        List<ColumnMap> columnMapList = new ArrayList<>();
+        try {
+            columnMapList = showService.columnMapList(vid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return columnMapList;
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/columnMapUpdate", method = RequestMethod.PUT)
+    public Message columnMapUpdate(@RequestBody ColumnMap columnMap) {
+        Message message = null;
+        try {
+            if (showService.isSameColumn(columnMap)) {
+                message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
+            } else {
+                showService.columnMapUpdate(columnMap);
+                message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
+            }
+        } catch (Exception e) {
+            message = new Message(Constants.FAIL, Constants.EDITFAIL);
+            e.printStackTrace();
+        }
+        return message;
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/columnMapAdd", method = RequestMethod.POST)
+    public Message columnMapAdd(@RequestBody ColumnMap columnMap) {
+        Message message;
+        try {
+            if (showService.isSameColumn(columnMap)) {
+                message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
+            } else {
+                showService.columnMapAdd(columnMap);
+                message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
+            }
+        } catch (Exception e) {
+            message = new Message(Constants.FAIL, Constants.ADDFAIL);
+            e.printStackTrace();
+        }
+        return message;
     }
 
 
