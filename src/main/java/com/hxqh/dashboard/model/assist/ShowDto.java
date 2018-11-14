@@ -14,7 +14,7 @@ public class ShowDto extends Location {
     private String yname;
 
     private List<String> showKey;
-    private List<Object> showValue;
+    private List<List<Object>> showValue;
 
     private Integer x;
     private Integer y;
@@ -39,16 +39,6 @@ public class ShowDto extends Location {
     public ShowDto() {
     }
 
-    public ShowDto(String visualizename, String xname, String yname, List<String> showKey, List<Object> showValue, String type, Integer vid, Integer bid, Integer did) {
-        this.visualizename = visualizename;
-        this.xname = xname;
-        this.yname = yname;
-        this.showKey = showKey;
-        this.showValue = showValue;
-        this.type = type;
-        this.vid = vid;
-        this.did = did;
-    }
 
     public String getBackground() {
         return background;
@@ -196,11 +186,11 @@ public class ShowDto extends Location {
         this.showKey = showKey;
     }
 
-    public List<Object> getShowValue() {
+    public List<List<Object>> getShowValue() {
         return showValue;
     }
 
-    public void setShowValue(List<Object> showValue) {
+    public void setShowValue(List<List<Object>> showValue) {
         this.showValue = showValue;
     }
 

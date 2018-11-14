@@ -5,6 +5,7 @@ import com.hxqh.dashboard.model.*;
 import com.hxqh.dashboard.model.assist.*;
 import com.hxqh.dashboard.repository.*;
 import com.hxqh.dashboard.util.JdbcUtil;
+import com.hxqh.dashboard.util.MatrixUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -52,12 +53,6 @@ public class ShowServiceImpl implements ShowService {
 
     private static final String PIE = "pie";
 
-    private static Map<String, String> yTypeMap = new HashMap<String, String>() {{
-        put("double", "double(10,2)");
-        put("float", "float(7,2)");
-        put("int", "int");
-    }};
-
     private static Map<String, String> typeMap = new HashMap<String, String>() {{
         put("饼图", "pie");
         put("条形图", "bar");
@@ -88,12 +83,6 @@ public class ShowServiceImpl implements ShowService {
     private static final String[] EXCEL_HEADER = {"业务类别", "视图名称", "表名", "视图类型", "数值类型", "业务处理逻辑描述"};
 
 
-    private static final String CREATE_SQL_1 = "create table ";
-    private static final String SELECT_SQL_1 = "select showkey,showvalue, sid+ ";
-    private static final String SELECT_SQL_2 = " sid from ";
-
-    private static final String CREATE_SQL_2 = "(`sid` int(20) NOT NULL AUTO_INCREMENT, `showkey` varchar(20) DEFAULT NULL, `showvalue` ";
-    private static final String CREATE_SQL_3 = " DEFAULT NULL, PRIMARY KEY (`sid`))";
     private static final String DROP_TABLE_SQL = " drop table ";
     private static final String DOUBLE_TYPE = "double";
     private static final String FLOAT_TYPE = "float";
@@ -112,69 +101,80 @@ public class ShowServiceImpl implements ShowService {
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public ShowDto findLineByVid(Integer integerId, Integer random, Integer bid, Integer did) {
-        ShowDto showDto = null;
-
+        ShowDto showDto = new ShowDto();
+        List<List<Object>> showValues = new ArrayList<>(10);
+        List<String> showkeys = new ArrayList<>(15);
         Visualize visualize = visualizeRepository.findOne(integerId);
 
-        String sql = SELECT_SQL_1 + random * SPLIT_NUM + SELECT_SQL_2 + visualize.getTablename();
-        List keyShow, valueShow;
+        String sql = "select * from " + visualize.getTablename();
         Session currentSession = sessionFactory.getCurrentSession();
+        List list = currentSession.createSQLQuery(sql).list();
 
-        if (DOUBLE_TYPE.equals(visualize.getYtype())) {
-            List<LineDouble> list = currentSession.createSQLQuery(sql).addEntity(LineDouble.class).list();
-            keyShow = list.stream().map(LineDouble::getShowkey).collect(Collectors.toList());
-            valueShow = list.stream().map(LineDouble::getShowvalue).collect(Collectors.toList());
-        } else if (FLOAT_TYPE.equals(visualize.getYtype())) {
-            List<LineFloat> list = currentSession.createSQLQuery(sql).addEntity(LineFloat.class).list();
-            keyShow = list.stream().map(LineFloat::getShowkey).collect(Collectors.toList());
-            valueShow = list.stream().map(LineFloat::getShowvalue).collect(Collectors.toList());
-        } else {
-            List<LineInteger> list = currentSession.createSQLQuery(sql).addEntity(LineInteger.class).list();
-            keyShow = list.stream().map(LineInteger::getShowkey).collect(Collectors.toList());
-            valueShow = list.stream().map(LineInteger::getShowvalue).collect(Collectors.toList());
-        }
+        // 构造矩阵
+        Integer x = visualize.getColumnsnumber() - 1;
+        Integer y = list.size();
+        Object[][] matrix = new Object[x][y];
+        Object[][] target = new Object[y][x];
 
         if (PIE.equals(visualize.getType())) {
-            List<PieDto> pieDtoList = new ArrayList<>(50);
-
-            for (int i = 0; i < keyShow.size(); i++) {
-                PieDto pieDto = new PieDto(keyShow.get(i).toString(), valueShow.get(i));
-                pieDtoList.add(pieDto);
+            List<Object> pieDtoList = new ArrayList<>(50);
+            for (int i = 0; i < list.size(); i++) {
+                Object[] o = (Object[]) list.get(i);
+                for (int j = 0; j < x; j++) {
+                    PieDto pieDto = new PieDto((String) o[1], o[2]);
+                    pieDtoList.add(pieDto);
+                }
             }
-            showDto = new ShowDto(visualize.getVisualizename(), visualize.getXname(), visualize.getYname(),
-                    keyShow, (List) pieDtoList, visualize.getType(), visualize.getVid(), bid, did);
-
-
+            showValues.add(pieDtoList);
+            showDto.setShowValue(showValues);
         } else {
-            showDto = new ShowDto(visualize.getVisualizename(), visualize.getXname(), visualize.getYname(),
-                    keyShow, valueShow, visualize.getType(), visualize.getVid(), bid, did);
-        }
-        showDto.setEcharttitle(visualize.getEcharttitle());
-        showDto.setLegendShow(visualize.getLegendShow());
-        showDto.setLegendPos(visualize.getLegendPos());
-        showDto.setLegendOrient(visualize.getLegendOrient());
-        showDto.setTooltipShow(visualize.getTooltipShow());
-        showDto.setBackground(visualize.getBackground());
-        showDto.setEchartTitPos(visualize.getEchartTitPos());
-        showDto.setEchartTitColor(visualize.getEchartTitColor());
+            for (int i = 0; i < list.size(); i++) {
+                Object[] o = (Object[]) list.get(i);
+                for (int j = 0; j < x; j++) {
+                    matrix[j][i] = o[j + 2];
+                }
+                showkeys.add((String) o[1]);
+            }
 
+            MatrixUtils.transpose(matrix, x, y, target);
+            for (int i = 0; i < target.length; i++) {
+                showValues.add(Arrays.asList(target[i]));
+            }
+            showDto.setShowValue(showValues);
+        }
+        showDto.setShowKey(showkeys);
+        showDto.setDid(did);
+        BeanUtils.copyProperties(visualize, showDto);
         return showDto;
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void addVisualize(VDto vDto) throws Exception {
-
         List<ColumnMap> columns = new ArrayList<>(15);
         Visualize visualize = vDto.getVisualize();
         StringBuilder sql = new StringBuilder(150);
         StringBuilder insertDemoSql = new StringBuilder(300);
-        Integer rand;
+
         // 获取表名称
         TableManager tableManager = tableManagerRepository.findByTablecategory(visualize.getType());
         String tableName = tableManager.getTableprefix() + tableManager.getTablemaxid();
 
         // 构造建表语句
+        List<ColumnDto> columnMapList = getGenerateTable(vDto, columns, visualize, sql, tableName);
+
+        // 添加缺省的Demo数据
+        generateDemoData(visualize, insertDemoSql, tableName, columnMapList);
+
+        // 管理表更新
+        tableManager.setTablemaxid(tableManager.getTablemaxid() + 1);
+        visualize.setColumnMapList(columns);
+        visualize.setColumnsnumber(columnMapList.size());
+        visualize.setYtype(DOUBLE_TYPE);
+        visualizeRepository.save(visualize);
+    }
+
+    private List<ColumnDto> getGenerateTable(VDto vDto, List<ColumnMap> columns, Visualize visualize, StringBuilder sql, String tableName) {
         List<ColumnDto> columnMapList = vDto.getColumnList();
 
         sql.append("create table ").append(tableName).append(" (`sid` int(20) NOT NULL AUTO_INCREMENT,");
@@ -190,8 +190,11 @@ public class ShowServiceImpl implements ShowService {
 
         sessionFactory.getCurrentSession().createSQLQuery(sql.toString()).executeUpdate();
         visualize.setTablename(tableName);
+        return columnMapList;
+    }
 
-        // 添加缺省的Demo数据
+    private void generateDemoData(Visualize visualize, StringBuilder insertDemoSql, String tableName, List<ColumnDto> columnMapList) {
+        Integer rand;
         for (int i = START_NUM; i < END_NUM; i++) {
             Random random = new Random();
 
@@ -207,7 +210,7 @@ public class ShowServiceImpl implements ShowService {
                 insertDemoSql.append(") values ('").append(lineXMap.get(i)).append("'");
             }
             for (int j = 1; j < columnMapList.size(); j++) {
-                rand = random.nextInt(60) + 10;
+                rand = random.nextInt(300) + 10;
                 insertDemoSql.append(",").append(rand);
             }
             insertDemoSql.setLength(insertDemoSql.length() - 1);
@@ -216,11 +219,6 @@ public class ShowServiceImpl implements ShowService {
             sessionFactory.getCurrentSession().createSQLQuery(insertDemoSql.toString()).executeUpdate();
             insertDemoSql.setLength(0);
         }
-        // 管理表更新
-        tableManager.setTablemaxid(tableManager.getTablemaxid() + 1);
-        visualize.setColumnMapList(columns);
-        visualize.setColumnsnumber(columnMapList.size());
-        visualizeRepository.save(visualize);
     }
 
     @Transactional(rollbackFor = Exception.class)
