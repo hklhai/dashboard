@@ -141,7 +141,11 @@ public class ShowServiceImpl implements ShowService {
 
         // todo 转换 可能包含多种信息
         List<ColumnMap> columnMapList = columnMapRepository.findByVidAndType(visualize.getVid());
-
+        showDto.setColumnList(columnMapList);
+        columnMapList.stream().map(e -> {
+            e.setVisualize(null);
+            return e;
+        }).collect(Collectors.toList());
         List<String> showLabel = columnMapList.stream().map(ColumnMap::getColumnshow).collect(Collectors.toList());
         showLabel = showLabel.stream().map(e -> {
             e = null == e ? "" : e;

@@ -1,5 +1,7 @@
 package com.hxqh.dashboard.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**

@@ -1,5 +1,7 @@
 package com.hxqh.dashboard.model.assist;
 
+import com.hxqh.dashboard.model.ColumnMap;
+
 import java.util.List;
 
 /**
@@ -16,6 +18,7 @@ public class ShowDto extends Location {
     private List<String> showKey;
     private List<List<Object>> showValue;
     private List<String> showLabel;
+    private List<ColumnMap> columnList;
 
     private Integer x;
     private Integer y;
@@ -53,6 +56,14 @@ public class ShowDto extends Location {
     private Boolean yInverse;
 
     public ShowDto() {
+    }
+
+    public List<ColumnMap> getColumnList() {
+        return columnList;
+    }
+
+    public void setColumnList(List<ColumnMap> columnList) {
+        this.columnList = columnList;
     }
 
     public String getyAxisLabel() {
