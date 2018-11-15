@@ -39,7 +39,27 @@ public class ColumnMap {
     private String colStack;
     private String colName;
 
+    private String colType;
+    @Column(name = "col_average", columnDefinition = "bool default false")
+    private Boolean colAverage;
+
     public ColumnMap() {
+    }
+
+    public String getColType() {
+        return colType;
+    }
+
+    public void setColType(String colType) {
+        this.colType = colType;
+    }
+
+    public Boolean getColAverage() {
+        return colAverage;
+    }
+
+    public void setColAverage(Boolean colAverage) {
+        this.colAverage = colAverage;
     }
 
     public String getColColor() {

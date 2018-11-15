@@ -172,17 +172,6 @@ public class ShowServiceImpl implements ShowService {
         StringBuilder sql = new StringBuilder(150);
         StringBuilder insertDemoSql = new StringBuilder(300);
 
-        // 存储多个y轴情况
-        List<OrientY> yList = visualDto.getyList();
-
-        if (null != yList && yList.size() > 0) {
-            yList = yList.stream().map(ele -> {
-                ele.setVisualize(visualize);
-                return ele;
-            }).collect(Collectors.toList());
-            visualize.setOrientYList(yList);
-        }
-
         // 构造建表语句
         List<ColumnDto> columnMapList = getGenerateTable(visualDto, columns, visualize, sql, tableName);
 
@@ -454,8 +443,7 @@ public class ShowServiceImpl implements ShowService {
         List<Integer> yDeleteList = visualDto.getyDeleteList();
 
         List<ColumnMap> mapList = visualDto.getColumnMaps();
-        List<OrientY> orientYList = visualDto.getyList();
-
+        List<OrientY> yList = visualDto.getyList();
 
         // 更新主表
         Visualize visualizeDb = visualizeRepository.findOne(visualize.getVid());
@@ -472,6 +460,7 @@ public class ShowServiceImpl implements ShowService {
             return e;
         }).collect(Collectors.toList());
 
+        // column删除
         if (null != deleteColumnList && deleteColumnList.size() > 0) {
             deleteColumnList.stream().map(e -> {
                 String colunm = columnMapRepository.findOne(e).getField();
@@ -479,6 +468,22 @@ public class ShowServiceImpl implements ShowService {
                 String alterSQL = "ALTER TABLE " + visualizeDb.getSourcetablename() + " DROP COLUMN " + colunm;
                 currentSession.createSQLQuery(alterSQL);
                 columnMapRepository.delete(e);
+                return null;
+            });
+        }
+
+        // 存储多个y轴情况
+        if (null != yList && yList.size() > 0) {
+            yList = yList.stream().map(ele -> {
+                ele.setVisualize(visualizeDb);
+                return ele;
+            }).collect(Collectors.toList());
+            visualizeDb.setOrientYList(yList);
+        }
+        // 删除y轴
+        if (null != yDeleteList && yDeleteList.size() > 0) {
+            yDeleteList.stream().map(id -> {
+                orientYRepository.delete(id);
                 return null;
             });
         }
