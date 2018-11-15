@@ -40,17 +40,11 @@ public class ShowController {
      * @ModelAttribute 标记的方法, 会在每个目标方法执行之前被 SpringMVC 调用!
      */
     @ModelAttribute
-    public void getUser(@RequestParam(value = "bid", required = false) Integer bid,
-                        @RequestParam(value = "vid", required = false) Integer vid,
-                        Map<String, Object> map) {
+    public void getUser(@RequestParam(value = "bid", required = false) Integer bid, Map<String, Object> map) {
         if (null != bid) {
             // 从数据库中获取对象
             Dashboard dashboard = showService.findDashboardByVid(bid);
             map.put("dashboardDb", dashboard);
-        }
-        if (null != vid) {
-            Visualize visualize = showService.findVisualizeByVid(vid);
-            map.put("visualizeDb", visualize);
         }
     }
 
@@ -75,7 +69,9 @@ public class ShowController {
             if (showService.isVisualizeByVisualizename(visualDto.getVisualize().getVisualizename())) {
                 message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
             } else {
-                showService.addVisualize(visualDto);
+
+                String tableName = showService.getTableName(visualDto);
+                showService.addVisualize(visualDto, tableName);
                 message = new Message(Constants.SUCCESS, Constants.ADDSUCCESS);
             }
         } catch (Exception e) {
@@ -101,15 +97,13 @@ public class ShowController {
 
     @ResponseBody
     @RequestMapping(value = "/visualize", method = RequestMethod.PUT)
-    public Message visualizeUpdate(Visualize visualizeDb, @RequestBody Visualize visualize) {
+    public Message visualizeUpdate(@RequestBody VisualDto visualDto) {
         Message message = null;
         try {
-            BeanUtils.copyProperties(visualize, visualizeDb, ObjectUtil.getNullPropertyNames(visualize));
-
-            if (showService.isVisualizeByVisualizenameAndVidNot(visualizeDb)) {
+            if (showService.isVisualizeByVisualizenameAndVidNot(visualDto.getVisualize())) {
                 message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
             } else {
-                showService.updateVisualize(visualizeDb);
+                showService.updateVisualize(visualDto );
                 message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
             }
         } catch (Exception e) {
@@ -317,6 +311,12 @@ public class ShowController {
     }
 
 
+    /**
+     * 设置列对应关系
+     *
+     * @param columnMap
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/columnMapUpdate", method = RequestMethod.PUT)
     public Message columnMapUpdate(@RequestBody ColumnMap columnMap) {

@@ -49,6 +49,10 @@ public class Visualize implements Serializable {
     @JsonIgnore
     private List<ColumnMap> columnMapList;
 
+    @OneToMany(mappedBy = "visualize", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<OrientY> orientYList;
+
     @Transient
     private Integer bid;
 
@@ -79,18 +83,15 @@ public class Visualize implements Serializable {
     @Column(name = "yinverse", columnDefinition = "bool default false")
     private Boolean yInverse;
 
-    /**
-     * y轴（可能多个y轴）：
-     * {
-     * yName: ''       y轴名称
-     * yAxisLabel: ''  y轴标签单位
-     * yAxisLine: true   y轴轴线是否显示
-     * ySplitLine: true  y轴分割线是否显示
-     * yInverse: true   y轴翻转（当有负数据时）
-     * }
-     */
-
     public Visualize() {
+    }
+
+    public List<OrientY> getOrientYList() {
+        return orientYList;
+    }
+
+    public void setOrientYList(List<OrientY> orientYList) {
+        this.orientYList = orientYList;
     }
 
     public String getyAxisLabel() {

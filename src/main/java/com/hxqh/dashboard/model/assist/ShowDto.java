@@ -1,6 +1,7 @@
 package com.hxqh.dashboard.model.assist;
 
 import com.hxqh.dashboard.model.ColumnMap;
+import com.hxqh.dashboard.model.OrientY;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class ShowDto extends Location {
     private List<List<Object>> showValue;
     private List<String> showLabel;
     private List<ColumnMap> columnList;
+    private List<OrientY> orientYList;
 
     private Integer x;
     private Integer y;
@@ -56,6 +58,14 @@ public class ShowDto extends Location {
     private Boolean yInverse;
 
     public ShowDto() {
+    }
+
+    public List<OrientY> getOrientYList() {
+        return orientYList;
+    }
+
+    public void setOrientYList(List<OrientY> orientYList) {
+        this.orientYList = orientYList;
     }
 
     public List<ColumnMap> getColumnList() {

@@ -52,6 +52,8 @@ public class ShowServiceImpl implements ShowService {
     private DatabaseRepository databaseRepository;
     @Autowired
     private ColumnMapRepository columnMapRepository;
+    @Autowired
+    private OrientYRepository orientYRepository;
 
     private static final String PIE = "pie";
 
@@ -139,7 +141,6 @@ public class ShowServiceImpl implements ShowService {
             showDto.setShowValue(showValues);
         }
 
-        // todo 转换 可能包含多种信息
         List<ColumnMap> columnMapList = columnMapRepository.findByVidAndType(visualize.getVid());
         showDto.setColumnList(columnMapList);
         columnMapList.stream().map(e -> {
@@ -147,30 +148,40 @@ public class ShowServiceImpl implements ShowService {
             return e;
         }).collect(Collectors.toList());
         List<String> showLabel = columnMapList.stream().map(ColumnMap::getColumnshow).collect(Collectors.toList());
-        showLabel = showLabel.stream().map(e -> {
-            e = null == e ? "" : e;
-            return e;
-        }).collect(Collectors.toList());
-        showDto.setShowLabel(showLabel);
 
+        showDto.setShowLabel(showLabel);
         showDto.setShowKey(showkeys);
         showDto.setDid(did);
-        visualize.setColumnMapList(null);
+        List<OrientY> orientYList = visualize.getOrientYList();
+
+        orientYList = orientYList.stream().map(e -> {
+            e.setVisualize(null);
+            return e;
+        }).collect(Collectors.toList());
+        visualize.setOrientYList(orientYList);
+
         BeanUtils.copyProperties(visualize, showDto);
         return showDto;
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void addVisualize(VisualDto visualDto) throws Exception {
+    public void addVisualize(VisualDto visualDto, String tableName) throws Exception {
         List<ColumnMap> columns = new ArrayList<>(15);
         Visualize visualize = visualDto.getVisualize();
         StringBuilder sql = new StringBuilder(150);
         StringBuilder insertDemoSql = new StringBuilder(300);
 
-        // 获取表名称
-        TableManager tableManager = tableManagerRepository.findByTablecategory(visualize.getType());
-        String tableName = tableManager.getTableprefix() + tableManager.getTablemaxid();
+        // 存储多个y轴情况
+        List<OrientY> yList = visualDto.getyList();
+
+        if (null != yList && yList.size() > 0) {
+            yList = yList.stream().map(ele -> {
+                ele.setVisualize(visualize);
+                return ele;
+            }).collect(Collectors.toList());
+            visualize.setOrientYList(yList);
+        }
 
         // 构造建表语句
         List<ColumnDto> columnMapList = getGenerateTable(visualDto, columns, visualize, sql, tableName);
@@ -178,8 +189,6 @@ public class ShowServiceImpl implements ShowService {
         // 添加缺省的Demo数据
         generateDemoData(visualize, insertDemoSql, tableName, columnMapList);
 
-        // 管理表更新
-        tableManager.setTablemaxid(tableManager.getTablemaxid() + 1);
         visualize.setColumnMapList(columns);
         visualize.setColumnsnumber(columnMapList.size());
         visualize.setYtype(DOUBLE_TYPE);
@@ -283,7 +292,6 @@ public class ShowServiceImpl implements ShowService {
             if (null == location.getDid() || "".equals(location.getDid())) {
                 // 新增
                 Visualize visualize = visualizeRepository.findOne(location.getVid());
-
 
                 DashboardVisualize dashboardVisualize = new DashboardVisualize(dashboard, visualize, location.getX(),
                         location.getY(), location.getH(), location.getW(), visualize.getXname(), visualize.getYname(),
@@ -398,16 +406,24 @@ public class ShowServiceImpl implements ShowService {
         Visualize visualize = visualizeRepository.findOne(integerId);
         List<DashboardVisualize> dashboardVisualizes = visualize.getDashboardVisualizes();
         if (dashboardVisualizes.size() > 0) {
-            for (int i = 0; i < dashboardVisualizes.size(); i++) {
-                DashboardVisualize dashboardVisualize = dashboardVisualizes.get(i);
-                dashboardVisualizeRepository.delete(dashboardVisualize.getDid());
-            }
+            dashboardVisualizes.stream().map(e -> {
+                dashboardVisualizeRepository.delete(e.getDid());
+                return null;
+            });
         }
         List<ColumnMap> columnMapList = visualize.getColumnMapList();
         if (columnMapList.size() > 0) {
-            for (int i = 0; i < columnMapList.size(); i++) {
-                columnMapRepository.delete(columnMapList.get(i).getColumnmid());
-            }
+            columnMapList.stream().map(e -> {
+                columnMapRepository.delete(e.getVid());
+                return null;
+            });
+        }
+        List<OrientY> orientYList = visualize.getOrientYList();
+        if (orientYList.size() > 0) {
+            orientYList.stream().map(ele -> {
+                orientYRepository.delete(ele.getOrientyid());
+                return null;
+            });
         }
 
         visualizeRepository.delete(integerId);
@@ -430,8 +446,45 @@ public class ShowServiceImpl implements ShowService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void updateVisualize(Visualize visualize) {
-        visualizeRepository.save(visualize);
+    public void updateVisualize(VisualDto visualDto) {
+        Session currentSession = sessionFactory.getCurrentSession();
+
+        Visualize visualize = visualDto.getVisualize();
+        List<Integer> deleteColumnList = visualDto.getColumnDeleteList();
+        List<Integer> yDeleteList = visualDto.getyDeleteList();
+
+        List<ColumnMap> mapList = visualDto.getColumnMaps();
+        List<OrientY> orientYList = visualDto.getyList();
+
+
+        // 更新主表
+        Visualize visualizeDb = visualizeRepository.findOne(visualize.getVid());
+        BeanUtils.copyProperties(visualize, visualizeDb, ObjectUtil.getNullPropertyNames(visualize));
+
+        // 新增
+        mapList = mapList.stream().map(e -> {
+            if (null == e.getColumnmid()) {
+                // ALTER TABLE table_name ADD column_name datatype
+                String alterSQL = "ALTER TABLE " + visualizeDb.getSourcetablename() + " ADD " + e.getField() + " " + e.getType();
+                currentSession.createSQLQuery(alterSQL);
+            }
+            e.setVisualize(visualizeDb);
+            return e;
+        }).collect(Collectors.toList());
+
+        if (null != deleteColumnList && deleteColumnList.size() > 0) {
+            deleteColumnList.stream().map(e -> {
+                String colunm = columnMapRepository.findOne(e).getField();
+                // ALTER TABLE table_name DROP COLUMN column_name
+                String alterSQL = "ALTER TABLE " + visualizeDb.getSourcetablename() + " DROP COLUMN " + colunm;
+                currentSession.createSQLQuery(alterSQL);
+                columnMapRepository.delete(e);
+                return null;
+            });
+        }
+
+        visualizeDb.setColumnMapList(mapList);
+        visualizeRepository.save(visualizeDb);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -563,9 +616,18 @@ public class ShowServiceImpl implements ShowService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void columnMapAdd(ColumnMap columnMap) {
-        // ALTER TABLE table_name ADD column_name datatype
-        // todo
         columnMapRepository.save(columnMap);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public String getTableName(VisualDto visualDto) {
+        // 获取表名称
+        TableManager tableManager = tableManagerRepository.findByTablecategory(visualDto.getVisualize().getType());
+        String tableName = tableManager.getTableprefix() + tableManager.getTablemaxid();
+        tableManager.setTablemaxid(tableManager.getTablemaxid() + 1);
+        tableManagerRepository.save(tableManager);
+        return tableName;
     }
 
 }

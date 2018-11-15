@@ -39,9 +39,10 @@ public interface ShowService {
      * 添加visualize
      *
      * @param visualDto
+     * @param tableName
      * @throws Exception
      */
-    void addVisualize(VisualDto visualDto) throws Exception;
+    void addVisualize(VisualDto visualDto, String tableName) throws Exception;
 
     /**
      * 添加dashboard
@@ -111,7 +112,7 @@ public interface ShowService {
      *
      * @param visualize visualize实体
      */
-    void updateVisualize(Visualize visualize);
+    void updateVisualize(VisualDto visualize);
 
     /**
      * 更新dashboard
@@ -216,4 +217,6 @@ public interface ShowService {
      * @param columnMap
      */
     void columnMapAdd(ColumnMap columnMap);
+
+    String getTableName(VisualDto visualDto);
 }
