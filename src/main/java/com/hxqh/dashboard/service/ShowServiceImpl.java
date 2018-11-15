@@ -155,6 +155,7 @@ public class ShowServiceImpl implements ShowService {
 
         showDto.setShowKey(showkeys);
         showDto.setDid(did);
+        visualize.setColumnMapList(null);
         BeanUtils.copyProperties(visualize, showDto);
         return showDto;
     }
