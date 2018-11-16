@@ -13,13 +13,13 @@ public class JdbcUtil {
     public static Connection conn = null;
 
     public static Connection getConnection(String url,String user,String password,String drivername) throws Exception {
-        if (conn != null) {
-            return conn;
-        }
         Class.forName(drivername);
         conn = DriverManager.getConnection(url, user, password);
-
         return conn;
+    }
+
+    public static void closeConnect(Connection conn) throws SQLException {
+        conn.close();
     }
 
     public static void closeResource(Connection conn, PreparedStatement st) throws SQLException {

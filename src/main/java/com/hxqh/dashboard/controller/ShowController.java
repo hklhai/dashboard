@@ -103,7 +103,7 @@ public class ShowController {
             if (showService.isVisualizeByVisualizenameAndVidNot(visualDto.getVisualize())) {
                 message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
             } else {
-                showService.updateVisualize(visualDto );
+                showService.updateVisualize(visualDto);
                 message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
             }
         } catch (Exception e) {
@@ -261,12 +261,30 @@ public class ShowController {
 
 
     @ResponseBody
+    @RequestMapping(value = "/validateDatabase", method = RequestMethod.GET)
+    public Message validateDatabase(@RequestParam(value = "dbid", defaultValue = "1") Integer dbid) {
+        Message message = new Message(Constants.SUCCESS, Constants.CONNECTION_SUCCESSFUL);
+        try {
+            Boolean isTrue = showService.validateDatabase(dbid);
+            if (isTrue) {
+                message.setMessage(Constants.CONNECTION_SUCCESSFUL);
+            } else {
+                message.setMessage(Constants.CONNECTION_FAILED);
+            }
+        } catch (Exception e) {
+            message = new Message(Constants.FAIL, Constants.CONNECTION_FAILED);
+            e.printStackTrace();
+        }
+        return message;
+    }
+
+
+    @ResponseBody
     @RequestMapping(value = "/tableList", method = RequestMethod.GET)
-    public List<String> tableList() {
-        // 传入编号    public List<String> tableList(@RequestParam Integer dbid) {
+    public List<String> tableList(@RequestParam(value = "dbid", defaultValue = "1") Integer dbid) {
         List<String> stringList = new ArrayList<>();
         try {
-            stringList = showService.tableList();
+            stringList = showService.tableList(dbid);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -281,10 +299,11 @@ public class ShowController {
      */
     @ResponseBody
     @RequestMapping(value = "/columnList", method = RequestMethod.GET)
-    public List<ColumnDto> columnList(@RequestParam String tablename) {
-        List<ColumnDto> columnDtoList = new ArrayList<>();
+    public List<ColumnDto> columnList(@RequestParam String tablename,
+                                      @RequestParam(value = "dbid", defaultValue = "1") Integer dbid) {
+        List<ColumnDto> columnDtoList = new ArrayList<>(15);
         try {
-            columnDtoList = showService.columnList(tablename);
+            columnDtoList = showService.columnList(tablename, dbid);
         } catch (Exception e) {
             e.printStackTrace();
         }

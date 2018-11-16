@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
  * @author Lin
  */
 @Repository
-public interface OrientYRepository extends JpaRepository<OrientY, Integer> {
+public interface OrientyRepository extends JpaRepository<OrientY, Integer> {
 }

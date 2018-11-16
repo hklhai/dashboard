@@ -53,9 +53,15 @@ public class ShowServiceImpl implements ShowService {
     @Autowired
     private ColumnMapRepository columnMapRepository;
     @Autowired
-    private OrientYRepository orientYRepository;
+    private OrientyRepository orientYRepository;
 
     private static final String PIE = "pie";
+
+
+    private static Map<String, String> dbType = new HashMap<String, String>() {{
+        put("oracle", ":thin:@");
+        put("mysql", "://");
+    }};
 
     private static Map<String, String> typeMap = new HashMap<String, String>() {{
         put("饼图", "pie");
@@ -325,45 +331,80 @@ public class ShowServiceImpl implements ShowService {
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
-    public List<String> tableList() throws Exception {
+    public List<String> tableList(Integer dbid) throws Exception {
         List<String> nameList = new ArrayList<>(50);
-        // todo 后期完善数据库配置
-        Database database = databaseRepository.findOne(1);
-
-        String url = "jdbc:" + database.getDbtype() + "://" + database.getIp() + ":" + database.getPort() + "/" + database.getDatabase();
+        Database database = databaseRepository.findOne(dbid);
+        String url = getDbConnectString(database);
         Connection conn = JdbcUtil.getConnection(url, database.getUser(), database.getPassword(), database.getDrivername());
-        String sql = Constants.SHOW_TAB_SQL;
+        String sql = Constants.SHOW_TAB_SQL_MAP.get(database.getDbtype());
+        if (Constants.ORACLE.equals(database.getDbtype())) {
+            sql = sql + database.getUser().toUpperCase() + "'";
+        }
         PreparedStatement st = conn.prepareStatement(sql);
         ResultSet rs = st.executeQuery();
         while (rs.next()) {
-            String string = rs.getString(Constants.TABLEPREFIX + database.getDatabase());
+            String string = null;
+            if (Constants.ORACLE.equals(database.getDbtype())) {
+                string = rs.getString(Constants.ORACLE_TABLE_NAME);
+            } else {
+                string = rs.getString(Constants.TABLEPREFIX + database.getDatabase());
+            }
             nameList.add(string);
         }
+        JdbcUtil.closeResource(conn, rs, st);
         return nameList;
     }
 
+
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
-    public List<ColumnDto> columnList(String tablename) throws Exception {
+    public List<ColumnDto> columnList(String tablename, Integer dbid) throws Exception {
         List<ColumnDto> columnDtoList = new ArrayList<>(50);
-        Database database = databaseRepository.findOne(1);
+        // todo 增加dbid
+        Database database = databaseRepository.findOne(dbid);
+        String url = getDbConnectString(database);
 
-        String url = "jdbc:" + database.getDbtype() + "://" + database.getIp() + ":" + database.getPort() + "/" + database.getDatabase() + Constants.URL_SUFFIX;
         Connection conn = JdbcUtil.getConnection(url, database.getUser(), database.getPassword(), database.getDrivername());
-        String sql = Constants.COLOUMN_PREFIX + tablename;
+        String sql = null;
+        if (Constants.ORACLE.equals(database.getDbtype())) {
+            sql = Constants.ORACLE_COLOUMN_PREFIX + tablename + Constants.ORACLE_COLOUMN_SUFFIX;
+        } else {
+            sql = Constants.COLOUMN_PREFIX + tablename;
+        }
+
         PreparedStatement st = conn.prepareStatement(sql);
         ResultSet rs = st.executeQuery();
         while (rs.next()) {
-            ColumnDto columnDto = new ColumnDto(rs.getString(Constants.TABLE_COLUMN_NAME), rs.getString(Constants.TABLE_COLUMN_TYPE));
+            ColumnDto columnDto = null;
+            if (Constants.ORACLE.equals(database.getDbtype())) {
+                String type = rs.getString(Constants.TABLE_COLUMN_TYPE);
+                if (type.startsWith("NUMBER")) {
+                    type = type.replace("NUMBER", "double");
+                } else if (type.startsWith("VARCHAR2")) {
+                    type = type.replace("VARCHAR2", "varchar");
+                }
+                columnDto = new ColumnDto(rs.getString(Constants.TABLE_COLUMN_NAME).toLowerCase(), type);
+            } else {
+                columnDto = new ColumnDto(rs.getString(Constants.TABLE_COLUMN_NAME), rs.getString(Constants.TABLE_COLUMN_TYPE));
+            }
             columnDtoList.add(columnDto);
         }
+        JdbcUtil.closeResource(conn, rs, st);
         return columnDtoList;
+    }
+
+    private String getDbConnectString(Database database) {
+        String url = "jdbc:" + database.getDbtype() + dbType.get(database.getDbtype()) + database.getIp() + ":" + database.getPort() + "/" + database.getDatabase();
+        if (!Constants.ORACLE.equals(database.getDbtype())) {
+            url = url + Constants.URL_SUFFIX;
+        }
+        return url;
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public List<Database> databaseList() {
-        List<Database> databaseList = databaseRepository.findAll();
+        List<Database> databaseList = databaseRepository.findAvaliableLins(1);
         return databaseList;
     }
 
@@ -633,6 +674,23 @@ public class ShowServiceImpl implements ShowService {
         tableManager.setTablemaxid(tableManager.getTablemaxid() + 1);
         tableManagerRepository.save(tableManager);
         return tableName;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Boolean validateDatabase(Integer dbid) throws Exception {
+        Database database = databaseRepository.findOne(dbid);
+        String url = getDbConnectString(database);
+        Connection conn = JdbcUtil.getConnection(url, database.getUser(), database.getPassword(), database.getDrivername());
+        if (!conn.isClosed()) {
+            database.setValid(1);
+            databaseRepository.save(database);
+            JdbcUtil.closeConnect(conn);
+            return true;
+        } else {
+            JdbcUtil.closeConnect(conn);
+            return false;
+        }
     }
 
 }

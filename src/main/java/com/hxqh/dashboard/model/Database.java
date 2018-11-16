@@ -1,6 +1,9 @@
 package com.hxqh.dashboard.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 
 /**
@@ -8,6 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "tb_database")
+@DynamicUpdate
 public class Database {
 
     @Id
@@ -19,6 +23,7 @@ public class Database {
     private String user;
     private String password;
     private String drivername;
+    @JsonIgnore
     private Integer valid;
     private String datasourcename;
     private String dbtype;

@@ -163,23 +163,26 @@ public interface ShowService {
      */
     boolean isVisualizeByVisualizenameAndVidNot(Visualize visualizeDb);
 
+
     /**
      * 获取数据库中表列表
      *
+     * @param dbid
      * @return
      * @throws Exception
      */
-    List<String> tableList() throws Exception;
+    List<String> tableList(Integer dbid) throws Exception;
 
 
     /**
      * 获取表字段列表
      *
-     * @param tablename
+     * @param tablename 表名
+     * @param dbid      数据库id
      * @return
      * @throws Exception
      */
-    List<ColumnDto> columnList(String tablename) throws Exception;
+    List<ColumnDto> columnList(String tablename, Integer dbid) throws Exception;
 
     /**
      * 获取数据库列表
@@ -218,5 +221,21 @@ public interface ShowService {
      */
     void columnMapAdd(ColumnMap columnMap);
 
+
+    /**
+     * 新建表时获取tableManager分配表名
+     *
+     * @param visualDto
+     * @return
+     */
     String getTableName(VisualDto visualDto);
+
+    /**
+     * 验证数据库链接
+     *
+     * @param dbid
+     * @return
+     * @throws Exception
+     */
+    Boolean validateDatabase(Integer dbid) throws Exception;
 }

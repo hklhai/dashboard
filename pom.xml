@@ -43,6 +43,18 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>Nexus</id>
+            <name>Nexus Repository</name>
+            <url>http://ubuntu2:8081/repository/3rdparty/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
     </repositories>
 
 
@@ -117,7 +129,11 @@
             <artifactId>druid</artifactId>
             <version>1.1.10</version>
         </dependency>
-
+        <dependency>
+            <groupId>ojdbc7</groupId>
+            <artifactId>ojdbc7</artifactId>
+            <version>12.1.0.2</version>
+        </dependency>
     </dependencies>
 
     <build>

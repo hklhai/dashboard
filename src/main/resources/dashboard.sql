@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2018-11-13 17:24:17
+Date: 2018-11-15 13:30:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,6 +36,105 @@ INSERT INTO `ab_bar_1` VALUES ('4', '周四', '35.00');
 INSERT INTO `ab_bar_1` VALUES ('5', '周五', '29.00');
 INSERT INTO `ab_bar_1` VALUES ('6', '周六', '61.00');
 INSERT INTO `ab_bar_1` VALUES ('7', '周日', '67.00');
+
+-- ----------------------------
+-- Table structure for ab_bar_4
+-- ----------------------------
+DROP TABLE IF EXISTS `ab_bar_4`;
+CREATE TABLE `ab_bar_4` (
+  `sid` int(20) NOT NULL AUTO_INCREMENT,
+  `showkey` varchar(20) DEFAULT NULL,
+  `showvalue` double(10,2) DEFAULT NULL,
+  `showvalue1` double(10,2) DEFAULT NULL,
+  `showvalue2` double(10,2) DEFAULT NULL,
+  PRIMARY KEY (`sid`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ab_bar_4
+-- ----------------------------
+INSERT INTO `ab_bar_4` VALUES ('1', '周一', '257.00', '12.00', '26.00');
+INSERT INTO `ab_bar_4` VALUES ('2', '周二', '35.00', '100.00', '6.00');
+INSERT INTO `ab_bar_4` VALUES ('3', '周三', '136.00', '204.00', '18.00');
+INSERT INTO `ab_bar_4` VALUES ('4', '周四', '73.00', '188.00', '28.00');
+INSERT INTO `ab_bar_4` VALUES ('5', '周五', '46.00', '118.00', '13.00');
+INSERT INTO `ab_bar_4` VALUES ('6', '周六', '81.00', '166.00', '5.00');
+INSERT INTO `ab_bar_4` VALUES ('7', '周日', '132.00', '121.00', '9.00');
+
+-- ----------------------------
+-- Table structure for ab_bar_5
+-- ----------------------------
+DROP TABLE IF EXISTS `ab_bar_5`;
+CREATE TABLE `ab_bar_5` (
+  `sid` int(20) NOT NULL AUTO_INCREMENT,
+  `showkey` varchar(20) DEFAULT NULL,
+  `showvalue3` double(10,2) DEFAULT NULL,
+  `showvalue4` double(10,2) DEFAULT NULL,
+  PRIMARY KEY (`sid`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ab_bar_5
+-- ----------------------------
+INSERT INTO `ab_bar_5` VALUES ('1', '周一', '58.00', '13.00');
+INSERT INTO `ab_bar_5` VALUES ('2', '周二', '204.00', '17.00');
+INSERT INTO `ab_bar_5` VALUES ('3', '周三', '111.00', '25.00');
+INSERT INTO `ab_bar_5` VALUES ('4', '周四', '253.00', '2.00');
+INSERT INTO `ab_bar_5` VALUES ('5', '周五', '43.00', '21.00');
+INSERT INTO `ab_bar_5` VALUES ('6', '周六', '198.00', '24.00');
+INSERT INTO `ab_bar_5` VALUES ('7', '周日', '133.00', '16.00');
+
+-- ----------------------------
+-- Table structure for ab_bar_6
+-- ----------------------------
+DROP TABLE IF EXISTS `ab_bar_6`;
+CREATE TABLE `ab_bar_6` (
+  `sid` int(20) NOT NULL AUTO_INCREMENT,
+  `showkey` varchar(20) DEFAULT NULL,
+  `showvalue` double(10,2) DEFAULT NULL,
+  `showvalue1` double(10,2) DEFAULT NULL,
+  `showvalue2` double(10,2) DEFAULT NULL,
+  `showvalue3` double(10,2) DEFAULT NULL,
+  `showvalue4` double(10,2) DEFAULT NULL,
+  PRIMARY KEY (`sid`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ab_bar_6
+-- ----------------------------
+INSERT INTO `ab_bar_6` VALUES ('1', '周一', '135.00', '145.00', '213.00', '196.00', '27.00');
+INSERT INTO `ab_bar_6` VALUES ('2', '周二', '269.00', '17.00', '209.00', '233.00', '2.00');
+INSERT INTO `ab_bar_6` VALUES ('3', '周三', '285.00', '56.00', '239.00', '21.00', '25.00');
+INSERT INTO `ab_bar_6` VALUES ('4', '周四', '87.00', '197.00', '156.00', '65.00', '28.00');
+INSERT INTO `ab_bar_6` VALUES ('5', '周五', '112.00', '44.00', '214.00', '126.00', '28.00');
+INSERT INTO `ab_bar_6` VALUES ('6', '周六', '183.00', '153.00', '166.00', '148.00', '3.00');
+INSERT INTO `ab_bar_6` VALUES ('7', '周日', '133.00', '10.00', '174.00', '244.00', '18.00');
+
+-- ----------------------------
+-- Table structure for ab_bar_7
+-- ----------------------------
+DROP TABLE IF EXISTS `ab_bar_7`;
+CREATE TABLE `ab_bar_7` (
+  `sid` int(20) NOT NULL AUTO_INCREMENT,
+  `showkey` varchar(20) DEFAULT NULL,
+  `showvalue` double(10,2) DEFAULT NULL,
+  `showvalue1` double(10,2) DEFAULT NULL,
+  `showvalue2` double(10,2) DEFAULT NULL,
+  `showvalue3` double(10,2) DEFAULT NULL,
+  `showvalue4` double(10,2) DEFAULT NULL,
+  PRIMARY KEY (`sid`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ab_bar_7
+-- ----------------------------
+INSERT INTO `ab_bar_7` VALUES ('1', '周一', '28.00', '149.00', '72.00', '124.00', '7.00');
+INSERT INTO `ab_bar_7` VALUES ('2', '周二', '251.00', '133.00', '138.00', '38.00', '20.00');
+INSERT INTO `ab_bar_7` VALUES ('3', '周三', '180.00', '12.00', '164.00', '168.00', '4.00');
+INSERT INTO `ab_bar_7` VALUES ('4', '周四', '106.00', '140.00', '237.00', '273.00', '20.00');
+INSERT INTO `ab_bar_7` VALUES ('5', '周五', '266.00', '148.00', '122.00', '64.00', '14.00');
+INSERT INTO `ab_bar_7` VALUES ('6', '周六', '177.00', '17.00', '25.00', '264.00', '5.00');
+INSERT INTO `ab_bar_7` VALUES ('7', '周日', '113.00', '277.00', '276.00', '262.00', '12.00');
 
 -- ----------------------------
 -- Table structure for ab_line_1
@@ -104,6 +203,57 @@ INSERT INTO `ab_pie_7` VALUES ('6', '简介访问', '35.00');
 INSERT INTO `ab_pie_7` VALUES ('7', '抖音广告', '47.00');
 
 -- ----------------------------
+-- Table structure for tb_columnmap
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_columnmap`;
+CREATE TABLE `tb_columnmap` (
+  `columnmid` int(11) NOT NULL AUTO_INCREMENT,
+  `field` varchar(100) DEFAULT NULL,
+  `columnshow` varchar(100) DEFAULT '',
+  `type` varchar(100) DEFAULT NULL,
+  `vid` int(11) DEFAULT NULL,
+  `columnname` varchar(255) DEFAULT NULL,
+  `columntype` varchar(255) DEFAULT NULL,
+  `col_color` varchar(255) DEFAULT NULL,
+  `col_label` varchar(255) DEFAULT NULL,
+  `col_label_pos` varchar(255) DEFAULT NULL,
+  `col_max` tinyint(1) DEFAULT '0',
+  `col_min` tinyint(1) DEFAULT '0',
+  `col_name` varchar(255) DEFAULT NULL,
+  `col_stack` varchar(255) DEFAULT NULL,
+  `col_width` varchar(255) DEFAULT NULL,
+  `colyindex` int(11) DEFAULT NULL,
+  `col_average` tinyint(1) DEFAULT '0',
+  `col_type` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`columnmid`),
+  KEY `FKbffiep48qcfosj6902qx0q2wx` (`vid`),
+  CONSTRAINT `FKbffiep48qcfosj6902qx0q2wx` FOREIGN KEY (`vid`) REFERENCES `tb_visualize` (`vid`)
+) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_columnmap
+-- ----------------------------
+INSERT INTO `tb_columnmap` VALUES ('55', 'showkey', null, 'varchar(20)', '62', null, null, null, null, null, '0', '0', null, null, null, null, '0', null);
+INSERT INTO `tb_columnmap` VALUES ('56', 'showvalue', null, 'double(10,2)', '62', null, null, null, null, null, '0', '0', null, null, null, null, '0', null);
+INSERT INTO `tb_columnmap` VALUES ('57', 'showvalue1', null, 'double(10,2)', '62', null, null, null, null, null, '0', '0', null, null, null, null, '0', null);
+INSERT INTO `tb_columnmap` VALUES ('58', 'showvalue2', null, 'double(10,2)', '62', null, null, null, null, null, '0', '0', null, null, null, null, '0', null);
+INSERT INTO `tb_columnmap` VALUES ('59', 'showkey', null, 'varchar(20)', '63', null, null, null, null, null, '0', '0', null, null, null, null, '0', null);
+INSERT INTO `tb_columnmap` VALUES ('60', 'showvalue3', null, 'double(10,2)', '63', null, null, null, null, null, '0', '0', null, null, null, null, '0', null);
+INSERT INTO `tb_columnmap` VALUES ('61', 'showvalue4', null, 'double(10,2)', '63', null, null, null, null, null, '0', '0', null, null, null, null, '0', null);
+INSERT INTO `tb_columnmap` VALUES ('62', 'showkey', null, 'varchar(20)', '64', null, null, null, null, null, '0', '0', null, null, null, null, '0', null);
+INSERT INTO `tb_columnmap` VALUES ('63', 'showvalue', null, 'double(10,2)', '64', null, null, null, 'true', null, '1', '1', '销量1', null, '30', null, '0', null);
+INSERT INTO `tb_columnmap` VALUES ('64', 'showvalue1', null, 'double(10,2)', '64', null, null, null, 'false', null, '0', '0', '销量2', null, null, null, '0', null);
+INSERT INTO `tb_columnmap` VALUES ('65', 'showvalue2', null, 'double(10,2)', '64', null, null, null, 'false', null, '0', '0', '销量3', null, null, null, '0', null);
+INSERT INTO `tb_columnmap` VALUES ('66', 'showvalue3', null, 'double(10,2)', '64', null, null, null, 'false', null, '0', '0', '销量4', null, null, null, '0', null);
+INSERT INTO `tb_columnmap` VALUES ('67', 'showvalue4', null, 'double(10,2)', '64', null, null, null, 'false', null, '0', '0', '销量5', null, null, null, '0', null);
+INSERT INTO `tb_columnmap` VALUES ('106', 'showkey', null, 'varchar(20)', '72', null, null, null, null, null, null, null, null, null, null, null, '0', null);
+INSERT INTO `tb_columnmap` VALUES ('107', 'showvalue', null, 'double(10,2)', '72', null, null, null, null, null, null, null, null, null, null, null, '0', null);
+INSERT INTO `tb_columnmap` VALUES ('108', 'showvalue1', null, 'double(10,2)', '72', null, null, null, null, null, null, null, null, null, null, null, '0', null);
+INSERT INTO `tb_columnmap` VALUES ('109', 'showvalue2', null, 'double(10,2)', '72', null, null, null, null, null, null, null, null, null, null, null, '0', null);
+INSERT INTO `tb_columnmap` VALUES ('110', 'showvalue3', null, 'double(10,2)', '72', null, null, null, null, null, null, null, null, null, null, null, '0', null);
+INSERT INTO `tb_columnmap` VALUES ('111', 'showvalue4', null, 'double(10,2)', '72', null, null, null, null, null, null, null, null, null, null, null, '0', null);
+
+-- ----------------------------
 -- Table structure for tb_dashboard
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_dashboard`;
@@ -117,13 +267,12 @@ CREATE TABLE `tb_dashboard` (
   `refresh` int(6) DEFAULT '0',
   PRIMARY KEY (`bid`),
   UNIQUE KEY `IDX_dashboardname` (`dashboardname`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_dashboard
 -- ----------------------------
-INSERT INTO `tb_dashboard` VALUES ('9', '工具校准单', null, '工具校准单', '工具校准单', null, '0');
-INSERT INTO `tb_dashboard` VALUES ('10', '物资发放列表', '物资发放', '物资发放', '物资发放业务', null, '0');
+INSERT INTO `tb_dashboard` VALUES ('14', '', null, 'line多列测试', '', null, '0');
 
 -- ----------------------------
 -- Table structure for tb_dashboard_visualize
@@ -152,15 +301,14 @@ CREATE TABLE `tb_dashboard_visualize` (
   KEY `FK3006umesaltsyga8yv3wwixda` (`vid`),
   CONSTRAINT `FK3006umesaltsyga8yv3wwixda` FOREIGN KEY (`vid`) REFERENCES `tb_visualize` (`vid`),
   CONSTRAINT `FKs0u7h9oxeym8pakpfyg3fd8i9` FOREIGN KEY (`bid`) REFERENCES `tb_dashboard` (`bid`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_dashboard_visualize
 -- ----------------------------
-INSERT INTO `tb_dashboard_visualize` VALUES ('38', '9', '34', '7', '6', '0', '0', null, null, null, null, null, null, null, null, null, null);
-INSERT INTO `tb_dashboard_visualize` VALUES ('39', '9', '33', '7', '6', '6', '0', null, null, null, null, null, null, null, null, null, null);
-INSERT INTO `tb_dashboard_visualize` VALUES ('40', '9', '32', '7', '6', '0', '11', null, null, null, null, null, null, null, null, null, null);
-INSERT INTO `tb_dashboard_visualize` VALUES ('48', '10', '33', '7', '6', '0', '6', null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tb_dashboard_visualize` VALUES ('54', '14', '64', '7', '7', '0', '0', null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tb_dashboard_visualize` VALUES ('57', '14', '72', '4', '6', '0', '7', null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tb_dashboard_visualize` VALUES ('58', '14', '72', '11', '7', '0', '7', null, null, null, null, null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_database
@@ -176,82 +324,15 @@ CREATE TABLE `tb_database` (
   `drivername` varchar(60) DEFAULT NULL,
   `valid` int(2) DEFAULT '0',
   `datasourcename` varchar(80) DEFAULT NULL,
+  `dbtype` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`dbid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_database
 -- ----------------------------
-INSERT INTO `tb_database` VALUES ('1', 'spark4', '3306', 'market_analysis', 'root', 'mysql', 'com.mysql.jdbc.Driver', '1', null);
-
--- ----------------------------
--- Table structure for tb_line_double
--- ----------------------------
-DROP TABLE IF EXISTS `tb_line_double`;
-CREATE TABLE `tb_line_double` (
-  `sid` int(11) NOT NULL AUTO_INCREMENT,
-  `showkey` varchar(255) DEFAULT NULL,
-  `showvalue` double DEFAULT NULL,
-  PRIMARY KEY (`sid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tb_line_double
--- ----------------------------
-
--- ----------------------------
--- Table structure for tb_line_double_more
--- ----------------------------
-DROP TABLE IF EXISTS `tb_line_double_more`;
-CREATE TABLE `tb_line_double_more` (
-  `sid` int(11) NOT NULL AUTO_INCREMENT,
-  `showkey` varchar(255) DEFAULT NULL,
-  `showvalue1` double DEFAULT NULL,
-  `showvalue10` double DEFAULT NULL,
-  `showvalue2` double DEFAULT NULL,
-  `showvalue3` double DEFAULT NULL,
-  `showvalue4` double DEFAULT NULL,
-  `showvalue5` double DEFAULT NULL,
-  `showvalue6` double DEFAULT NULL,
-  `showvalue7` double DEFAULT NULL,
-  `showvalue8` double DEFAULT NULL,
-  `showvalue9` double DEFAULT NULL,
-  PRIMARY KEY (`sid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tb_line_double_more
--- ----------------------------
-
--- ----------------------------
--- Table structure for tb_line_float
--- ----------------------------
-DROP TABLE IF EXISTS `tb_line_float`;
-CREATE TABLE `tb_line_float` (
-  `sid` int(11) NOT NULL AUTO_INCREMENT,
-  `showkey` varchar(255) DEFAULT NULL,
-  `showvalue` float DEFAULT NULL,
-  PRIMARY KEY (`sid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tb_line_float
--- ----------------------------
-
--- ----------------------------
--- Table structure for tb_line_integer
--- ----------------------------
-DROP TABLE IF EXISTS `tb_line_integer`;
-CREATE TABLE `tb_line_integer` (
-  `sid` int(11) NOT NULL AUTO_INCREMENT,
-  `showkey` varchar(255) DEFAULT NULL,
-  `showvalue` int(11) DEFAULT NULL,
-  PRIMARY KEY (`sid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tb_line_integer
--- ----------------------------
+INSERT INTO `tb_database` VALUES ('1', 'spark4', '3306', 'sourcedb', 'root', 'mysql', 'com.mysql.jdbc.Driver', '1', null, 'mysql');
+INSERT INTO `tb_database` VALUES ('2', 'hxqh.dev', '1521', 'iocdb', 'ioc_user', 'ioc#1234', 'oracle.jdbc.driver.OracleDriver', '0', null, 'oracle');
 
 -- ----------------------------
 -- Table structure for tb_model
@@ -278,6 +359,27 @@ CREATE TABLE `tb_model` (
 INSERT INTO `tb_model` VALUES ('1', null, null, '车辆管理descriptionhk', '车辆管理hk', null, null, '0', null, null, null);
 INSERT INTO `tb_model` VALUES ('2', null, null, '工具台账', '工具台账', null, null, '0', null, null, null);
 INSERT INTO `tb_model` VALUES ('3', null, null, '工单管理', '工单管理', null, null, '1', null, null, null);
+
+-- ----------------------------
+-- Table structure for tb_orienty
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_orienty`;
+CREATE TABLE `tb_orienty` (
+  `orientyid` int(11) NOT NULL AUTO_INCREMENT,
+  `y_axis_label` varchar(255) DEFAULT NULL,
+  `yaxisline` tinyint(1) DEFAULT '1',
+  `yinverse` tinyint(1) DEFAULT '0',
+  `ysplitline` tinyint(1) DEFAULT '1',
+  `yname` varchar(255) DEFAULT NULL,
+  `vid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`orientyid`),
+  KEY `FK4n37clfwkaehgrwur5u1oo6af` (`vid`),
+  CONSTRAINT `FK4n37clfwkaehgrwur5u1oo6af` FOREIGN KEY (`vid`) REFERENCES `tb_visualize` (`vid`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_orienty
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for tb_role
@@ -339,9 +441,9 @@ CREATE TABLE `tb_tablemanager` (
 -- ----------------------------
 -- Records of tb_tablemanager
 -- ----------------------------
-INSERT INTO `tb_tablemanager` VALUES ('1', 'line', '8', 'ab_line_');
-INSERT INTO `tb_tablemanager` VALUES ('2', 'pie', '8', 'ab_pie_');
-INSERT INTO `tb_tablemanager` VALUES ('3', 'bar', '4', 'ab_bar_');
+INSERT INTO `tb_tablemanager` VALUES ('1', 'line', '17', 'ab_line_');
+INSERT INTO `tb_tablemanager` VALUES ('2', 'pie', '10', 'ab_pie_');
+INSERT INTO `tb_tablemanager` VALUES ('3', 'bar', '8', 'ab_bar_');
 
 -- ----------------------------
 -- Table structure for tb_user
@@ -415,19 +517,57 @@ CREATE TABLE `tb_visualize` (
   `echart_tit_color` varchar(255) DEFAULT NULL,
   `echart_tit_pos` varchar(255) DEFAULT NULL,
   `sourcetablename` varchar(60) DEFAULT NULL,
-  `columns` varchar(255) DEFAULT NULL,
+  `columnsnumber` int(2) DEFAULT NULL,
+  `dbid` int(10) DEFAULT NULL,
+  `alignwithlabel` tinyint(1) DEFAULT '0',
+  `datazoom` tinyint(1) DEFAULT '0',
+  `x_axis_label` varchar(255) DEFAULT NULL,
+  `xaxisline` tinyint(1) DEFAULT '1',
+  `xinverse` tinyint(1) DEFAULT '0',
+  `xsplitline` tinyint(1) DEFAULT '1',
+  `xtoy` tinyint(1) DEFAULT '0',
+  `y_axis_label` varchar(255) DEFAULT NULL,
+  `yaxisline` tinyint(1) DEFAULT '1',
+  `yinverse` tinyint(1) DEFAULT '0',
+  `ysplitline` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`vid`),
   UNIQUE KEY `IDX_visualizename` (`visualizename`),
   UNIQUE KEY `IDX_tablename` (`tablename`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_visualize
 -- ----------------------------
-INSERT INTO `tb_visualize` VALUES ('32', '工具校准单', 'ab_line_1', 'line', '导出工具台账表工具台账', '工具台账页面', null, null, null, 'double', null, null, null, null, null, '#FFFFFF', '#000000', null, null, null);
-INSERT INTO `tb_visualize` VALUES ('33', '工具校准单', 'ab_pie_1', 'pie', null, '工具校准单列表', null, null, null, 'double', null, null, null, null, null, null, null, null, null, null);
-INSERT INTO `tb_visualize` VALUES ('34', '工具校准单', 'ab_bar_1', 'bar', '导出工具校准单中校准行', '工具校准行页面', null, null, null, 'float', null, null, null, null, null, '#FFFFFF', '#000000', null, null, null);
-INSERT INTO `tb_visualize` VALUES ('48', '长春一汽', 'ab_pie_7', 'pie', '各部门各项目工时表中项目属性字段做分组聚合统计', '1-各类项目工时分布图', null, null, null, 'double', '各类项目工时分布图', 'horizontal', 'topLeft', '1', '1', '#FFFFFF', '#940B0B', 'topCenter', null, null);
+INSERT INTO `tb_visualize` VALUES ('62', '工具校准单', 'ab_bar_4', 'bar', '新增接口测试003', '新增接口测试003', null, null, null, 'double', null, null, null, null, null, null, null, null, 'line_source', '4', '1', '0', '0', null, '1', '0', '1', '0', null, '1', '0', '1');
+INSERT INTO `tb_visualize` VALUES ('63', '工具校准单', 'ab_bar_5', 'bar', '新增接口测试004', '新增接口测试004', null, null, null, 'double', null, null, null, null, null, null, null, null, 'line_source', '3', '1', '0', '0', null, '1', '0', '1', '0', null, '1', '0', '1');
+INSERT INTO `tb_visualize` VALUES ('64', '工具校准单', 'ab_bar_6', 'bar', '新增接口', '新增接口', null, null, '销量', 'double', '测试数据', 'horizontal', 'topRight', '1', '1', '#FFFFFF', '#D62C2C', 'topLeft', 'line_source', '6', '1', '0', '1', null, '1', '0', '1', '0', '（顿）', '1', '0', '1');
+INSERT INTO `tb_visualize` VALUES ('72', '工具校准单', 'ab_bar_7', 'bar', '11212', 'hktest22', null, null, null, 'double', null, null, null, null, null, null, null, null, 'line_source', '6', '1', null, null, null, null, null, null, null, null, null, null, null);
+
+-- ----------------------------
+-- Table structure for test_table
+-- ----------------------------
+DROP TABLE IF EXISTS `test_table`;
+CREATE TABLE `test_table` (
+  `sid` int(20) NOT NULL AUTO_INCREMENT,
+  `showkey` varchar(20) DEFAULT NULL,
+  `showvalue` double(10,2) DEFAULT NULL,
+  `showvalue1` double(10,2) DEFAULT NULL,
+  `showvalue2` double(10,2) DEFAULT NULL,
+  `showvalue3` double(10,2) DEFAULT NULL,
+  `showvalue4` double(10,2) DEFAULT NULL,
+  PRIMARY KEY (`sid`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of test_table
+-- ----------------------------
+INSERT INTO `test_table` VALUES ('1', '周一', '135.00', '145.00', '213.00', '196.00', '27.00');
+INSERT INTO `test_table` VALUES ('2', '周二', '269.00', '17.00', '209.00', '233.00', '2.00');
+INSERT INTO `test_table` VALUES ('3', '周三', '285.00', '56.00', '239.00', '21.00', '25.00');
+INSERT INTO `test_table` VALUES ('4', '周四', '87.00', '197.00', '156.00', '65.00', '28.00');
+INSERT INTO `test_table` VALUES ('5', '周五', '112.00', '44.00', '214.00', '126.00', '28.00');
+INSERT INTO `test_table` VALUES ('6', '周六', '183.00', '153.00', '166.00', '148.00', '3.00');
+INSERT INTO `test_table` VALUES ('7', '周日', '133.00', '10.00', '174.00', '244.00', '18.00');
 
 -- ----------------------------
 -- View structure for v_role_model
