@@ -18,9 +18,13 @@ public class Database {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer dbid;
     private String ip;
+    @Column(name = "[port]")
     private String port;
+    @Column(name = "[database]")
     private String database;
+    @Column(name = "[user]")
     private String user;
+    @Column(name = "[password]")
     private String password;
     private String drivername;
     @JsonIgnore

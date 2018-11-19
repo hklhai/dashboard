@@ -90,6 +90,11 @@ public class ShowServiceImpl implements ShowService {
         put(7, "抖音广告");
     }};
 
+    private static Map<String, String> dbMap = new HashMap<String, String>() {{
+        put("mysql", "com.mysql.jdbc.Driver");
+        put("oracle", "oracle.jdbc.driver.OracleDriver");
+    }};
+
     private static final String[] EXCEL_HEADER = {"业务类别", "视图名称", "表名", "视图类型", "数值类型", "业务处理逻辑描述"};
 
 
@@ -689,6 +694,8 @@ public class ShowServiceImpl implements ShowService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void databaseAdd(Database database) {
+        database.setDrivername(dbMap.get(database.getDbtype()));
+        database.setValid(0);
         databaseRepository.save(database);
     }
 
@@ -697,6 +704,8 @@ public class ShowServiceImpl implements ShowService {
     public void databaseUpdate(Database database) {
         Database databaseDb = databaseRepository.findOne(database.getDbid());
         BeanUtils.copyProperties(database, databaseDb, ObjectUtil.getNullPropertyNames(database));
+        databaseDb.setDrivername(dbMap.get(database.getDbtype()));
+        databaseDb.setValid(0);
         databaseRepository.save(databaseDb);
     }
 
