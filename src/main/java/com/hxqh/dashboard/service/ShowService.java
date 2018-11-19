@@ -215,14 +215,6 @@ public interface ShowService {
     void columnMapUpdate(ColumnMap columnMap);
 
     /**
-     * 新增列
-     *
-     * @param columnMap
-     */
-    void columnMapAdd(ColumnMap columnMap);
-
-
-    /**
      * 新建表时获取tableManager分配表名
      *
      * @param visualDto
@@ -233,9 +225,23 @@ public interface ShowService {
     /**
      * 验证数据库链接
      *
-     * @param dbid
+     * @param dbId
      * @return
      * @throws Exception
      */
-    Boolean validateDatabase(Integer dbid) throws Exception;
+    Boolean validateDatabase(Integer dbId) throws Exception;
+
+    /**
+     * 添加数据库
+     *
+     * @param database
+     */
+    void databaseAdd(Database database);
+
+    /**
+     * 更新数据库配置
+     *
+     * @param database
+     */
+    void databaseUpdate(Database database);
 }

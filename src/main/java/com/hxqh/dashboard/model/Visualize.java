@@ -83,6 +83,13 @@ public class Visualize implements Serializable {
     @Column(name = "yinverse", columnDefinition = "bool default false")
     private Boolean yInverse;
 
+    // todo 字段类型确认
+//    private Integer max;
+//    private Integer min;
+//    private String outOfRangeColor;
+//    private String controllerColor;
+
+
     public Visualize() {
     }
 

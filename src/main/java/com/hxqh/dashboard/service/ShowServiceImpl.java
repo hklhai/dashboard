@@ -95,10 +95,8 @@ public class ShowServiceImpl implements ShowService {
 
     private static final String DROP_TABLE_SQL = " drop table ";
     private static final String DOUBLE_TYPE = "double";
-    private static final String FLOAT_TYPE = "float";
     private static final Integer START_NUM = 1;
     private static final Integer END_NUM = 8;
-    private static final Integer SPLIT_NUM = 150;
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
@@ -193,16 +191,16 @@ public class ShowServiceImpl implements ShowService {
     private List<ColumnDto> getGenerateTable(VisualDto visualDto, List<ColumnMap> columns, Visualize visualize, StringBuilder sql, String tableName) {
         List<ColumnDto> columnMapList = visualDto.getColumnList();
 
-        sql.append("create table ").append(tableName).append(" (`sid` int(20) NOT NULL AUTO_INCREMENT,");
+        sql.append(Constants.CREATE_TABLE).append(tableName).append(Constants.CREATE_TABLE_ID);
         for (int i = 0; i < columnMapList.size(); i++) {
             ColumnDto columnDto = columnMapList.get(i);
-            sql.append("`").append(columnDto.getField()).append("` ").append(columnDto.getType()).append(" DEFAULT NULL, ");
+            sql.append("`").append(columnDto.getField()).append("` ").append(columnDto.getType()).append(Constants.CREATE_TABLE_DEFAULT);
             ColumnMap columnMap = new ColumnMap();
             BeanUtils.copyProperties(columnDto, columnMap);
             columnMap.setVisualize(visualize);
             columns.add(columnMap);
         }
-        sql.append(" PRIMARY KEY (`sid`))");
+        sql.append(Constants.CREATE_TABLE_PRIMARY);
 
         sessionFactory.getCurrentSession().createSQLQuery(sql.toString()).executeUpdate();
         visualize.setTablename(tableName);
@@ -214,16 +212,16 @@ public class ShowServiceImpl implements ShowService {
         for (int i = START_NUM; i < END_NUM; i++) {
             Random random = new Random();
 
-            insertDemoSql.append("insert into ").append(tableName).append("(");
+            insertDemoSql.append(Constants.INSERT_SQL).append(tableName).append("(");
             for (int j = 0; j < columnMapList.size(); j++) {
                 ColumnDto columnDto = columnMapList.get(j);
                 insertDemoSql.append(columnDto.getField()).append(",");
             }
             insertDemoSql.setLength(insertDemoSql.length() - 1);
             if (PIE.equals(visualize.getType())) {
-                insertDemoSql.append(") values ('").append(pieXMap.get(i)).append("'");
+                insertDemoSql.append(Constants.VALUE_SQL).append(pieXMap.get(i)).append("'");
             } else {
-                insertDemoSql.append(") values ('").append(lineXMap.get(i)).append("'");
+                insertDemoSql.append(Constants.VALUE_SQL).append(lineXMap.get(i)).append("'");
             }
             for (int j = 1; j < columnMapList.size(); j++) {
                 rand = random.nextInt(300) + 10;
@@ -338,7 +336,7 @@ public class ShowServiceImpl implements ShowService {
         Connection conn = JdbcUtil.getConnection(url, database.getUser(), database.getPassword(), database.getDrivername());
         String sql = Constants.SHOW_TAB_SQL_MAP.get(database.getDbtype());
         if (Constants.ORACLE.equals(database.getDbtype())) {
-            sql = sql + database.getUser().toUpperCase() + "'";
+            sql = sql + database.getUser().toUpperCase() + Constants.SUFFIX;
         }
         PreparedStatement st = conn.prepareStatement(sql);
         ResultSet rs = st.executeQuery();
@@ -360,7 +358,6 @@ public class ShowServiceImpl implements ShowService {
     @Override
     public List<ColumnDto> columnList(String tablename, Integer dbid) throws Exception {
         List<ColumnDto> columnDtoList = new ArrayList<>(50);
-        // todo 增加dbid
         Database database = databaseRepository.findOne(dbid);
         String url = getDbConnectString(database);
 
@@ -378,10 +375,10 @@ public class ShowServiceImpl implements ShowService {
             ColumnDto columnDto = null;
             if (Constants.ORACLE.equals(database.getDbtype())) {
                 String type = rs.getString(Constants.TABLE_COLUMN_TYPE);
-                if (type.startsWith("NUMBER")) {
-                    type = type.replace("NUMBER", "double");
-                } else if (type.startsWith("VARCHAR2")) {
-                    type = type.replace("VARCHAR2", "varchar");
+                if (type.startsWith(Constants.TYPE_NUMBER)) {
+                    type = type.replace(Constants.TYPE_NUMBER, Constants.TYPE_DOUBLE);
+                } else if (type.startsWith(Constants.TYPE_VARCHAR2)) {
+                    type = type.replace(Constants.TYPE_VARCHAR2, Constants.TYPE_VARCHAR);
                 }
                 columnDto = new ColumnDto(rs.getString(Constants.TABLE_COLUMN_NAME).toLowerCase(), type);
             } else {
@@ -394,7 +391,8 @@ public class ShowServiceImpl implements ShowService {
     }
 
     private String getDbConnectString(Database database) {
-        String url = "jdbc:" + database.getDbtype() + dbType.get(database.getDbtype()) + database.getIp() + ":" + database.getPort() + "/" + database.getDatabase();
+        String url = Constants.JDBC + database.getDbtype() + dbType.get(database.getDbtype()) + database.getIp() +
+                ":" + database.getPort() + "/" + database.getDatabase();
         if (!Constants.ORACLE.equals(database.getDbtype())) {
             url = url + Constants.URL_SUFFIX;
         }
@@ -467,10 +465,10 @@ public class ShowServiceImpl implements ShowService {
     public void dashboardDelete(Integer integerValue) {
         Dashboard dashboard = dashboardRepository.findOne(integerValue);
         List<DashboardVisualize> dashboardVisualizes = dashboard.getDashboardVisualizes();
-        for (int i = 0; i < dashboardVisualizes.size(); i++) {
-            DashboardVisualize dashboardVisualize = dashboardVisualizes.get(i);
+        dashboardVisualizes.stream().map(dashboardVisualize -> {
             dashboardVisualizeRepository.delete(dashboardVisualize.getDid());
-        }
+            return null;
+        });
         dashboardRepository.delete(integerValue);
     }
 
@@ -602,6 +600,7 @@ public class ShowServiceImpl implements ShowService {
         return visualizeDto;
     }
 
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public HSSFWorkbook exportVisualizeExcel() {
         Sort sort = new Sort(Sort.Direction.DESC, "vid");
@@ -661,12 +660,6 @@ public class ShowServiceImpl implements ShowService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void columnMapAdd(ColumnMap columnMap) {
-        columnMapRepository.save(columnMap);
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    @Override
     public String getTableName(VisualDto visualDto) {
         // 获取表名称
         TableManager tableManager = tableManagerRepository.findByTablecategory(visualDto.getVisualize().getType());
@@ -678,8 +671,8 @@ public class ShowServiceImpl implements ShowService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public Boolean validateDatabase(Integer dbid) throws Exception {
-        Database database = databaseRepository.findOne(dbid);
+    public Boolean validateDatabase(Integer dbId) throws Exception {
+        Database database = databaseRepository.findOne(dbId);
         String url = getDbConnectString(database);
         Connection conn = JdbcUtil.getConnection(url, database.getUser(), database.getPassword(), database.getDrivername());
         if (!conn.isClosed()) {
@@ -691,6 +684,20 @@ public class ShowServiceImpl implements ShowService {
             JdbcUtil.closeConnect(conn);
             return false;
         }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void databaseAdd(Database database) {
+        databaseRepository.save(database);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void databaseUpdate(Database database) {
+        Database databaseDb = databaseRepository.findOne(database.getDbid());
+        BeanUtils.copyProperties(database, databaseDb, ObjectUtil.getNullPropertyNames(database));
+        databaseRepository.save(databaseDb);
     }
 
 }

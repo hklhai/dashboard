@@ -42,6 +42,20 @@ public interface Constants {
     String URL_SUFFIX = "?characterEncoding=utf8&useSSL=false";
     String ORACLE = "oracle";
     String MYSQL = "mysql";
+    String JDBC = "jdbc:";
+    String TYPE_VARCHAR2 = "VARCHAR2";
+    String TYPE_VARCHAR = "varchar";
+    String TYPE_NUMBER = "NUMBER";
+    String TYPE_DOUBLE ="double";
+    String SUFFIX = "'";
+
+    String INSERT_SQL = "insert into ";
+    String VALUE_SQL = ") values ('";
+
+    String CREATE_TABLE = "create table ";
+    String CREATE_TABLE_ID = " (`sid` int(20) NOT NULL AUTO_INCREMENT,";
+    String CREATE_TABLE_DEFAULT = " DEFAULT NULL, ";
+    String CREATE_TABLE_PRIMARY = " PRIMARY KEY (`sid`))";
 
     Map<String, String> SHOW_TAB_SQL_MAP = new HashMap<String, String>() {{
         put("oracle", "select table_name  from all_tables where owner='");

@@ -29,6 +29,17 @@ public class OrientY implements Serializable {
     @Transient
     private Integer vid;
 
+    // todo 字段类型确认
+//    private String ylineColor;
+//    private String ynameColor;
+//    private String yaxisLabelPos;
+//    private String xlineColor;
+//    private String xnameColor;
+//    private String xaxisLabelPos;
+    // todo 字段确认意义及位置
+//    private String subTit;
+
+
     public Integer getOrientyid() {
         return orientyid;
     }

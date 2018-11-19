@@ -1,7 +1,5 @@
 package com.hxqh.dashboard.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 
 /**
@@ -42,6 +40,14 @@ public class ColumnMap {
     private String colType;
     @Column(name = "col_average", columnDefinition = "bool default false")
     private Boolean colAverage;
+
+    // todo 字段类型确认
+//    @Column(name = "col_gradient", columnDefinition = "bool default false")
+//    private Boolean  colGradient;
+//    private String  colStartColor;
+//    private String colEndColor;
+//    private String colLabelRotate;
+
 
     public ColumnMap() {
     }

@@ -356,18 +356,29 @@ public class ShowController {
 
 
     @ResponseBody
-    @RequestMapping(value = "/columnMapAdd", method = RequestMethod.POST)
-    public Message columnMapAdd(@RequestBody ColumnMap columnMap) {
+    @RequestMapping(value = "/databaseAdd", method = RequestMethod.POST)
+    public Message databaseAdd(@RequestBody Database database) {
         Message message;
         try {
-            if (showService.isSameColumn(columnMap)) {
-                message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
-            } else {
-                showService.columnMapAdd(columnMap);
-                message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
-            }
+            showService.databaseAdd(database);
+            message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
         } catch (Exception e) {
             message = new Message(Constants.FAIL, Constants.ADDFAIL);
+            e.printStackTrace();
+        }
+        return message;
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/databaseUpdate", method = RequestMethod.PUT)
+    public Message databaseUpdate(@RequestBody Database database) {
+        Message message = null;
+        try {
+            showService.databaseUpdate(database);
+            message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
+        } catch (Exception e) {
+            message = new Message(Constants.FAIL, Constants.EDITFAIL);
             e.printStackTrace();
         }
         return message;

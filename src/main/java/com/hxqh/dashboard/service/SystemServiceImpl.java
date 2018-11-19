@@ -268,9 +268,10 @@ public class SystemServiceImpl implements SystemService {
         // delete
         List<Integer> deleteList = userRolesDto.getDeleteList();
         if (null != deleteList && deleteList.size() > 0) {
-            for (int j = 0; j < deleteList.size(); j++) {
-                userRoleRepository.delete(deleteList.get(j));
-            }
+            deleteList.stream().map(ele -> {
+                userRoleRepository.delete(ele);
+                return null;
+            });
         }
     }
 
@@ -296,11 +297,11 @@ public class SystemServiceImpl implements SystemService {
         // delete
         List<Integer> deleteList = roleModelsDto.getDeleteList();
         if (null != deleteList && deleteList.size() > 0) {
-            for (int j = 0; j < deleteList.size(); j++) {
-                roleModelRepository.delete(deleteList.get(j));
-            }
+            deleteList.stream().map(e -> {
+                roleModelRepository.delete(e);
+                return null;
+            });
         }
-
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
