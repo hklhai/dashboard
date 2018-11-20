@@ -41,7 +41,7 @@ public class Visualize implements Serializable {
     private String echartTitPos;
     private String echartTitColor;
 
-    @OneToMany(mappedBy = "visualize")
+    @OneToMany(mappedBy = "visualize", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<DashboardVisualize> dashboardVisualizes;
 

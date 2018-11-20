@@ -244,4 +244,13 @@ public interface ShowService {
      * @param database
      */
     void databaseUpdate(Database database);
+
+
+    /**
+     * 判断删除视图是否被仪表板使用
+     *
+     * @param integerValue
+     * @return
+     */
+    Dashboard visualizeHasUsed(Integer integerValue);
 }

@@ -23,6 +23,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by Ocean lin on 2018/10/15.
@@ -69,10 +70,13 @@ public class ShowController {
             if (showService.isVisualizeByVisualizename(visualDto.getVisualize().getVisualizename())) {
                 message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
             } else {
-
-                String tableName = showService.getTableName(visualDto);
-                showService.addVisualize(visualDto, tableName);
-                message = new Message(Constants.SUCCESS, Constants.ADDSUCCESS);
+                // 判断column符合规范，第一列为字符串，其余为数值
+                message = validColumn(visualDto);
+                if (message.getCode() == 1) {
+                    String tableName = showService.getTableName(visualDto);
+                    showService.addVisualize(visualDto, tableName);
+                    message = new Message(Constants.SUCCESS, Constants.ADDSUCCESS);
+                }
             }
         } catch (Exception e) {
             message = new Message(Constants.FAIL, Constants.ADDFAIL);
@@ -81,13 +85,41 @@ public class ShowController {
         return message;
     }
 
+    private Message validColumn(VisualDto visualDto) {
+        Message message = null;
+        List<ColumnDto> columnMapList = visualDto.getColumnList();
+        List<String> typeList = columnMapList.stream().map(ColumnDto::getType).collect(Collectors.toList());
+        for (int i = 0; i < typeList.size(); i++) {
+            String type = typeList.get(i);
+            if (i == 0) {
+                if (!type.toLowerCase().startsWith("varchar")) {
+                    message = new Message(Constants.FAIL, Constants.FIRST_NOT_VARCHAR);
+                    return message;
+                }
+            } else {
+                if (type.toLowerCase().startsWith("varchar")) {
+                    message = new Message(Constants.FAIL, Constants.TAIL_MUST_NUMBER);
+                    return message;
+                }
+            }
+        }
+        message = new Message(Constants.SUCCESS);
+        return message;
+    }
+
     @ResponseBody
     @RequestMapping(value = "/visualize/{id}", method = RequestMethod.DELETE)
     public Message visualizeDelete(@PathVariable("id") Integer integerValue) {
         Message message = null;
         try {
-            showService.visualizeDelete(integerValue);
-            message = new Message(Constants.SUCCESS, Constants.DELETESUCCESS);
+            Dashboard dashboard = showService.visualizeHasUsed(integerValue);
+            if (null == dashboard) {
+                showService.visualizeDelete(integerValue);
+                message = new Message(Constants.SUCCESS, Constants.DELETESUCCESS);
+            } else {
+                String dashboardname = dashboard.getDashboardname();
+                message = new Message(Constants.FAIL, dashboardname + Constants.HASUSED);
+            }
         } catch (Exception e) {
             message = new Message(Constants.FAIL, Constants.DELETEFAIL);
             e.printStackTrace();

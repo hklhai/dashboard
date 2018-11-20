@@ -17,12 +17,16 @@ public interface Constants {
     Integer FAIL = 0;
     String CONNECTION_SUCCESSFUL = "Connection successful!";
     String CONNECTION_FAILED = "connection failed!";
+    String FIRST_NOT_VARCHAR = "首列必须为varchar类型";
+    String TAIL_MUST_NUMBER = "首列必须为数值类型";
+
 
     String ADDSUCCESS = "Add Success!";
     String ADDFAIL = "Add Fail!";
     String ADDFAILHASHALREADY = "Already exists!";
 
     String DELETESUCCESS = "Delete Success!";
+    String HASUSED = "仪表板正在使用，请先接解除与仪表板绑定关系！";
     String DELETEFAIL = "Delete Fail!";
     String EDITSUCCESS = "Edit Success!";
     String EDITFAIL = "Edit Fail!";

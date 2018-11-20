@@ -190,6 +190,13 @@ public class ShowServiceImpl implements ShowService {
         visualize.setColumnMapList(columns);
         visualize.setColumnsnumber(columnMapList.size());
         visualize.setYtype(DOUBLE_TYPE);
+
+        // 设置默认值
+        visualize.setxAxisLine(true);
+        visualize.setxSplitLine(true);
+        visualize.setyAxisLine(true);
+        visualize.setySplitLine(true);
+
         visualizeRepository.save(visualize);
     }
 
@@ -387,9 +394,14 @@ public class ShowServiceImpl implements ShowService {
                 }
                 columnDto = new ColumnDto(rs.getString(Constants.TABLE_COLUMN_NAME).toLowerCase(), type);
             } else {
-                columnDto = new ColumnDto(rs.getString(Constants.TABLE_COLUMN_NAME), rs.getString(Constants.TABLE_COLUMN_TYPE));
+                String properityName = rs.getString(Constants.TABLE_COLUMN_NAME);
+                if (!properityName.toLowerCase().contains("id")) {
+                    columnDto = new ColumnDto(properityName, rs.getString(Constants.TABLE_COLUMN_TYPE));
+                }
             }
-            columnDtoList.add(columnDto);
+            if (null != columnDto) {
+                columnDtoList.add(columnDto);
+            }
         }
         JdbcUtil.closeResource(conn, rs, st);
         return columnDtoList;
@@ -432,18 +444,21 @@ public class ShowServiceImpl implements ShowService {
         return null != dashboard ? true : false;
     }
 
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public Dashboard visualizeHasUsed(Integer integerValue) {
+        Visualize visualize = visualizeRepository.findOne(integerValue);
+        List<DashboardVisualize> dashboardVisualizes = visualize.getDashboardVisualizes();
+        if (null != dashboardVisualizes && dashboardVisualizes.size() > 0) {
+            return dashboardVisualizes.get(0).getDashboard();
+        }
+        return null;
+    }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void visualizeDelete(Integer integerId) {
         Visualize visualize = visualizeRepository.findOne(integerId);
-        List<DashboardVisualize> dashboardVisualizes = visualize.getDashboardVisualizes();
-        if (dashboardVisualizes.size() > 0) {
-            dashboardVisualizes.stream().map(e -> {
-                dashboardVisualizeRepository.delete(e.getDid());
-                return null;
-            });
-        }
         List<ColumnMap> columnMapList = visualize.getColumnMapList();
         if (columnMapList.size() > 0) {
             columnMapList.stream().map(e -> {
@@ -474,7 +489,6 @@ public class ShowServiceImpl implements ShowService {
             dashboardVisualizeRepository.delete(dashboardVisualize.getDid());
             return null;
         });
-        dashboardRepository.delete(integerValue);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -519,6 +533,8 @@ public class ShowServiceImpl implements ShowService {
         // 存储多个y轴情况
         if (null != yList && yList.size() > 0) {
             yList = yList.stream().map(ele -> {
+                ele.setyAxisLine(true);
+                ele.setySplitLine(true);
                 ele.setVisualize(visualizeDb);
                 return ele;
             }).collect(Collectors.toList());
@@ -708,5 +724,6 @@ public class ShowServiceImpl implements ShowService {
         databaseDb.setValid(0);
         databaseRepository.save(databaseDb);
     }
+
 
 }

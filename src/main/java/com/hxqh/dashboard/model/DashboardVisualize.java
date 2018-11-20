@@ -14,7 +14,7 @@ public class DashboardVisualize {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer did;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "BID")
     private Dashboard dashboard;
 

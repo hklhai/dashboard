@@ -15,6 +15,10 @@ public class Message {
     private String message;
     private List<ViewUserModel> modelList;
 
+    public Message(int code) {
+        this.code = code;
+    }
+
     public Message() {
     }
 
