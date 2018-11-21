@@ -10,6 +10,8 @@ import java.io.Serializable;
 @Table(name = "tb_orienty")
 public class OrientY implements Serializable {
 
+    private static final long serialVersionUID = -8202899928615374053L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer orientyid;
@@ -32,59 +34,9 @@ public class OrientY implements Serializable {
     private String ylineColor;
     private String ynameColor;
     private String yaxisLabelPos;
-    private String xlineColor;
-    private String xnameColor;
-    private String xaxisLabelPos;
+
 
     public OrientY() {
-    }
-
-    public String getYlineColor() {
-        return ylineColor;
-    }
-
-    public void setYlineColor(String ylineColor) {
-        this.ylineColor = ylineColor;
-    }
-
-    public String getYnameColor() {
-        return ynameColor;
-    }
-
-    public void setYnameColor(String ynameColor) {
-        this.ynameColor = ynameColor;
-    }
-
-    public String getYaxisLabelPos() {
-        return yaxisLabelPos;
-    }
-
-    public void setYaxisLabelPos(String yaxisLabelPos) {
-        this.yaxisLabelPos = yaxisLabelPos;
-    }
-
-    public String getXlineColor() {
-        return xlineColor;
-    }
-
-    public void setXlineColor(String xlineColor) {
-        this.xlineColor = xlineColor;
-    }
-
-    public String getXnameColor() {
-        return xnameColor;
-    }
-
-    public void setXnameColor(String xnameColor) {
-        this.xnameColor = xnameColor;
-    }
-
-    public String getXaxisLabelPos() {
-        return xaxisLabelPos;
-    }
-
-    public void setXaxisLabelPos(String xaxisLabelPos) {
-        this.xaxisLabelPos = xaxisLabelPos;
     }
 
     public Integer getOrientyid() {
@@ -149,5 +101,29 @@ public class OrientY implements Serializable {
 
     public void setVid(Integer vid) {
         this.vid = vid;
+    }
+
+    public String getYlineColor() {
+        return ylineColor;
+    }
+
+    public void setYlineColor(String ylineColor) {
+        this.ylineColor = ylineColor;
+    }
+
+    public String getYnameColor() {
+        return ynameColor;
+    }
+
+    public void setYnameColor(String ynameColor) {
+        this.ynameColor = ynameColor;
+    }
+
+    public String getYaxisLabelPos() {
+        return yaxisLabelPos;
+    }
+
+    public void setYaxisLabelPos(String yaxisLabelPos) {
+        this.yaxisLabelPos = yaxisLabelPos;
     }
 }
