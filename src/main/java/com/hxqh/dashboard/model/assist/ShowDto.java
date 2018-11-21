@@ -57,7 +57,108 @@ public class ShowDto extends Location {
     private Boolean ySplitLine;
     private Boolean yInverse;
 
+    private Integer max;
+    private Integer min;
+    private String outOfRangeColor;
+    private String controllerColor;
+    private String subTit;
+
+    private String ylineColor;
+    private String ynameColor;
+    private String yaxisLabelPos;
+    private String xlineColor;
+    private String xnameColor;
+    private String xaxisLabelPos;
+
     public ShowDto() {
+    }
+
+    public String getYlineColor() {
+        return ylineColor;
+    }
+
+    public void setYlineColor(String ylineColor) {
+        this.ylineColor = ylineColor;
+    }
+
+    public String getYnameColor() {
+        return ynameColor;
+    }
+
+    public void setYnameColor(String ynameColor) {
+        this.ynameColor = ynameColor;
+    }
+
+    public String getYaxisLabelPos() {
+        return yaxisLabelPos;
+    }
+
+    public void setYaxisLabelPos(String yaxisLabelPos) {
+        this.yaxisLabelPos = yaxisLabelPos;
+    }
+
+    public String getXlineColor() {
+        return xlineColor;
+    }
+
+    public void setXlineColor(String xlineColor) {
+        this.xlineColor = xlineColor;
+    }
+
+    public String getXnameColor() {
+        return xnameColor;
+    }
+
+    public void setXnameColor(String xnameColor) {
+        this.xnameColor = xnameColor;
+    }
+
+    public String getXaxisLabelPos() {
+        return xaxisLabelPos;
+    }
+
+    public void setXaxisLabelPos(String xaxisLabelPos) {
+        this.xaxisLabelPos = xaxisLabelPos;
+    }
+
+    public Integer getMax() {
+        return max;
+    }
+
+    public void setMax(Integer max) {
+        this.max = max;
+    }
+
+    public Integer getMin() {
+        return min;
+    }
+
+    public void setMin(Integer min) {
+        this.min = min;
+    }
+
+    public String getOutOfRangeColor() {
+        return outOfRangeColor;
+    }
+
+    public void setOutOfRangeColor(String outOfRangeColor) {
+        this.outOfRangeColor = outOfRangeColor;
+    }
+
+    public String getControllerColor() {
+        return controllerColor;
+    }
+
+    public void setControllerColor(String controllerColor) {
+        this.controllerColor = controllerColor;
+    }
+
+    public String getSubTit() {
+        return subTit;
+    }
+
+    public void setSubTit(String subTit) {
+        this.subTit = subTit;
     }
 
     public List<OrientY> getOrientYList() {

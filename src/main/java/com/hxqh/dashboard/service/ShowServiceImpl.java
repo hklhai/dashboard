@@ -508,15 +508,17 @@ public class ShowServiceImpl implements ShowService {
         BeanUtils.copyProperties(visualize, visualizeDb, ObjectUtil.getNullPropertyNames(visualize));
 
         // 新增
-        mapList = mapList.stream().map(e -> {
-            if (null == e.getColumnmid()) {
-                // ALTER TABLE table_name ADD column_name datatype
-                String alterSQL = "ALTER TABLE " + visualizeDb.getSourcetablename() + " ADD " + e.getField() + " " + e.getType();
-                currentSession.createSQLQuery(alterSQL);
-            }
-            e.setVisualize(visualizeDb);
-            return e;
-        }).collect(Collectors.toList());
+        if (null != mapList) {
+            mapList = mapList.stream().map(e -> {
+                if (null == e.getColumnmid()) {
+                    // ALTER TABLE table_name ADD column_name datatype
+                    String alterSQL = "ALTER TABLE " + visualizeDb.getSourcetablename() + " ADD " + e.getField() + " " + e.getType();
+                    currentSession.createSQLQuery(alterSQL);
+                }
+                e.setVisualize(visualizeDb);
+                return e;
+            }).collect(Collectors.toList());
+        }
 
         // column删除
         if (null != deleteColumnList && deleteColumnList.size() > 0) {
@@ -702,6 +704,8 @@ public class ShowServiceImpl implements ShowService {
             JdbcUtil.closeConnect(conn);
             return true;
         } else {
+            database.setValid(0);
+            databaseRepository.save(database);
             JdbcUtil.closeConnect(conn);
             return false;
         }

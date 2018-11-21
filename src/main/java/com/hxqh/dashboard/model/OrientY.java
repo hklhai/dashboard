@@ -29,16 +29,63 @@ public class OrientY implements Serializable {
     @Transient
     private Integer vid;
 
-    // todo 字段类型确认
-//    private String ylineColor;
-//    private String ynameColor;
-//    private String yaxisLabelPos;
-//    private String xlineColor;
-//    private String xnameColor;
-//    private String xaxisLabelPos;
-    // todo 字段确认意义及位置
-//    private String subTit;
+    private String ylineColor;
+    private String ynameColor;
+    private String yaxisLabelPos;
+    private String xlineColor;
+    private String xnameColor;
+    private String xaxisLabelPos;
 
+    public OrientY() {
+    }
+
+    public String getYlineColor() {
+        return ylineColor;
+    }
+
+    public void setYlineColor(String ylineColor) {
+        this.ylineColor = ylineColor;
+    }
+
+    public String getYnameColor() {
+        return ynameColor;
+    }
+
+    public void setYnameColor(String ynameColor) {
+        this.ynameColor = ynameColor;
+    }
+
+    public String getYaxisLabelPos() {
+        return yaxisLabelPos;
+    }
+
+    public void setYaxisLabelPos(String yaxisLabelPos) {
+        this.yaxisLabelPos = yaxisLabelPos;
+    }
+
+    public String getXlineColor() {
+        return xlineColor;
+    }
+
+    public void setXlineColor(String xlineColor) {
+        this.xlineColor = xlineColor;
+    }
+
+    public String getXnameColor() {
+        return xnameColor;
+    }
+
+    public void setXnameColor(String xnameColor) {
+        this.xnameColor = xnameColor;
+    }
+
+    public String getXaxisLabelPos() {
+        return xaxisLabelPos;
+    }
+
+    public void setXaxisLabelPos(String xaxisLabelPos) {
+        this.xaxisLabelPos = xaxisLabelPos;
+    }
 
     public Integer getOrientyid() {
         return orientyid;

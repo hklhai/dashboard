@@ -41,15 +41,45 @@ public class ColumnMap {
     @Column(name = "col_average", columnDefinition = "bool default false")
     private Boolean colAverage;
 
-    // todo 字段类型确认
-//    @Column(name = "col_gradient", columnDefinition = "bool default false")
-//    private Boolean  colGradient;
-//    private String  colStartColor;
-//    private String colEndColor;
-//    private String colLabelRotate;
-
+    @Column(name = "col_gradient", columnDefinition = "bool default false")
+    private Boolean  colGradient;
+    private String  colStartColor;
+    private String colEndColor;
+    private String colLabelRotate;
 
     public ColumnMap() {
+    }
+
+    public Boolean getColGradient() {
+        return colGradient;
+    }
+
+    public void setColGradient(Boolean colGradient) {
+        this.colGradient = colGradient;
+    }
+
+    public String getColStartColor() {
+        return colStartColor;
+    }
+
+    public void setColStartColor(String colStartColor) {
+        this.colStartColor = colStartColor;
+    }
+
+    public String getColEndColor() {
+        return colEndColor;
+    }
+
+    public void setColEndColor(String colEndColor) {
+        this.colEndColor = colEndColor;
+    }
+
+    public String getColLabelRotate() {
+        return colLabelRotate;
+    }
+
+    public void setColLabelRotate(String colLabelRotate) {
+        this.colLabelRotate = colLabelRotate;
     }
 
     public String getColType() {
