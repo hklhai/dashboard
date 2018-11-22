@@ -30,3 +30,22 @@ INSERT INTO   pie_source   VALUES ('6', '简介访问', '35.00');
 INSERT INTO   pie_source   VALUES ('7', '抖音广告', '47.00');
 
 commit;
+
+
+create table BAR_SOURCE
+(
+  sid        NUMBER(20) not null,
+  showkey    VARCHAR2(20),
+  showvalue  NUMBER(10,2),
+  showvalue1 NUMBER(10,2),
+  showvalue2 NUMBER(10,2),
+  showvalue3 NUMBER(10,2),
+  showvalue4 NUMBER(10,2)
+)
+
+INSERT INTO   BAR_SOURCE   VALUES ('1', 'Forest', '320.00', '332.00', '301.00', '334.00', '390.00');
+INSERT INTO   BAR_SOURCE   VALUES ('2', 'Steppe', '220.00', '182.00', '191.00', '234.00', '290.00');
+INSERT INTO   BAR_SOURCE   VALUES ('3', 'Desert', '150.00', '232.00', '201.00', '154.00', '190.00');
+INSERT INTO   BAR_SOURCE   VALUES ('4', 'Wetland', '98.00', '77.00', '101.00', '99.00', '40.00');
+
+commit;

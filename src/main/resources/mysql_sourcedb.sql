@@ -16,6 +16,31 @@ Date: 2018-11-15 14:45:15
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
+-- Table structure for bar_source
+-- ----------------------------
+DROP TABLE IF EXISTS `bar_source`;
+CREATE TABLE `bar_source` (
+  `sid` int(20) NOT NULL AUTO_INCREMENT,
+  `showkey` varchar(20) DEFAULT NULL,
+  `showvalue` double(10,2) DEFAULT NULL,
+  `showvalue1` double(10,2) DEFAULT NULL,
+  `showvalue2` double(10,2) DEFAULT NULL,
+  `showvalue3` double(10,2) DEFAULT NULL,
+  `showvalue4` double(10,2) DEFAULT NULL,
+  PRIMARY KEY (`sid`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of bar_source
+-- ----------------------------
+INSERT INTO `bar_source` VALUES ('1', 'Forest', '320.00', '332.00', '301.00', '334.00', '390.00');
+INSERT INTO `bar_source` VALUES ('2', 'Steppe', '220.00', '182.00', '191.00', '234.00', '290.00');
+INSERT INTO `bar_source` VALUES ('3', 'Desert', '150.00', '232.00', '201.00', '154.00', '190.00');
+INSERT INTO `bar_source` VALUES ('4', 'Wetland', '98.00', '77.00', '101.00', '99.00', '40.00');
+
+
+
+-- ----------------------------
 -- Table structure for line_source
 -- ----------------------------
 DROP TABLE IF EXISTS `line_source`;
