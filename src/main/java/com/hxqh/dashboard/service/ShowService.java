@@ -186,10 +186,10 @@ public interface ShowService {
 
     /**
      * 获取数据库列表
-     *
+     * @param valid 测试是否通过标志位
      * @return 数据库列表
      */
-    List<Database> databaseList();
+    List<Database> databaseList(Integer valid);
 
     /**
      * 查询是图对应字段列表

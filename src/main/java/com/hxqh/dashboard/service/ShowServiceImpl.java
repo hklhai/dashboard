@@ -98,6 +98,12 @@ public class ShowServiceImpl implements ShowService {
         put("oracle", "oracle.jdbc.driver.OracleDriver");
     }};
 
+    private static Map<Integer, String> dbStatusMap = new HashMap<Integer, String>() {{
+        put(0, "连接失败");
+        put(1, "连接成功");
+    }};
+
+
     private static final String[] EXCEL_HEADER = {"业务类别", "视图名称", "表名", "视图类型", "数值类型", "业务处理逻辑描述"};
 
 
@@ -427,8 +433,17 @@ public class ShowServiceImpl implements ShowService {
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
-    public List<Database> databaseList() {
-        List<Database> databaseList = databaseRepository.findAvaliableLins(1);
+    public List<Database> databaseList(Integer valid) {
+        List<Database> databaseList = null;
+        if (0 == valid) {
+            databaseList = databaseRepository.findAll();
+            databaseList = databaseList.stream().map(database -> {
+                database.setDbstatus(dbStatusMap.get(database.getValid()));
+                return database;
+            }).collect(Collectors.toList());
+        } else {
+            databaseList = databaseRepository.findAvaliableLins(valid);
+        }
         return databaseList;
     }
 
@@ -568,10 +583,9 @@ public class ShowServiceImpl implements ShowService {
         }
         // 删除y轴
         if (null != yDeleteList && yDeleteList.size() > 0) {
-            yDeleteList.stream().map(id -> {
-                orientYRepository.delete(id);
-                return null;
-            });
+            for(Integer integer : yDeleteList){
+                orientYRepository.delete(integer);
+            }
         }
 
         // 存储多个x轴情况
@@ -586,10 +600,9 @@ public class ShowServiceImpl implements ShowService {
         }
         // 删除x轴
         if (null != xDeleteList && xDeleteList.size() > 0) {
-            xDeleteList.stream().map(id -> {
-                orientxRepository.delete(id);
-                return null;
-            });
+            for(Integer integer : xDeleteList){
+                orientxRepository.delete(integer);
+            }
         }
 
         visualizeDb.setColumnMapList(mapList);

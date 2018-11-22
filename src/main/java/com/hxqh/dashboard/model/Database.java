@@ -34,8 +34,17 @@ public class Database implements Serializable {
     private Integer valid;
     private String datasourcename;
     private String dbtype;
+    private String dbstatus;
 
     public Database() {
+    }
+
+    public String getDbstatus() {
+        return dbstatus;
+    }
+
+    public void setDbstatus(String dbstatus) {
+        this.dbstatus = dbstatus;
     }
 
     public String getDbtype() {

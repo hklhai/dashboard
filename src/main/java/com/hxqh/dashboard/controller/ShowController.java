@@ -171,7 +171,6 @@ public class ShowController {
             if (showService.isVisualizeByVisualizenameAndVidNot(visualDto.getVisualize())) {
                 message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
             } else {
-                // todo 测试多x轴情况
                 showService.updateVisualize(visualDto);
                 message = new Message(Constants.SUCCESS, Constants.EDITSUCCESS);
             }
@@ -378,10 +377,10 @@ public class ShowController {
      */
     @ResponseBody
     @RequestMapping(value = "/databaseList", method = RequestMethod.GET)
-    public List<Database> databaseList() {
+    public List<Database> databaseList(@RequestParam(value = "valid", defaultValue = "0") Integer valid) {
         List<Database> databases = new ArrayList<>();
         try {
-            databases = showService.databaseList();
+            databases = showService.databaseList(valid);
         } catch (Exception e) {
             e.printStackTrace();
         }
