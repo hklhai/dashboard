@@ -66,10 +66,16 @@ public class ShowServiceImpl implements ShowService {
         put("mysql", "://");
     }};
 
-    private static Map<String, String> typeMap = new HashMap<String, String>() {{
+    private static Map<String, String> typeC2EMap = new HashMap<String, String>() {{
         put("饼图", "pie");
         put("条形图", "bar");
         put("折线图", "line");
+    }};
+
+    private static Map<String, String> typeE2CMap = new HashMap<String, String>() {{
+        put("pie", "饼图");
+        put("bar", "条形图");
+        put("line", "折线图");
     }};
 
     private static Map<Integer, String> lineXMap = new HashMap<Integer, String>() {{
@@ -104,7 +110,7 @@ public class ShowServiceImpl implements ShowService {
     }};
 
 
-    private static final String[] EXCEL_HEADER = {"业务类别", "视图名称", "表名", "视图类型", "数值类型", "业务处理逻辑描述"};
+    private static final String[] EXCEL_HEADER = {"业务类别", "视图名称", "表名", "视图类型", "业务处理逻辑描述"};
 
 
     private static final String DROP_TABLE_SQL = " drop table ";
@@ -583,7 +589,7 @@ public class ShowServiceImpl implements ShowService {
         }
         // 删除y轴
         if (null != yDeleteList && yDeleteList.size() > 0) {
-            for(Integer integer : yDeleteList){
+            for (Integer integer : yDeleteList) {
                 orientYRepository.delete(integer);
             }
         }
@@ -600,7 +606,7 @@ public class ShowServiceImpl implements ShowService {
         }
         // 删除x轴
         if (null != xDeleteList && xDeleteList.size() > 0) {
-            for(Integer integer : xDeleteList){
+            for (Integer integer : xDeleteList) {
                 orientxRepository.delete(integer);
             }
         }
@@ -711,9 +717,8 @@ public class ShowServiceImpl implements ShowService {
                 row.createCell(0).setCellValue(visualize.getBusinesscategory());
                 row.createCell(1).setCellValue(visualize.getVisualizename());
                 row.createCell(2).setCellValue(visualize.getTablename());
-                row.createCell(3).setCellValue(visualize.getType());
-                row.createCell(4).setCellValue(visualize.getYtype());
-                row.createCell(5).setCellValue(visualize.getVisualizedescription());
+                row.createCell(3).setCellValue(typeE2CMap.get(visualize.getType()));
+                row.createCell(4).setCellValue(visualize.getVisualizedescription());
                 count++;
             }
         }

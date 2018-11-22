@@ -36,8 +36,6 @@ public class SystemController {
 
     @Autowired
     private SystemService systemService;
-    @Autowired
-    private ShowService showService;
 
     @ModelAttribute
     public void getUser(@RequestParam(value = "userid", required = false) Integer userid,
