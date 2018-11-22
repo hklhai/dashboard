@@ -217,6 +217,7 @@ public class ShowServiceImpl implements ShowService {
         visualize.setxSplitLine(true);
         visualize.setyAxisLine(true);
         visualize.setySplitLine(true);
+        visualize.setxBoundaryGap(false);
 
         visualizeRepository.save(visualize);
     }
@@ -229,6 +230,14 @@ public class ShowServiceImpl implements ShowService {
             ColumnDto columnDto = columnMapList.get(i);
             sql.append("`").append(columnDto.getField()).append("` ").append(columnDto.getType()).append(Constants.CREATE_TABLE_DEFAULT);
             ColumnMap columnMap = new ColumnMap();
+            // 设置默认值
+            columnMap.setColMax(false);
+            columnMap.setColMin(false);
+            columnMap.setColAverage(false);
+            columnMap.setColGradient(false);
+            columnMap.setColAreaStyle(false);
+            columnMap.setColSmooth(true);
+            columnMap.setColstep(false);
             BeanUtils.copyProperties(columnDto, columnMap);
             columnMap.setVisualize(visualize);
             columns.add(columnMap);

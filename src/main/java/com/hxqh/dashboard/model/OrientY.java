@@ -23,6 +23,7 @@ public class OrientY implements Serializable {
     private Boolean ySplitLine;
     @Column(name = "yinverse", columnDefinition = "bool default false")
     private Boolean yInverse;
+    private String ytype;
 
     @ManyToOne
     @JoinColumn(name = "VID", referencedColumnName = "vid")
@@ -35,8 +36,15 @@ public class OrientY implements Serializable {
     private String ynameColor;
     private String yaxisLabelPos;
 
-
     public OrientY() {
+    }
+
+    public String getYtype() {
+        return ytype;
+    }
+
+    public void setYtype(String ytype) {
+        this.ytype = ytype;
     }
 
     public Integer getOrientyid() {

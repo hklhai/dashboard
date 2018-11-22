@@ -45,12 +45,61 @@ public class ColumnMap implements Serializable {
     private Boolean colAverage;
 
     @Column(name = "col_gradient", columnDefinition = "bool default false")
-    private Boolean  colGradient;
-    private String  colStartColor;
+    private Boolean colGradient;
+    private String colStartColor;
     private String colEndColor;
     private String colLabelRotate;
 
+    @Column(name = "col_area_style", columnDefinition = "bool default false")
+    private Boolean colAreaStyle;
+    @Column(name = "col_smooth", columnDefinition = "bool default true")
+    private Boolean colSmooth;
+    private String colAreaColor;
+    private String sampling;
+    @Column(name = "col_step", columnDefinition = "bool default false")
+    private Boolean colstep;
+
     public ColumnMap() {
+    }
+
+    public Boolean getColAreaStyle() {
+        return colAreaStyle;
+    }
+
+    public void setColAreaStyle(Boolean colAreaStyle) {
+        this.colAreaStyle = colAreaStyle;
+    }
+
+    public Boolean getColSmooth() {
+        return colSmooth;
+    }
+
+    public void setColSmooth(Boolean colSmooth) {
+        this.colSmooth = colSmooth;
+    }
+
+    public String getColAreaColor() {
+        return colAreaColor;
+    }
+
+    public void setColAreaColor(String colAreaColor) {
+        this.colAreaColor = colAreaColor;
+    }
+
+    public String getSampling() {
+        return sampling;
+    }
+
+    public void setSampling(String sampling) {
+        this.sampling = sampling;
+    }
+
+    public Boolean getColstep() {
+        return colstep;
+    }
+
+    public void setColstep(Boolean colstep) {
+        this.colstep = colstep;
     }
 
     public Boolean getColGradient() {

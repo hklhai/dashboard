@@ -103,7 +103,18 @@ public class Visualize implements Serializable {
     private String xnameColor;
     private String xaxisLabelPos;
 
+    @Column(name = "xboundarygap", columnDefinition = "bool default false")
+    private Boolean xBoundaryGap;
+
     public Visualize() {
+    }
+
+    public Boolean getxBoundaryGap() {
+        return xBoundaryGap;
+    }
+
+    public void setxBoundaryGap(Boolean xBoundaryGap) {
+        this.xBoundaryGap = xBoundaryGap;
     }
 
     public List<OrientX> getOrientXList() {
