@@ -13,6 +13,7 @@ import java.io.Serializable;
 public class TableManager implements Serializable {
 
     private static final long serialVersionUID = 4635704323927929218L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer tid;

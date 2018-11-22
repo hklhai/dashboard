@@ -54,6 +54,9 @@ public class ShowServiceImpl implements ShowService {
     private ColumnMapRepository columnMapRepository;
     @Autowired
     private OrientyRepository orientYRepository;
+    @Autowired
+    private OrientxRepository orientxRepository;
+
 
     private static final String PIE = "pie";
 
@@ -162,12 +165,18 @@ public class ShowServiceImpl implements ShowService {
         showDto.setShowKey(showkeys);
         showDto.setDid(did);
         List<OrientY> orientYList = visualize.getOrientYList();
+        List<OrientX> orientXList = visualize.getOrientXList();
 
         orientYList = orientYList.stream().map(e -> {
             e.setVisualize(null);
             return e;
         }).collect(Collectors.toList());
         visualize.setOrientYList(orientYList);
+        orientXList = orientXList.stream().map(e -> {
+            e.setVisualize(null);
+            return e;
+        }).collect(Collectors.toList());
+        visualize.setOrientXList(orientXList);
 
         BeanUtils.copyProperties(visualize, showDto);
         return showDto;
@@ -457,19 +466,33 @@ public class ShowServiceImpl implements ShowService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
+    public void databaseDelete(Integer integerValue) {
+        databaseRepository.delete(integerValue);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
     public void visualizeDelete(Integer integerId) {
         Visualize visualize = visualizeRepository.findOne(integerId);
         List<ColumnMap> columnMapList = visualize.getColumnMapList();
-        if (columnMapList.size() > 0) {
+        if (null != columnMapList && columnMapList.size() > 0) {
             columnMapList.stream().map(e -> {
                 columnMapRepository.delete(e.getVid());
                 return null;
             });
         }
         List<OrientY> orientYList = visualize.getOrientYList();
-        if (orientYList.size() > 0) {
+        if (null != orientYList && orientYList.size() > 0) {
             orientYList.stream().map(ele -> {
                 orientYRepository.delete(ele.getOrientyid());
+                return null;
+            });
+        }
+
+        List<OrientX> orientXList = visualize.getOrientXList();
+        if (null != orientXList && orientXList.size() > 0) {
+            orientXList.stream().map(ele -> {
+                orientxRepository.delete(ele.getOrientxid());
                 return null;
             });
         }
@@ -499,10 +522,11 @@ public class ShowServiceImpl implements ShowService {
         Visualize visualize = visualDto.getVisualize();
         List<Integer> deleteColumnList = visualDto.getColumnDeleteList();
         List<Integer> yDeleteList = visualDto.getyDeleteList();
+        List<Integer> xDeleteList = visualDto.getxDeleteList();
 
         List<ColumnMap> mapList = visualDto.getColumnMaps();
         List<OrientY> yList = visualDto.getyList();
-
+        List<OrientX> xList = visualDto.getxList();
         // 更新主表
         Visualize visualizeDb = visualizeRepository.findOne(visualize.getVid());
         BeanUtils.copyProperties(visualize, visualizeDb, ObjectUtil.getNullPropertyNames(visualize));
@@ -546,6 +570,24 @@ public class ShowServiceImpl implements ShowService {
         if (null != yDeleteList && yDeleteList.size() > 0) {
             yDeleteList.stream().map(id -> {
                 orientYRepository.delete(id);
+                return null;
+            });
+        }
+
+        // 存储多个x轴情况
+        if (null != xList && xList.size() > 0) {
+            xList = xList.stream().map(orientX -> {
+                orientX.setxAxisLine(true);
+                orientX.setxSplitLine(true);
+                orientX.setVisualize(visualizeDb);
+                return orientX;
+            }).collect(Collectors.toList());
+            visualizeDb.setOrientXList(xList);
+        }
+        // 删除x轴
+        if (null != xDeleteList && xDeleteList.size() > 0) {
+            xDeleteList.stream().map(id -> {
+                orientxRepository.delete(id);
                 return null;
             });
         }
@@ -683,9 +725,9 @@ public class ShowServiceImpl implements ShowService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public String getTableName(VisualDto visualDto) {
+    public String getTableName(String type) {
         // 获取表名称
-        TableManager tableManager = tableManagerRepository.findByTablecategory(visualDto.getVisualize().getType());
+        TableManager tableManager = tableManagerRepository.findByTablecategory(type);
         String tableName = tableManager.getTableprefix() + tableManager.getTablemaxid();
         tableManager.setTablemaxid(tableManager.getTablemaxid() + 1);
         tableManagerRepository.save(tableManager);

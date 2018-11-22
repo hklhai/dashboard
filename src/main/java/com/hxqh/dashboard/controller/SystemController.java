@@ -74,6 +74,15 @@ public class SystemController {
         return message;
     }
 
+    /**
+     * 登录接口
+     *
+     * @param user          数据库用户信息
+     * @param loginDto      用户传入凭证信息
+     * @param map
+     * @param systemService
+     * @return 登录是否成功
+     */
     private Message webLogin(User user, LoginDto loginDto, Map<String, Object> map, SystemService systemService) {
         Message message = new Message(0, "");
         Message success = new Message(1, "LoginSuccess");
@@ -109,6 +118,12 @@ public class SystemController {
 
     /****************************User administration**********************/
 
+    /**
+     * 用户添加
+     *
+     * @param user 用户信息
+     * @return message信息
+     */
     @ResponseBody
     @RequestMapping(value = "/userAdd", method = RequestMethod.POST)
     public Message userAdd(@RequestBody User user) {
@@ -130,6 +145,12 @@ public class SystemController {
     }
 
 
+    /**
+     * 用户删除
+     *
+     * @param integerValue 用户主键id
+     * @return message信息
+     */
     @ResponseBody
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
     public Message userDelete(@PathVariable("id") Integer integerValue) {
@@ -146,6 +167,13 @@ public class SystemController {
     }
 
 
+    /**
+     * 用户修改
+     *
+     * @param userDb 用户数据库信息
+     * @param user   用户前台传入信息
+     * @return message信息
+     */
     @ResponseBody
     @RequestMapping(value = "/user", method = RequestMethod.PUT)
     public Message userUpdate(User userDb, @RequestBody User user) {
@@ -166,6 +194,12 @@ public class SystemController {
 
     }
 
+    /**
+     * 用户信息获取接口
+     *
+     * @param integerValue 用户主键id
+     * @return 用户实体类
+     */
     @ResponseBody
     @RequestMapping(value = "/userData", method = RequestMethod.POST)
     public User userData(@RequestBody IntegerValue integerValue) {
@@ -173,6 +207,14 @@ public class SystemController {
     }
 
 
+    /**
+     * 用户列表分页接口
+     *
+     * @param user 用户查询可能传入查询条件
+     * @param page 页码
+     * @param size 页容量
+     * @return 用户列表
+     */
     @ResponseBody
     @RequestMapping(value = "/userList", method = RequestMethod.POST)
     public UserDto userList(@RequestBody User user,
@@ -189,6 +231,12 @@ public class SystemController {
         return userDto;
     }
 
+    /**
+     * 用户绑定角色接口
+     *
+     * @param userRolesDto 包含用户主键、角色主键DTO
+     * @return message信息
+     */
     @ResponseBody
     @RequestMapping(value = "/userRoles", method = RequestMethod.POST)
     public Message userRoles(@RequestBody UserRolesDto userRolesDto) {
@@ -203,6 +251,12 @@ public class SystemController {
         return message;
     }
 
+    /**
+     * 用户具有角色列表
+     *
+     * @param integerValue 用户ID
+     * @return 用户角色列表
+     */
     @ResponseBody
     @RequestMapping(value = "/userRoleList", method = RequestMethod.POST)
     public List<ViewUserRole> userRoleList(@RequestBody IntegerValue integerValue) {
@@ -214,6 +268,12 @@ public class SystemController {
 
 
     /****************************Role administration**********************/
+    /**
+     * 角色添加
+     *
+     * @param role 角色实体类
+     * @return message信息
+     */
     @ResponseBody
     @RequestMapping(value = "/roleAdd", method = RequestMethod.POST)
     public Message roleAdd(@RequestBody Role role) {
@@ -232,6 +292,12 @@ public class SystemController {
         return message;
     }
 
+    /**
+     * 角色删除
+     *
+     * @param integerValue 角色ID主键
+     * @return message信息
+     */
     @ResponseBody
     @RequestMapping(value = "/role/{id}", method = RequestMethod.DELETE)
     public Message roleDelete(@PathVariable("id") Integer integerValue) {
@@ -247,6 +313,13 @@ public class SystemController {
     }
 
 
+    /**
+     * 角色更新
+     *
+     * @param roleDb 数据库角色实体
+     * @param role   前台角色实体
+     * @return message信息
+     */
     @ResponseBody
     @RequestMapping(value = "/role", method = RequestMethod.PUT)
     public Message roleUpdate(Role roleDb, @RequestBody Role role) {
@@ -268,6 +341,12 @@ public class SystemController {
 
     }
 
+    /**
+     * 角色信息获取
+     *
+     * @param integerValue 角色主键ID
+     * @return 角色对象
+     */
     @ResponseBody
     @RequestMapping(value = "/roleData", method = RequestMethod.POST)
     public Role roleData(@RequestBody IntegerValue integerValue) {
@@ -275,6 +354,14 @@ public class SystemController {
     }
 
 
+    /**
+     * 角色分页
+     *
+     * @param role 前台带条件查询
+     * @param page 页数
+     * @param size 也容量
+     * @return 角色列表
+     */
     @ResponseBody
     @RequestMapping(value = "/roleList", method = RequestMethod.POST)
     public RoleDto roleList(@RequestBody Role role,
@@ -294,8 +381,8 @@ public class SystemController {
     /**
      * 角色绑定多个model   新增集成删除、修改
      *
-     * @param roleModelsDto
-     * @return
+     * @param roleModelsDto 角色主键、模块主键
+     * @return message信息
      */
     @ResponseBody
     @RequestMapping(value = "/roleModels", method = RequestMethod.POST)
@@ -313,6 +400,12 @@ public class SystemController {
     /****************************Role administration**********************/
 
     /***************************Model administration**********************/
+    /**
+     * 模块添加
+     *
+     * @param model 前台模块实体
+     * @return message信息
+     */
     @ResponseBody
     @RequestMapping(value = "/modelAdd", method = RequestMethod.POST)
     public Message modelAdd(@RequestBody Model model) {
@@ -332,6 +425,12 @@ public class SystemController {
     }
 
 
+    /**
+     * 模块删除
+     *
+     * @param integerValue 模块ID主键
+     * @return message信息
+     */
     @ResponseBody
     @RequestMapping(value = "/model/{id}", method = RequestMethod.DELETE)
     public Message modelDelete(@PathVariable("id") Integer integerValue) {
@@ -346,6 +445,13 @@ public class SystemController {
         return message;
     }
 
+    /**
+     * 模块更新
+     *
+     * @param modelDb 数据库模块
+     * @param model   前台模块信息
+     * @return message信息
+     */
     @ResponseBody
     @RequestMapping(value = "/model", method = RequestMethod.PUT)
     public Message modelUpdate(Model modelDb, @RequestBody Model model) {
@@ -366,6 +472,12 @@ public class SystemController {
         return message;
     }
 
+    /**
+     * 模块数据
+     *
+     * @param integerValue 模块ID主键
+     * @return 模块信息
+     */
     @ResponseBody
     @RequestMapping(value = "/modelData", method = RequestMethod.POST)
     public Model modelData(@RequestBody IntegerValue integerValue) {
@@ -373,6 +485,14 @@ public class SystemController {
     }
 
 
+    /**
+     * 模块分页接口
+     *
+     * @param model 前天传入带条件查询实体
+     * @param page  页数
+     * @param size  页容量
+     * @return 模块列表
+     */
     @ResponseBody
     @RequestMapping(value = "/modelList", method = RequestMethod.POST)
     public ModelDto modelList(@RequestBody Model model,
@@ -389,6 +509,12 @@ public class SystemController {
         return modelDto;
     }
 
+    /**
+     * 角色模块列表
+     *
+     * @param integerValue 角色ID主键
+     * @return 角色模块列表
+     */
     @ResponseBody
     @RequestMapping(value = "/roleModelList", method = RequestMethod.POST)
     public List<ViewRoleModel> roleModelList(@RequestBody IntegerValue integerValue) {
@@ -396,6 +522,12 @@ public class SystemController {
     }
 
 
+    /**
+     * 模块仪表板绑定接口
+     *
+     * @param dashboardDto 模块ID、仪表板ID DTO
+     * @return message信息
+     */
     @ResponseBody
     @RequestMapping(value = "/modelDashBoards", method = RequestMethod.POST)
     public Message modelDashBoards(@RequestBody ModelDashboardDto dashboardDto) {

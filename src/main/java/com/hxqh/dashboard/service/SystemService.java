@@ -30,7 +30,7 @@ public interface SystemService {
     /**
      * 是否存在User
      *
-     * @param name
+     * @param name 用户名
      * @return 存在返回true
      */
     boolean isUserByName(String name);
@@ -39,7 +39,7 @@ public interface SystemService {
     /**
      * 是否存在User
      *
-     * @param user
+     * @param user 用户实体类
      * @return 存在返回true
      */
     boolean isUserByNameAndID(User user);
@@ -47,7 +47,7 @@ public interface SystemService {
     /**
      * 添加User
      *
-     * @param user
+     * @param user 用户实体类
      */
     void addUser(User user);
 
@@ -55,7 +55,7 @@ public interface SystemService {
     /**
      * 是否存在Role
      *
-     * @param rolename
+     * @param rolename 角色名称
      * @return 存在返回true
      */
     boolean isRoleByName(String rolename);
@@ -63,8 +63,8 @@ public interface SystemService {
     /**
      * 根据角色名称、角色主键判断是否存在
      *
-     * @param roleDb
-     * @return
+     * @param roleDb 角色实体类
+     * @return 存在返回true
      */
     boolean isRoleByNameAndRoleid(Role roleDb);
 
@@ -72,7 +72,7 @@ public interface SystemService {
     /**
      * 添加Role
      *
-     * @param role
+     * @param role 剧社实体类
      */
     void roleAdd(Role role);
 
@@ -80,7 +80,7 @@ public interface SystemService {
     /**
      * 是否存在Model
      *
-     * @param modelname
+     * @param modelname 模块名称
      * @return 存在返回true
      */
     boolean isModelByName(String modelname);
@@ -88,7 +88,7 @@ public interface SystemService {
     /**
      * 根据模块名称和模块主键查询
      *
-     * @param modelDb
+     * @param modelDb 模块实体类
      * @return 存在返回true
      */
     boolean isModelByNameAndModelid(Model modelDb);
@@ -96,7 +96,7 @@ public interface SystemService {
     /**
      * 添加Model
      *
-     * @param model
+     * @param model 模块实体类
      */
     void modelAdd(Model model);
 
@@ -104,7 +104,7 @@ public interface SystemService {
     /**
      * 通过主键查找User
      *
-     * @param userId
+     * @param userId 用户主键
      * @return User对象
      */
     User findUserById(Integer userId);
@@ -112,7 +112,7 @@ public interface SystemService {
     /**
      * 通过主键查找Role
      *
-     * @param roleId
+     * @param roleId 角色主键
      * @return Role对象
      */
     Role findRoleById(Integer roleId);
@@ -120,7 +120,7 @@ public interface SystemService {
     /**
      * 通过主键查找Model
      *
-     * @param modelId
+     * @param modelId 模块主键
      * @return Model对象
      */
     Model findModelById(Integer modelId);
@@ -128,14 +128,14 @@ public interface SystemService {
     /**
      * 删除用户
      *
-     * @param userId
+     * @param userId 用户主键
      */
     void userDelete(Integer userId);
 
     /**
      * 删除角色
      *
-     * @param roleId
+     * @param roleId 角色主键
      */
     void roleDelete(Integer roleId);
 
@@ -143,7 +143,7 @@ public interface SystemService {
     /**
      * 删除Model
      *
-     * @param modelId
+     * @param modelId 模块主键
      */
     void modelDelete(Integer modelId);
 
@@ -151,7 +151,7 @@ public interface SystemService {
     /**
      * 更新用户
      *
-     * @param userDb
+     * @param userDb 用户实体类
      */
     void updateUser(User userDb);
 
@@ -159,7 +159,7 @@ public interface SystemService {
     /**
      * 更新角色
      *
-     * @param roleDb
+     * @param roleDb 角色实体类
      */
     void updateRole(Role roleDb);
 
@@ -167,7 +167,7 @@ public interface SystemService {
     /**
      * 更新model
      *
-     * @param modelDb
+     * @param modelDb 模块实体类
      */
     void updateModel(Model modelDb);
 
@@ -175,9 +175,9 @@ public interface SystemService {
     /**
      * 用户列表
      *
-     * @param user
-     * @param pageable
-     * @return
+     * @param user     用户实体类
+     * @param pageable 分页工具类
+     * @return 返回用户列表
      */
     UserDto userList(User user, Pageable pageable);
 
@@ -185,9 +185,9 @@ public interface SystemService {
     /**
      * 角色列表
      *
-     * @param role
-     * @param pageable
-     * @return
+     * @param role     角色实体类
+     * @param pageable 分页工具类
+     * @return 角色列表
      */
     RoleDto roleList(Role role, Pageable pageable);
 
@@ -195,9 +195,9 @@ public interface SystemService {
     /**
      * model列表
      *
-     * @param model
-     * @param pageable
-     * @return
+     * @param model    模块实体类
+     * @param pageable 分页工具类
+     * @return 模块列表
      */
     ModelDto modelList(Model model, Pageable pageable);
 
@@ -205,14 +205,14 @@ public interface SystemService {
     /**
      * 设置用户的属于角色
      *
-     * @param userRolesDto
+     * @param userRolesDto 包含用户主键、角色主键DTO
      */
     void userRoles(UserRolesDto userRolesDto);
 
     /**
      * 设置角色管理的模块信息
      *
-     * @param roleModelsDto
+     * @param roleModelsDto 包含模块主键、角色主键DTO
      */
     void roleModels(RoleModelsDto roleModelsDto);
 
@@ -220,7 +220,7 @@ public interface SystemService {
     /**
      * 通过userid查询用户角色绑定关系
      *
-     * @param userid
+     * @param userid 用户主键
      * @return 用户角色绑定关系
      */
     List<ViewUserRole> findByUserid(Integer userid);
@@ -228,7 +228,7 @@ public interface SystemService {
     /**
      * 通过roleid查询角色模块绑定关系
      *
-     * @param roleid
+     * @param roleid 角色主键
      * @return 角色模块绑定关系
      */
     List<ViewRoleModel> findByRoleid(Integer roleid);
@@ -244,7 +244,7 @@ public interface SystemService {
     /**
      * 模块与DashBoard绑定关系
      *
-     * @param dashboardDto
+     * @param dashboardDto 模块主键、仪表板主键DTO
      */
     void modelDashboards(ModelDashboardDto dashboardDto);
 

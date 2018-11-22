@@ -1,6 +1,7 @@
 package com.hxqh.dashboard.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * @author Lin
@@ -8,7 +9,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_columnmap")
-public class ColumnMap {
+public class ColumnMap implements Serializable {
+
+    private static final long serialVersionUID = 5712804868106444401L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,6 +1,7 @@
 package com.hxqh.dashboard.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Ocean lin on 2018/10/16.
@@ -9,7 +10,10 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "tb_dashboard_visualize")
-public class DashboardVisualize {
+public class DashboardVisualize implements Serializable {
+
+    private static final long serialVersionUID = -1730610959857152915L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer did;

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * @author Lin
@@ -12,7 +13,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "tb_database")
 @DynamicUpdate
-public class Database {
+public class Database implements Serializable {
+
+    private static final long serialVersionUID = 4032688844103007007L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

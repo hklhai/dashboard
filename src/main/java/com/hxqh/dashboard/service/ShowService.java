@@ -31,15 +31,15 @@ public interface ShowService {
      * @param bid       dashboardId
      * @param did       dashboardVisualizeId
      * @param random    random随机数
-     * @return LineDouble List
+     * @return 展示数据 List
      */
     ShowDto findLineByVid(Integer integerId, Integer random, Integer bid, Integer did);
 
     /**
      * 添加visualize
      *
-     * @param visualDto
-     * @param tableName
+     * @param visualDto 视图DTO
+     * @param tableName 表名
      * @throws Exception
      */
     void addVisualize(VisualDto visualDto, String tableName) throws Exception;
@@ -47,7 +47,7 @@ public interface ShowService {
     /**
      * 添加dashboard
      *
-     * @param dashboard
+     * @param dashboard 仪表板实体
      */
     void addDashboard(Dashboard dashboard);
 
@@ -71,15 +71,15 @@ public interface ShowService {
     /**
      * 绑定DashBoard与Visualize
      *
-     * @param integerValue
+     * @param dashboardVisualizeDto 仪表板ID、视图ID DTO
      */
-    void addDashboardVisualize(DashboardVisualizeDto integerValue);
+    void addDashboardVisualize(DashboardVisualizeDto dashboardVisualizeDto);
 
 
     /**
      * 查询是否存在visualizename
      *
-     * @param visualizename
+     * @param visualizename 视图名称
      * @return 存在返回true
      */
     boolean isVisualizeByVisualizename(String visualizename);
@@ -87,7 +87,7 @@ public interface ShowService {
     /**
      * 查询是否存在dashboardname
      *
-     * @param dashboardname
+     * @param dashboardname 仪表板名称
      * @return 存在返回true
      */
     boolean isDashboardByDashboardName(String dashboardname);
@@ -125,41 +125,41 @@ public interface ShowService {
     /**
      * visualize带条件查询分页
      *
-     * @param visualize
-     * @param pageable
-     * @return
+     * @param visualize 前台传入带条件查询视图实体
+     * @param pageable  分页工具类
+     * @return 视图列表
      */
     VisualizeDto visualizeList2(Visualize visualize, Pageable pageable);
 
     /**
      * dashboard带条件查询分页
      *
-     * @param dashboard
-     * @param pageable
-     * @return
+     * @param dashboard 前台传入带条件查询仪表板实体
+     * @param pageable  分页工具类
+     * @return 仪表板列表
      */
     DashboardDto dashboardList2(Dashboard dashboard, Pageable pageable);
 
     /**
      * 导出Excel
      *
-     * @return
+     * @return Excel对象
      */
     HSSFWorkbook exportVisualizeExcel();
 
     /**
      * 根据仪表板名称和主键查询
      *
-     * @param dashboardDb
-     * @return
+     * @param dashboardDb 数据库中仪表板对象
+     * @return 存在返回true
      */
     boolean isDashboardByDashboardNameAndBidNot(Dashboard dashboardDb);
 
     /**
      * 根据视图名称和主键查询
      *
-     * @param visualizeDb
-     * @return
+     * @param visualizeDb 数据库中视图对象
+     * @return 存在返回true
      */
     boolean isVisualizeByVisualizenameAndVidNot(Visualize visualizeDb);
 
@@ -167,8 +167,8 @@ public interface ShowService {
     /**
      * 获取数据库中表列表
      *
-     * @param dbid
-     * @return
+     * @param dbid 数据库id
+     * @return 数据库名称列表
      * @throws Exception
      */
     List<String> tableList(Integer dbid) throws Exception;
@@ -179,7 +179,7 @@ public interface ShowService {
      *
      * @param tablename 表名
      * @param dbid      数据库id
-     * @return
+     * @return 列对象列表
      * @throws Exception
      */
     List<ColumnDto> columnList(String tablename, Integer dbid) throws Exception;
@@ -187,46 +187,46 @@ public interface ShowService {
     /**
      * 获取数据库列表
      *
-     * @return
+     * @return 数据库列表
      */
     List<Database> databaseList();
 
     /**
      * 查询是图对应字段列表
      *
-     * @param vid
-     * @return
+     * @param vid 视图主键
+     * @return 列对应关系列表
      */
     List<ColumnMap> columnMapList(Integer vid);
 
     /**
      * 判断列是否已经存在
      *
-     * @param columnMap
-     * @return
+     * @param columnMap 列对应关系实体
+     * @return 存在返回true
      */
     boolean isSameColumn(ColumnMap columnMap);
 
     /**
      * 更新列
      *
-     * @param columnMap
+     * @param columnMap 列对应关系实体
      */
     void columnMapUpdate(ColumnMap columnMap);
 
     /**
      * 新建表时获取tableManager分配表名
      *
-     * @param visualDto
-     * @return
+     * @param type 视图类型
+     * @return 新建表名称
      */
-    String getTableName(VisualDto visualDto);
+    String getTableName(String type);
 
     /**
      * 验证数据库链接
      *
-     * @param dbId
-     * @return
+     * @param dbId 数据库ID
+     * @return 连接成功返回true
      * @throws Exception
      */
     Boolean validateDatabase(Integer dbId) throws Exception;
@@ -234,14 +234,14 @@ public interface ShowService {
     /**
      * 添加数据库
      *
-     * @param database
+     * @param database 数据库实体
      */
     void databaseAdd(Database database);
 
     /**
      * 更新数据库配置
      *
-     * @param database
+     * @param database 数据库实体
      */
     void databaseUpdate(Database database);
 
@@ -249,8 +249,15 @@ public interface ShowService {
     /**
      * 判断删除视图是否被仪表板使用
      *
-     * @param integerValue
-     * @return
+     * @param integerValue visualize主键ID
+     * @return 仪表板对象
      */
     Dashboard visualizeHasUsed(Integer integerValue);
+
+    /**
+     * 数据库删除接口
+     *
+     * @param integerValue 数据库ID主键
+     */
+    void databaseDelete(Integer integerValue);
 }

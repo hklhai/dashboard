@@ -1,6 +1,7 @@
 package com.hxqh.dashboard.model.assist;
 
 import com.hxqh.dashboard.model.ColumnMap;
+import com.hxqh.dashboard.model.OrientX;
 import com.hxqh.dashboard.model.OrientY;
 import com.hxqh.dashboard.model.Visualize;
 
@@ -17,12 +18,29 @@ public class VisualDto {
     private List<ColumnMap> columnMaps;
 
     private List<OrientY> yList;
+    private List<OrientX> xList;
 
     private List<Integer> columnDeleteList;
     private List<Integer> yDeleteList;
-
+    private List<Integer> xDeleteList;
 
     public VisualDto() {
+    }
+
+    public List<Integer> getxDeleteList() {
+        return xDeleteList;
+    }
+
+    public void setxDeleteList(List<Integer> xDeleteList) {
+        this.xDeleteList = xDeleteList;
+    }
+
+    public List<OrientX> getxList() {
+        return xList;
+    }
+
+    public void setxList(List<OrientX> xList) {
+        this.xList = xList;
     }
 
     public List<OrientY> getyList() {

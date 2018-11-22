@@ -17,6 +17,7 @@ import java.util.List;
 public class Model implements Serializable {
 
     private static final long serialVersionUID = 1545833445940178502L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer modelid;

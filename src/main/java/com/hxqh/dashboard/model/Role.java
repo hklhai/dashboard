@@ -17,6 +17,7 @@ import java.util.List;
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 1760980718942376564L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer roleid;

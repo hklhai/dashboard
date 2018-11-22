@@ -1,6 +1,7 @@
 package com.hxqh.dashboard.model.assist;
 
 import com.hxqh.dashboard.model.ColumnMap;
+import com.hxqh.dashboard.model.OrientX;
 import com.hxqh.dashboard.model.OrientY;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class ShowDto extends Location {
     private List<String> showLabel;
     private List<ColumnMap> columnList;
     private List<OrientY> orientYList;
+    private List<OrientX> orientXList;
 
     private Integer x;
     private Integer y;
@@ -71,6 +73,14 @@ public class ShowDto extends Location {
     private String xaxisLabelPos;
 
     public ShowDto() {
+    }
+
+    public List<OrientX> getOrientXList() {
+        return orientXList;
+    }
+
+    public void setOrientXList(List<OrientX> orientXList) {
+        this.orientXList = orientXList;
     }
 
     public String getYlineColor() {

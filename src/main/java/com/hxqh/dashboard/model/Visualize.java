@@ -14,7 +14,9 @@ import java.util.List;
 @Entity
 @Table(name = "tb_visualize")
 public class Visualize implements Serializable {
+
     private static final long serialVersionUID = -4397501842663081746L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer vid;
@@ -52,6 +54,10 @@ public class Visualize implements Serializable {
     @OneToMany(mappedBy = "visualize", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<OrientY> orientYList;
+
+    @OneToMany(mappedBy = "visualize", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<OrientX> orientXList;
 
     @Transient
     private Integer bid;
@@ -92,11 +98,20 @@ public class Visualize implements Serializable {
     private String ylineColor;
     private String ynameColor;
     private String yaxisLabelPos;
+
     private String xlineColor;
     private String xnameColor;
     private String xaxisLabelPos;
 
     public Visualize() {
+    }
+
+    public List<OrientX> getOrientXList() {
+        return orientXList;
+    }
+
+    public void setOrientXList(List<OrientX> orientXList) {
+        this.orientXList = orientXList;
     }
 
     public String getYlineColor() {
