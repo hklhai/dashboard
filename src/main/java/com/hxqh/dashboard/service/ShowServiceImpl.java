@@ -552,10 +552,13 @@ public class ShowServiceImpl implements ShowService {
     public void dashboardDelete(Integer integerValue) {
         Dashboard dashboard = dashboardRepository.findOne(integerValue);
         List<DashboardVisualize> dashboardVisualizes = dashboard.getDashboardVisualizes();
-        dashboardVisualizes.stream().map(dashboardVisualize -> {
-            dashboardVisualizeRepository.delete(dashboardVisualize.getDid());
-            return null;
-        });
+        if (null != dashboardVisualizes && dashboardVisualizes.size() > 0) {
+            for (DashboardVisualize dashboardVisualize : dashboardVisualizes) {
+                dashboardVisualizeRepository.delete(dashboardVisualize.getDid());
+            }
+        } else {
+            dashboardRepository.delete(integerValue);
+        }
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -692,6 +695,9 @@ public class ShowServiceImpl implements ShowService {
 
             if (StringUtils.isNotBlank(dashboard.getDashboardname())) {
                 list.add(cb.like(root.get("dashboardname").as(String.class), "%" + dashboard.getDashboardname() + "%"));
+            }
+            if (StringUtils.isNotBlank(dashboard.getBusinesscategory())) {
+                list.add(cb.like(root.get("businesscategory").as(String.class), "%" + dashboard.getBusinesscategory() + "%"));
             }
             if (StringUtils.isNotBlank(dashboard.getDashboarddescription())) {
                 list.add(cb.like(root.get("dashboarddescription").as(String.class), "%" + dashboard.getDashboarddescription() + "%"));

@@ -80,7 +80,17 @@ public class ShowDto extends Location {
     private String legendType;
     private String legendSelData;
 
+    private Boolean xBoundaryGap;
+
     public ShowDto() {
+    }
+
+    public Boolean getxBoundaryGap() {
+        return xBoundaryGap;
+    }
+
+    public void setxBoundaryGap(Boolean xBoundaryGap) {
+        this.xBoundaryGap = xBoundaryGap;
     }
 
     public String getLegendType() {
