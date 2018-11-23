@@ -142,14 +142,19 @@ public class ShowServiceImpl implements ShowService {
         Object[][] matrix = new Object[x][y];
 
         if (PIE.equals(visualize.getType())) {
-            List<Object> pieDtoList = new ArrayList<>(50);
-            for (int i = 0; i < list.size(); i++) {
-                Object[] o = (Object[]) list.get(i);
-                PieDto pieDto = new PieDto((String) o[1], o[2]);
-                pieDtoList.add(pieDto);
+            List<Object> mulitPieDtoList = new ArrayList<>(50);
+            for (int j = 0; j < x; j++) {
+                List<Object> pieDtoList = new ArrayList<>(50);
+                for (int i = 0; i < list.size(); i++) {
+                    Object[] o = (Object[]) list.get(i);
+                    PieDto pieDto = new PieDto((String) o[1], o[j + 2]);
+                    pieDtoList.add(pieDto);
+                }
+                mulitPieDtoList.add(pieDtoList);
             }
-            showValues.add(pieDtoList);
+            showValues.add(mulitPieDtoList);
             showDto.setShowValue(showValues);
+
         } else {
             for (int i = 0; i < list.size(); i++) {
                 Object[] o = (Object[]) list.get(i);
@@ -215,8 +220,14 @@ public class ShowServiceImpl implements ShowService {
         // 设置默认值
         visualize.setxAxisLine(true);
         visualize.setxSplitLine(true);
+        visualize.setxInverse(false);
+        visualize.setAlignWithLabel(false);
+        visualize.setxToy(false);
+        visualize.setDataZoom(false);
+
         visualize.setyAxisLine(true);
         visualize.setySplitLine(true);
+        visualize.setyInverse(false);
         visualize.setxBoundaryGap(false);
 
         visualizeRepository.save(visualize);
@@ -649,6 +660,9 @@ public class ShowServiceImpl implements ShowService {
 
             if (StringUtils.isNotBlank(visualize.getVisualizename())) {
                 list.add(cb.like(root.get("visualizename").as(String.class), "%" + visualize.getVisualizename() + "%"));
+            }
+            if (StringUtils.isNotBlank(visualize.getBusinesscategory())) {
+                list.add(cb.like(root.get("businesscategory").as(String.class), "%" + visualize.getBusinesscategory() + "%"));
             }
             if (StringUtils.isNotBlank(visualize.getType())) {
                 list.add(cb.equal(root.get("type").as(String.class), visualize.getType()));
