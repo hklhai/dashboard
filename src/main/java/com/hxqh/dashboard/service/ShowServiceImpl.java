@@ -112,7 +112,7 @@ public class ShowServiceImpl implements ShowService {
 
     private static final String[] EXCEL_HEADER = {"业务类别", "视图名称", "表名", "视图类型", "业务处理逻辑描述"};
 
-
+    private static final String SELECT_SQL = "select * from ";
     private static final String DROP_TABLE_SQL = " drop table ";
     private static final String DOUBLE_TYPE = "double";
     private static final Integer START_NUM = 1;
@@ -133,7 +133,7 @@ public class ShowServiceImpl implements ShowService {
         List<String> showkeys = new ArrayList<>(15);
         Visualize visualize = visualizeRepository.findOne(integerId);
 
-        String sql = "select * from " + visualize.getTablename();
+        String sql = SELECT_SQL + visualize.getTablename();
         Session currentSession = sessionFactory.getCurrentSession();
         List list = currentSession.createSQLQuery(sql).list();
         // 构造矩阵

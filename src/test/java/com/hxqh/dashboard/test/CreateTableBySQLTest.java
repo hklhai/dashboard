@@ -3,11 +3,7 @@ package com.hxqh.dashboard.test;
 import com.hxqh.dashboard.service.ShowService;
 import com.hxqh.dashboard.util.JdbcUtil;
 import org.hibernate.SessionFactory;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 import java.sql.Connection;
@@ -19,8 +15,8 @@ import java.sql.ResultSet;
  *
  * @author Ocean lin
  */
-@SpringBootTest
-@RunWith(SpringJUnit4ClassRunner.class)
+//@SpringBootTest
+//@RunWith(SpringJUnit4ClassRunner.class)
 public class CreateTableBySQLTest {
 
     @Resource
@@ -28,7 +24,7 @@ public class CreateTableBySQLTest {
     @Autowired
     private ShowService showService;
 
-    @Test
+    //    @Test
     public void testSearch() throws Exception {
         //1.获取连接
         Connection conn = JdbcUtil.getConnection(
