@@ -59,7 +59,47 @@ public class ColumnMap implements Serializable {
     @Column(name = "col_step", columnDefinition = "bool default false")
     private Boolean colstep;
 
+    @Column(name = "col_rose_type", columnDefinition = "bool default false")
+    private Boolean colRoseType;
+    @Column(name = "col_label_line", columnDefinition = "bool default false")
+    private Boolean colLabelline;
+    private String  colLabelLineColor;
+    private String colRadius;
+
+
     public ColumnMap() {
+    }
+
+    public Boolean getColRoseType() {
+        return colRoseType;
+    }
+
+    public void setColRoseType(Boolean colRoseType) {
+        this.colRoseType = colRoseType;
+    }
+
+    public Boolean getColLabelline() {
+        return colLabelline;
+    }
+
+    public void setColLabelline(Boolean colLabelline) {
+        this.colLabelline = colLabelline;
+    }
+
+    public String getColLabelLineColor() {
+        return colLabelLineColor;
+    }
+
+    public void setColLabelLineColor(String colLabelLineColor) {
+        this.colLabelLineColor = colLabelLineColor;
+    }
+
+    public String getColRadius() {
+        return colRadius;
+    }
+
+    public void setColRadius(String colRadius) {
+        this.colRadius = colRadius;
     }
 
     public Boolean getColAreaStyle() {

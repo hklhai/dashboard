@@ -249,6 +249,9 @@ public class ShowServiceImpl implements ShowService {
             columnMap.setColAreaStyle(false);
             columnMap.setColSmooth(true);
             columnMap.setColstep(false);
+            columnMap.setColRoseType(false);
+            columnMap.setColLabelline(false);
+
             BeanUtils.copyProperties(columnDto, columnMap);
             columnMap.setVisualize(visualize);
             columns.add(columnMap);

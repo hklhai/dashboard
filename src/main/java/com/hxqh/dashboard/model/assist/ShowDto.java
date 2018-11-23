@@ -77,7 +77,26 @@ public class ShowDto extends Location {
     private String ystart;
     private String yend;
 
+    private String legendType;
+    private String legendSelData;
+
     public ShowDto() {
+    }
+
+    public String getLegendType() {
+        return legendType;
+    }
+
+    public void setLegendType(String legendType) {
+        this.legendType = legendType;
+    }
+
+    public String getLegendSelData() {
+        return legendSelData;
+    }
+
+    public void setLegendSelData(String legendSelData) {
+        this.legendSelData = legendSelData;
     }
 
     public String getXstart() {

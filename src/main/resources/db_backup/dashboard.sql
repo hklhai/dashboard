@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2018-11-22 13:40:26
+Date: 2018-11-23 11:02:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -242,6 +242,29 @@ INSERT INTO `ab_bar_14` VALUES ('13', '周六', '220.00', '450.00', '-230.00');
 INSERT INTO `ab_bar_14` VALUES ('14', '周日', '210.00', '420.00', '-210.00');
 
 -- ----------------------------
+-- Table structure for ab_bar_22
+-- ----------------------------
+DROP TABLE IF EXISTS `ab_bar_22`;
+CREATE TABLE `ab_bar_22` (
+  `sid` int(20) NOT NULL AUTO_INCREMENT,
+  `showkey` varchar(20) DEFAULT NULL,
+  `showvalue` double(10,2) DEFAULT NULL,
+  `showvalue1` double(10,2) DEFAULT NULL,
+  PRIMARY KEY (`sid`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ab_bar_22
+-- ----------------------------
+INSERT INTO `ab_bar_22` VALUES ('1', '周一', '233.00', '26.00');
+INSERT INTO `ab_bar_22` VALUES ('2', '周二', '296.00', '8.00');
+INSERT INTO `ab_bar_22` VALUES ('3', '周三', '115.00', '27.00');
+INSERT INTO `ab_bar_22` VALUES ('4', '周四', '180.00', '19.00');
+INSERT INTO `ab_bar_22` VALUES ('5', '周五', '191.00', '20.00');
+INSERT INTO `ab_bar_22` VALUES ('6', '周六', '158.00', '26.00');
+INSERT INTO `ab_bar_22` VALUES ('7', '周日', '102.00', '3.00');
+
+-- ----------------------------
 -- Table structure for ab_line_17
 -- ----------------------------
 DROP TABLE IF EXISTS `ab_line_17`;
@@ -458,6 +481,200 @@ INSERT INTO `ab_line_21` VALUES ('13', '周六', '13.00', '2.00');
 INSERT INTO `ab_line_21` VALUES ('14', '周日', '10.00', '0.00');
 
 -- ----------------------------
+-- Table structure for ab_pie_10
+-- ----------------------------
+DROP TABLE IF EXISTS `ab_pie_10`;
+CREATE TABLE `ab_pie_10` (
+  `sid` int(20) NOT NULL AUTO_INCREMENT,
+  `showkey` varchar(20) DEFAULT NULL,
+  `showvalue` double(10,2) DEFAULT NULL,
+  `showvalue1` double(10,2) DEFAULT NULL,
+  PRIMARY KEY (`sid`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ab_pie_10
+-- ----------------------------
+INSERT INTO `ab_pie_10` VALUES ('1', '直接访问', '235.00', '24.00');
+INSERT INTO `ab_pie_10` VALUES ('2', '邮件营销', '285.00', '9.00');
+INSERT INTO `ab_pie_10` VALUES ('3', '联盟广告', '35.00', '14.00');
+INSERT INTO `ab_pie_10` VALUES ('4', '视频广告', '258.00', '8.00');
+INSERT INTO `ab_pie_10` VALUES ('5', '搜索引擎', '17.00', '5.00');
+INSERT INTO `ab_pie_10` VALUES ('6', '简介访问', '206.00', '6.00');
+INSERT INTO `ab_pie_10` VALUES ('7', '抖音广告', '13.00', '2.00');
+
+-- ----------------------------
+-- Table structure for ab_pie_11
+-- ----------------------------
+DROP TABLE IF EXISTS `ab_pie_11`;
+CREATE TABLE `ab_pie_11` (
+  `sid` int(20) NOT NULL AUTO_INCREMENT,
+  `showkey` varchar(20) DEFAULT NULL,
+  `showvalue` double(10,2) DEFAULT NULL,
+  PRIMARY KEY (`sid`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ab_pie_11
+-- ----------------------------
+INSERT INTO `ab_pie_11` VALUES ('1', '直接访问', '29.00');
+INSERT INTO `ab_pie_11` VALUES ('2', '邮件营销', '23.00');
+INSERT INTO `ab_pie_11` VALUES ('3', '联盟广告', '20.00');
+INSERT INTO `ab_pie_11` VALUES ('4', '视频广告', '6.00');
+INSERT INTO `ab_pie_11` VALUES ('5', '搜索引擎', '22.00');
+INSERT INTO `ab_pie_11` VALUES ('6', '简介访问', '1.00');
+INSERT INTO `ab_pie_11` VALUES ('7', '抖音广告', '27.00');
+
+-- ----------------------------
+-- Table structure for ab_pie_12
+-- ----------------------------
+DROP TABLE IF EXISTS `ab_pie_12`;
+CREATE TABLE `ab_pie_12` (
+  `sid` int(20) NOT NULL AUTO_INCREMENT,
+  `showkey` varchar(20) DEFAULT NULL,
+  `showvalue` double(10,2) DEFAULT NULL,
+  PRIMARY KEY (`sid`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ab_pie_12
+-- ----------------------------
+INSERT INTO `ab_pie_12` VALUES ('8', '直接访问', '335.00');
+INSERT INTO `ab_pie_12` VALUES ('9', '邮件营销', '310.00');
+INSERT INTO `ab_pie_12` VALUES ('10', '联盟广告', '274.00');
+INSERT INTO `ab_pie_12` VALUES ('11', '视频广告', '235.00');
+INSERT INTO `ab_pie_12` VALUES ('12', '搜索引擎', '400.00');
+
+-- ----------------------------
+-- Table structure for ab_pie_13
+-- ----------------------------
+DROP TABLE IF EXISTS `ab_pie_13`;
+CREATE TABLE `ab_pie_13` (
+  `sid` int(20) NOT NULL AUTO_INCREMENT,
+  `showkey` varchar(20) DEFAULT NULL,
+  `showvalue` double(10,2) DEFAULT NULL,
+  PRIMARY KEY (`sid`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ab_pie_13
+-- ----------------------------
+INSERT INTO `ab_pie_13` VALUES ('8', '直接访问', '335.00');
+INSERT INTO `ab_pie_13` VALUES ('9', '邮件营销', '310.00');
+INSERT INTO `ab_pie_13` VALUES ('10', '联盟广告', '274.00');
+INSERT INTO `ab_pie_13` VALUES ('11', '视频广告', '235.00');
+INSERT INTO `ab_pie_13` VALUES ('12', '搜索引擎', '400.00');
+
+-- ----------------------------
+-- Table structure for ab_pie_14
+-- ----------------------------
+DROP TABLE IF EXISTS `ab_pie_14`;
+CREATE TABLE `ab_pie_14` (
+  `sid` int(20) NOT NULL AUTO_INCREMENT,
+  `showkey` varchar(20) DEFAULT NULL,
+  `showvalue` double(10,2) DEFAULT NULL,
+  PRIMARY KEY (`sid`)
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ab_pie_14
+-- ----------------------------
+INSERT INTO `ab_pie_14` VALUES ('8', '魏陈', '63.00');
+INSERT INTO `ab_pie_14` VALUES ('9', '戚项章·康吕', '76.00');
+INSERT INTO `ab_pie_14` VALUES ('10', '赵魏苗', '23.00');
+INSERT INTO `ab_pie_14` VALUES ('11', '郑张', '17.00');
+INSERT INTO `ab_pie_14` VALUES ('12', '韦顾蒋尹乐·席郝米', '36.00');
+INSERT INTO `ab_pie_14` VALUES ('13', '傅宋郎·穆金董', '97.00');
+INSERT INTO `ab_pie_14` VALUES ('14', '茅平郝明袁·范贾凤', '79.00');
+INSERT INTO `ab_pie_14` VALUES ('15', '蒋费喻娄·奚云尤', '79.00');
+INSERT INTO `ab_pie_14` VALUES ('16', '严褚何张·伍郑', '98.00');
+INSERT INTO `ab_pie_14` VALUES ('17', '唐蒋', '61.00');
+INSERT INTO `ab_pie_14` VALUES ('18', '郝祁贺·华袁唐', '66.00');
+INSERT INTO `ab_pie_14` VALUES ('19', '邹阮纪·彭米余', '95.00');
+INSERT INTO `ab_pie_14` VALUES ('20', '凤滕', '92.00');
+INSERT INTO `ab_pie_14` VALUES ('21', '陶毕', '41.00');
+INSERT INTO `ab_pie_14` VALUES ('22', '姚于闵', '14.00');
+INSERT INTO `ab_pie_14` VALUES ('23', '韦屈', '22.00');
+INSERT INTO `ab_pie_14` VALUES ('24', '倪酆', '63.00');
+INSERT INTO `ab_pie_14` VALUES ('25', '韦陶苏花汪·王葛', '75.00');
+INSERT INTO `ab_pie_14` VALUES ('26', '邹危·孟吕', '89.00');
+INSERT INTO `ab_pie_14` VALUES ('27', '彭屈毛马周·曹潘唐', '19.00');
+INSERT INTO `ab_pie_14` VALUES ('28', '陶凤苗', '93.00');
+INSERT INTO `ab_pie_14` VALUES ('29', '卫蒋', '60.00');
+INSERT INTO `ab_pie_14` VALUES ('30', '尹闵', '62.00');
+INSERT INTO `ab_pie_14` VALUES ('31', '狄路毛·平', '90.00');
+INSERT INTO `ab_pie_14` VALUES ('32', '汤朱康', '32.00');
+INSERT INTO `ab_pie_14` VALUES ('33', '贝花', '88.00');
+INSERT INTO `ab_pie_14` VALUES ('34', '狄罗顾', '18.00');
+INSERT INTO `ab_pie_14` VALUES ('35', '元明水', '38.00');
+INSERT INTO `ab_pie_14` VALUES ('36', '阮傅乐', '3.00');
+INSERT INTO `ab_pie_14` VALUES ('37', '梁明·孟伏', '25.00');
+INSERT INTO `ab_pie_14` VALUES ('38', '花祝', '66.00');
+INSERT INTO `ab_pie_14` VALUES ('39', '禹尤金', '97.00');
+INSERT INTO `ab_pie_14` VALUES ('40', '卜何蒋', '7.00');
+INSERT INTO `ab_pie_14` VALUES ('41', '康安潘', '84.00');
+INSERT INTO `ab_pie_14` VALUES ('42', '柳金', '91.00');
+INSERT INTO `ab_pie_14` VALUES ('43', '陶苏安廉路·贝', '92.00');
+INSERT INTO `ab_pie_14` VALUES ('44', '乐陶·罗褚谢', '60.00');
+INSERT INTO `ab_pie_14` VALUES ('45', '奚阮葛', '23.00');
+INSERT INTO `ab_pie_14` VALUES ('46', '尤许柳魏韩·臧', '93.00');
+INSERT INTO `ab_pie_14` VALUES ('47', '平岑·路乐冯', '89.00');
+INSERT INTO `ab_pie_14` VALUES ('48', '伍傅尤·方冯明', '32.00');
+INSERT INTO `ab_pie_14` VALUES ('49', '康孟', '80.00');
+INSERT INTO `ab_pie_14` VALUES ('50', '蓝唐', '41.00');
+INSERT INTO `ab_pie_14` VALUES ('51', '庞阮', '72.00');
+INSERT INTO `ab_pie_14` VALUES ('52', '伏廉金·臧魏', '54.00');
+INSERT INTO `ab_pie_14` VALUES ('53', '路沈皮·鲁窦曹', '32.00');
+INSERT INTO `ab_pie_14` VALUES ('54', '茅邹章·郑强', '53.00');
+INSERT INTO `ab_pie_14` VALUES ('55', '冯曹平冯·邬秦', '97.00');
+INSERT INTO `ab_pie_14` VALUES ('56', '杨常麻', '35.00');
+INSERT INTO `ab_pie_14` VALUES ('57', '安窦', '76.00');
+
+-- ----------------------------
+-- Table structure for ab_pie_15
+-- ----------------------------
+DROP TABLE IF EXISTS `ab_pie_15`;
+CREATE TABLE `ab_pie_15` (
+  `sid` int(20) NOT NULL AUTO_INCREMENT,
+  `showkey` varchar(20) DEFAULT NULL,
+  `showvalue` double(10,2) DEFAULT NULL,
+  `showvalue2` double(10,2) DEFAULT NULL,
+  PRIMARY KEY (`sid`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ab_pie_15
+-- ----------------------------
+INSERT INTO `ab_pie_15` VALUES ('8', 'rose1', '10.00', '10.00');
+INSERT INTO `ab_pie_15` VALUES ('9', 'rose2', '5.00', '5.00');
+INSERT INTO `ab_pie_15` VALUES ('10', 'rose3', '15.00', '15.00');
+INSERT INTO `ab_pie_15` VALUES ('11', 'rose4', '25.00', '25.00');
+INSERT INTO `ab_pie_15` VALUES ('12', 'rose5', '20.00', '20.00');
+INSERT INTO `ab_pie_15` VALUES ('13', 'rose6', '35.00', '35.00');
+INSERT INTO `ab_pie_15` VALUES ('14', 'rose7', '30.00', '30.00');
+INSERT INTO `ab_pie_15` VALUES ('15', 'rose8', '40.00', '40.00');
+
+-- ----------------------------
+-- Table structure for ab_pie_16
+-- ----------------------------
+DROP TABLE IF EXISTS `ab_pie_16`;
+CREATE TABLE `ab_pie_16` (
+  `sid` int(20) NOT NULL AUTO_INCREMENT,
+  `showkey` varchar(20) DEFAULT NULL,
+  `showvalue` double(10,2) DEFAULT NULL,
+  PRIMARY KEY (`sid`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ab_pie_16
+-- ----------------------------
+INSERT INTO `ab_pie_16` VALUES ('8', '直接访问', '335.00');
+INSERT INTO `ab_pie_16` VALUES ('9', '邮件营销', '310.00');
+INSERT INTO `ab_pie_16` VALUES ('10', '联盟广告', '234.00');
+INSERT INTO `ab_pie_16` VALUES ('11', '视频广告', '135.00');
+INSERT INTO `ab_pie_16` VALUES ('12', '搜索引擎', '1548.00');
+
+-- ----------------------------
 -- Table structure for tb_columnmap
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_columnmap`;
@@ -467,76 +684,99 @@ CREATE TABLE `tb_columnmap` (
   `columnshow` varchar(100) DEFAULT '',
   `type` varchar(100) DEFAULT NULL,
   `vid` int(11) DEFAULT NULL,
-  `columnname` varchar(255) DEFAULT NULL,
-  `columntype` varchar(255) DEFAULT NULL,
-  `col_color` varchar(255) DEFAULT NULL,
-  `col_label` varchar(255) DEFAULT NULL,
-  `col_label_pos` varchar(255) DEFAULT NULL,
+  `columnname` varchar(100) DEFAULT NULL,
+  `columntype` varchar(50) DEFAULT NULL,
+  `col_color` varchar(50) DEFAULT NULL,
+  `col_label` varchar(50) DEFAULT NULL,
+  `col_label_pos` varchar(50) DEFAULT NULL,
   `col_max` tinyint(1) DEFAULT '0',
   `col_min` tinyint(1) DEFAULT '0',
-  `col_name` varchar(255) DEFAULT NULL,
-  `col_stack` varchar(255) DEFAULT NULL,
-  `col_width` varchar(255) DEFAULT NULL,
+  `col_name` varchar(50) DEFAULT NULL,
+  `col_stack` varchar(50) DEFAULT NULL,
+  `col_width` varchar(50) DEFAULT NULL,
   `colyindex` int(11) DEFAULT NULL,
   `col_average` tinyint(1) DEFAULT '0',
-  `col_type` varchar(255) DEFAULT NULL,
-  `col_end_color` varchar(255) DEFAULT NULL,
+  `col_type` varchar(50) DEFAULT NULL,
+  `col_end_color` varchar(50) DEFAULT NULL,
   `col_gradient` tinyint(1) DEFAULT '0',
-  `col_label_rotate` varchar(255) DEFAULT NULL,
-  `col_start_color` varchar(255) DEFAULT NULL,
-  `col_area_color` varchar(255) DEFAULT NULL,
+  `col_label_rotate` varchar(50) DEFAULT NULL,
+  `col_start_color` varchar(50) DEFAULT NULL,
+  `col_area_color` varchar(50) DEFAULT NULL,
   `col_area_style` tinyint(1) DEFAULT '0',
   `col_smooth` tinyint(1) DEFAULT '1',
   `col_step` tinyint(1) DEFAULT '0',
-  `sampling` varchar(255) DEFAULT NULL,
+  `sampling` varchar(50) DEFAULT NULL,
+  `col_label_line_color` varchar(50) DEFAULT NULL,
+  `col_label_line` tinyint(1) DEFAULT '0',
+  `col_radius` varchar(50) DEFAULT NULL,
+  `col_rose_type` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`columnmid`),
   KEY `FKbffiep48qcfosj6902qx0q2wx` (`vid`),
   CONSTRAINT `FKbffiep48qcfosj6902qx0q2wx` FOREIGN KEY (`vid`) REFERENCES `tb_visualize` (`vid`)
-) ENGINE=InnoDB AUTO_INCREMENT=187 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=206 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_columnmap
 -- ----------------------------
-INSERT INTO `tb_columnmap` VALUES ('129', 'showkey', null, 'varchar(20)', '76', null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('130', 'showvalue', null, 'double(10,2)', '76', null, null, null, 'false', null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('131', 'showvalue1', null, 'double(10,2)', '76', null, null, null, 'false', null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('132', 'showkey', null, 'varchar(20)', '77', null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('133', 'showvalue', null, 'double(10,2)', '77', null, null, '#2950D2', 'true', 'right', '1', '1', '1号', null, null, null, '1', 'line', null, '0', null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('134', 'showvalue1', null, 'double(10,2)', '77', null, null, null, 'false', null, '0', '0', '2号', null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('135', 'showvalue2', null, 'double(10,2)', '77', null, null, null, 'false', null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('136', 'showvalue3', null, 'double(10,2)', '77', null, null, null, 'false', null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('137', 'showkey', null, 'varchar(20)', '78', null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('138', 'showvalue', null, 'double(10,2)', '78', null, null, null, 'false', null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('139', 'showkey', null, 'varchar(20)', '79', null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('140', 'showvalue', null, 'double(10,2)', '79', null, null, null, 'false', null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('141', 'showvalue1', null, 'double(10,2)', '79', null, null, null, 'false', null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('142', 'showvalue2', null, 'double(10,2)', '79', null, null, null, 'false', null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('143', 'showvalue3', null, 'double(10,2)', '79', null, null, null, 'false', null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('144', 'showkey', null, 'varchar(20)', '80', null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('145', 'showvalue', null, 'double(10,2)', '80', null, null, null, 'false', null, '0', '0', '类别A', null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('146', 'showvalue1', null, 'double(10,2)', '80', null, null, null, 'false', null, '0', '0', '类别B', null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('147', 'showvalue2', null, 'double(10,2)', '80', null, null, null, 'false', null, '0', '0', '类别C', null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('166', 'showkey', null, 'varchar(20)', '86', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('167', 'showvalue', null, 'double(10,2)', '86', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('168', 'showvalue1', null, 'double(10,2)', '86', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('169', 'showvalue2', null, 'double(10,2)', '86', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('170', 'showvalue3', null, 'double(10,2)', '86', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('171', 'showvalue4', null, 'double(10,2)', '86', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('172', 'showkey', null, 'varchar(20)', '87', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('173', 'showvalue', null, 'double(10,2)', '87', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('174', 'showvalue1', null, 'double(10,2)', '87', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('175', 'showvalue2', null, 'double(10,2)', '87', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('176', 'showvalue3', null, 'double(10,2)', '87', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('177', 'showvalue4', null, 'double(10,2)', '87', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('178', 'showkey', null, 'varchar(20)', '88', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('179', 'showvalue', null, 'double(10,2)', '88', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('180', 'showkey', null, 'varchar(20)', '89', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('181', 'showvalue', null, 'double(10,2)', '89', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('182', 'showvalue1', null, 'double(10,2)', '89', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('183', 'showvalue2', null, 'double(10,2)', '89', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('184', 'showkey', null, 'varchar(20)', '90', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('185', 'showvalue', null, 'double(10,2)', '90', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
-INSERT INTO `tb_columnmap` VALUES ('186', 'showvalue1', null, 'double(10,2)', '90', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null);
+INSERT INTO `tb_columnmap` VALUES ('129', 'showkey', null, 'varchar(20)', '76', null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('130', 'showvalue', null, 'double(10,2)', '76', null, null, null, 'false', null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('131', 'showvalue1', null, 'double(10,2)', '76', null, null, null, 'false', null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('132', 'showkey', null, 'varchar(20)', '77', null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('133', 'showvalue', null, 'double(10,2)', '77', null, null, '#2950D2', 'true', 'right', '1', '1', '1号', null, null, null, '1', 'line', null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('134', 'showvalue1', null, 'double(10,2)', '77', null, null, null, 'false', null, '0', '0', '2号', null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('135', 'showvalue2', null, 'double(10,2)', '77', null, null, null, 'false', null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('136', 'showvalue3', null, 'double(10,2)', '77', null, null, null, 'false', null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('137', 'showkey', null, 'varchar(20)', '78', null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('138', 'showvalue', null, 'double(10,2)', '78', null, null, null, 'false', null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('139', 'showkey', null, 'varchar(20)', '79', null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('140', 'showvalue', null, 'double(10,2)', '79', null, null, null, 'false', null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('141', 'showvalue1', null, 'double(10,2)', '79', null, null, null, 'false', null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('142', 'showvalue2', null, 'double(10,2)', '79', null, null, null, 'false', null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('143', 'showvalue3', null, 'double(10,2)', '79', null, null, null, 'false', null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('144', 'showkey', null, 'varchar(20)', '80', null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('145', 'showvalue', null, 'double(10,2)', '80', null, null, null, 'false', null, '0', '0', '类别A', null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('146', 'showvalue1', null, 'double(10,2)', '80', null, null, null, 'false', null, '0', '0', '类别B', null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('147', 'showvalue2', null, 'double(10,2)', '80', null, null, null, 'false', null, '0', '0', '类别C', null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('166', 'showkey', null, 'varchar(20)', '86', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('167', 'showvalue', null, 'double(10,2)', '86', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('168', 'showvalue1', null, 'double(10,2)', '86', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('169', 'showvalue2', null, 'double(10,2)', '86', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('170', 'showvalue3', null, 'double(10,2)', '86', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('171', 'showvalue4', null, 'double(10,2)', '86', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('172', 'showkey', null, 'varchar(20)', '87', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('173', 'showvalue', null, 'double(10,2)', '87', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('174', 'showvalue1', null, 'double(10,2)', '87', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('175', 'showvalue2', null, 'double(10,2)', '87', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('176', 'showvalue3', null, 'double(10,2)', '87', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('177', 'showvalue4', null, 'double(10,2)', '87', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('178', 'showkey', null, 'varchar(20)', '88', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('179', 'showvalue', null, 'double(10,2)', '88', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('180', 'showkey', null, 'varchar(20)', '89', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('181', 'showvalue', null, 'double(10,2)', '89', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('182', 'showvalue1', null, 'double(10,2)', '89', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('183', 'showvalue2', null, 'double(10,2)', '89', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('184', 'showkey', null, 'varchar(20)', '90', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('185', 'showvalue', null, 'double(10,2)', '90', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('186', 'showvalue1', null, 'double(10,2)', '90', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('187', 'showkey', null, 'varchar(20)', '91', null, null, null, null, null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('188', 'showvalue', null, 'double(10,2)', '91', null, null, null, null, null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('189', 'showvalue1', null, 'double(10,2)', '91', null, null, null, null, null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('190', 'showkey', null, 'varchar(20)', '92', null, null, null, null, null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('191', 'showvalue', null, 'double(10,2)', '92', null, null, '#46BE39', 'true', 'left', '1', '1', '体重', null, null, null, '0', 'line', null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('192', 'showvalue1', null, 'double(10,2)', '92', null, null, null, 'false', null, '1', '1', '身高', null, null, null, '0', 'bar', null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('193', 'showkey', null, 'varchar(20)', '93', null, null, null, null, null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('194', 'showvalue', null, 'double(10,2)', '93', null, null, null, null, null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('195', 'showkey', null, 'varchar(20)', '94', null, null, null, null, null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('196', 'showvalue', null, 'double(10,2)', '94', null, null, null, null, null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('197', 'showkey', null, 'varchar(20)', '95', null, null, null, null, null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('198', 'showvalue', null, 'double(10,2)', '95', null, null, null, null, null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('199', 'showkey', null, 'varchar(20)', '96', null, null, null, null, null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('200', 'showvalue', null, 'double(10,2)', '96', null, null, null, null, null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('201', 'showkey', null, 'varchar(20)', '97', null, null, null, null, null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('202', 'showvalue', null, 'double(10,2)', '97', null, null, null, null, null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('203', 'showvalue2', null, 'double(10,2)', '97', null, null, null, null, null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('204', 'showkey', null, 'varchar(20)', '98', null, null, null, null, null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
+INSERT INTO `tb_columnmap` VALUES ('205', 'showvalue', null, 'double(10,2)', '98', null, null, null, null, null, '0', '0', null, null, null, null, '0', null, null, '0', null, null, null, '0', '1', '0', null, null, '0', null, '0');
 
 -- ----------------------------
 -- Table structure for tb_dashboard
@@ -544,20 +784,23 @@ INSERT INTO `tb_columnmap` VALUES ('186', 'showvalue1', null, 'double(10,2)', '9
 DROP TABLE IF EXISTS `tb_dashboard`;
 CREATE TABLE `tb_dashboard` (
   `bid` int(11) NOT NULL AUTO_INCREMENT,
-  `businesscategory` varchar(255) DEFAULT NULL,
-  `dashboarddescription` varchar(255) DEFAULT NULL,
-  `dashboardname` varchar(255) DEFAULT NULL,
-  `dashboardshowname` varchar(255) DEFAULT NULL,
-  `type` varchar(255) DEFAULT NULL,
+  `businesscategory` varchar(50) DEFAULT NULL,
+  `dashboarddescription` varchar(250) DEFAULT NULL,
+  `dashboardname` varchar(100) DEFAULT NULL,
+  `dashboardshowname` varchar(100) DEFAULT NULL,
+  `type` varchar(30) DEFAULT NULL,
   `refresh` int(6) DEFAULT '0',
   PRIMARY KEY (`bid`),
   UNIQUE KEY `IDX_dashboardname` (`dashboardname`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_dashboard
 -- ----------------------------
 INSERT INTO `tb_dashboard` VALUES ('16', '', null, '柱状图', '', null, '0');
+INSERT INTO `tb_dashboard` VALUES ('17', '松姐演示', null, '张松演示', '', null, '0');
+INSERT INTO `tb_dashboard` VALUES ('18', '工具校准单', null, '折线图测试', '折线图测试', null, '0');
+INSERT INTO `tb_dashboard` VALUES ('20', '工具校准单', null, '测试视图新增', '测试视图新增', null, '0');
 
 -- ----------------------------
 -- Table structure for tb_dashboard_visualize
@@ -571,22 +814,22 @@ CREATE TABLE `tb_dashboard_visualize` (
   `w` int(11) DEFAULT NULL,
   `x` int(11) DEFAULT NULL,
   `y` int(11) DEFAULT NULL,
-  `echarttitle` varchar(255) DEFAULT NULL,
-  `legend_orient` varchar(255) DEFAULT NULL,
-  `legend_pos` varchar(255) DEFAULT NULL,
+  `echarttitle` varchar(100) DEFAULT NULL,
+  `legend_orient` varchar(100) DEFAULT NULL,
+  `legend_pos` varchar(100) DEFAULT NULL,
   `legend_show` tinyint(1) DEFAULT '0',
   `tooltip_show` tinyint(1) DEFAULT '0',
-  `xname` varchar(255) DEFAULT NULL,
-  `yname` varchar(255) DEFAULT NULL,
-  `background` varchar(255) DEFAULT NULL,
-  `echart_tit_color` varchar(255) DEFAULT NULL,
-  `echart_tit_pos` varchar(255) DEFAULT NULL,
+  `xname` varchar(100) DEFAULT NULL,
+  `yname` varchar(100) DEFAULT NULL,
+  `background` varchar(50) DEFAULT NULL,
+  `echart_tit_color` varchar(50) DEFAULT NULL,
+  `echart_tit_pos` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`did`),
   KEY `FKs0u7h9oxeym8pakpfyg3fd8i9` (`bid`),
   KEY `FK3006umesaltsyga8yv3wwixda` (`vid`),
   CONSTRAINT `FK3006umesaltsyga8yv3wwixda` FOREIGN KEY (`vid`) REFERENCES `tb_visualize` (`vid`),
   CONSTRAINT `FKs0u7h9oxeym8pakpfyg3fd8i9` FOREIGN KEY (`bid`) REFERENCES `tb_dashboard` (`bid`)
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_dashboard_visualize
@@ -596,6 +839,14 @@ INSERT INTO `tb_dashboard_visualize` VALUES ('68', '16', '79', '7', '12', '0', '
 INSERT INTO `tb_dashboard_visualize` VALUES ('69', '16', '78', '8', '12', '0', '17', null, null, null, null, null, null, null, null, null, null);
 INSERT INTO `tb_dashboard_visualize` VALUES ('70', '16', '77', '6', '12', '0', '32', null, null, null, null, '1', null, null, null, null, null);
 INSERT INTO `tb_dashboard_visualize` VALUES ('73', '16', '76', '9', '12', '0', '0', null, null, null, null, '1', null, null, null, null, null);
+INSERT INTO `tb_dashboard_visualize` VALUES ('74', '17', '92', '10', '7', '5', '0', null, 'vertical', 'topRight', '1', '1', '星期', '体重', '#606465', null, null);
+INSERT INTO `tb_dashboard_visualize` VALUES ('75', '17', '79', '10', '5', '0', '0', null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tb_dashboard_visualize` VALUES ('76', '17', '80', '13', '12', '0', '10', null, 'horizontal', 'topRight', '1', null, '日期', '销量', null, null, null);
+INSERT INTO `tb_dashboard_visualize` VALUES ('77', '18', '90', '7', '6', '0', '28', null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tb_dashboard_visualize` VALUES ('78', '18', '89', '8', '6', '0', '20', null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tb_dashboard_visualize` VALUES ('79', '18', '88', '8', '6', '6', '20', null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tb_dashboard_visualize` VALUES ('80', '18', '87', '10', '7', '0', '10', null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `tb_dashboard_visualize` VALUES ('81', '18', '86', '10', '7', '0', '0', null, null, null, null, null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_database
@@ -614,7 +865,7 @@ CREATE TABLE `tb_database` (
   `dbtype` varchar(30) DEFAULT NULL,
   `dbstatus` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`dbid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_database
@@ -623,6 +874,7 @@ INSERT INTO `tb_database` VALUES ('1', 'spark4', '3306', 'sourcedb', 'root', 'my
 INSERT INTO `tb_database` VALUES ('2', 'hxqh.dev', '1521', 'maxpro', 'scott', 'tiger', 'oracle.jdbc.driver.OracleDriver', '1', 'Oracle数据源', 'oracle', '连接成功');
 INSERT INTO `tb_database` VALUES ('3', 'spark4', '3306', 'sourcedb', 'root', 'mysql', 'oracle.jdbc.driver.OracleDriver', '0', '配饰数据库-update', 'oracle', null);
 INSERT INTO `tb_database` VALUES ('4', 'spark4', '3306', 'sourcedb', 'root', 'mysql', 'com.mysql.jdbc.Driver', '1', '测试数据库新增--编辑保存', 'mysql', '连接成功');
+INSERT INTO `tb_database` VALUES ('5', 'hxqh.dev', '1521', 'maxpro', 'scott', 'tiger', 'oracle.jdbc.driver.OracleDriver', '1', '松', 'oracle', null);
 
 -- ----------------------------
 -- Table structure for tb_model
@@ -656,14 +908,14 @@ INSERT INTO `tb_model` VALUES ('3', null, null, '工单管理', '工单管理', 
 DROP TABLE IF EXISTS `tb_orientx`;
 CREATE TABLE `tb_orientx` (
   `orientxid` int(11) NOT NULL AUTO_INCREMENT,
-  `x_axis_label` varchar(255) DEFAULT NULL,
+  `x_axis_label` varchar(50) DEFAULT NULL,
   `xaxisline` tinyint(1) DEFAULT '1',
   `xinverse` tinyint(1) DEFAULT '0',
   `xsplitline` tinyint(1) DEFAULT '1',
-  `xaxis_label_pos` varchar(255) DEFAULT NULL,
-  `xline_color` varchar(255) DEFAULT NULL,
-  `xname` varchar(255) DEFAULT NULL,
-  `xname_color` varchar(255) DEFAULT NULL,
+  `xaxis_label_pos` varchar(50) DEFAULT NULL,
+  `xline_color` varchar(50) DEFAULT NULL,
+  `xname` varchar(50) DEFAULT NULL,
+  `xname_color` varchar(50) DEFAULT NULL,
   `vid` int(11) DEFAULT NULL,
   PRIMARY KEY (`orientxid`),
   KEY `FKp5co8naog2rtwwktm4k93nggb` (`vid`),
@@ -680,16 +932,16 @@ CREATE TABLE `tb_orientx` (
 DROP TABLE IF EXISTS `tb_orienty`;
 CREATE TABLE `tb_orienty` (
   `orientyid` int(11) NOT NULL AUTO_INCREMENT,
-  `y_axis_label` varchar(255) DEFAULT NULL,
+  `y_axis_label` varchar(50) DEFAULT NULL,
   `yaxisline` tinyint(1) DEFAULT '1',
   `yinverse` tinyint(1) DEFAULT '0',
   `ysplitline` tinyint(1) DEFAULT '1',
-  `yname` varchar(255) DEFAULT NULL,
+  `yname` varchar(50) DEFAULT NULL,
   `vid` int(11) DEFAULT NULL,
-  `yaxis_label_pos` varchar(255) DEFAULT NULL,
-  `yline_color` varchar(255) DEFAULT NULL,
-  `yname_color` varchar(255) DEFAULT NULL,
-  `ytype` varchar(255) DEFAULT NULL,
+  `yaxis_label_pos` varchar(50) DEFAULT NULL,
+  `yline_color` varchar(50) DEFAULT NULL,
+  `yname_color` varchar(50) DEFAULT NULL,
+  `ytype` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`orientyid`),
   KEY `FK4n37clfwkaehgrwur5u1oo6af` (`vid`),
   CONSTRAINT `FK4n37clfwkaehgrwur5u1oo6af` FOREIGN KEY (`vid`) REFERENCES `tb_visualize` (`vid`)
@@ -760,8 +1012,8 @@ CREATE TABLE `tb_tablemanager` (
 -- Records of tb_tablemanager
 -- ----------------------------
 INSERT INTO `tb_tablemanager` VALUES ('1', 'line', '22', 'ab_line_');
-INSERT INTO `tb_tablemanager` VALUES ('2', 'pie', '10', 'ab_pie_');
-INSERT INTO `tb_tablemanager` VALUES ('3', 'bar', '22', 'ab_bar_');
+INSERT INTO `tb_tablemanager` VALUES ('2', 'pie', '17', 'ab_pie_');
+INSERT INTO `tb_tablemanager` VALUES ('3', 'bar', '23', 'ab_bar_');
 
 -- ----------------------------
 -- Table structure for tb_user
@@ -820,88 +1072,78 @@ CREATE TABLE `tb_visualize` (
   `businesscategory` varchar(50) DEFAULT NULL,
   `tablename` varchar(50) DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL,
-  `visualizedescription` varchar(255) DEFAULT NULL,
-  `visualizename` varchar(255) DEFAULT NULL,
-  `visualizeshowname` varchar(255) DEFAULT NULL,
+  `visualizedescription` varchar(200) DEFAULT NULL,
+  `visualizename` varchar(50) DEFAULT NULL,
+  `visualizeshowname` varchar(50) DEFAULT NULL,
   `xname` varchar(50) DEFAULT NULL,
   `yname` varchar(50) DEFAULT NULL,
   `ytype` varchar(20) DEFAULT NULL,
-  `echarttitle` varchar(255) DEFAULT NULL,
-  `legend_orient` varchar(255) DEFAULT NULL,
-  `legend_pos` varchar(255) DEFAULT NULL,
+  `echarttitle` varchar(50) DEFAULT NULL,
+  `legend_orient` varchar(50) DEFAULT NULL,
+  `legend_pos` varchar(50) DEFAULT NULL,
   `legend_show` tinyint(1) DEFAULT NULL,
   `tooltip_show` tinyint(1) DEFAULT NULL,
-  `background` varchar(255) DEFAULT NULL,
-  `echart_tit_color` varchar(255) DEFAULT NULL,
-  `echart_tit_pos` varchar(255) DEFAULT NULL,
+  `background` varchar(50) DEFAULT NULL,
+  `echart_tit_color` varchar(50) DEFAULT NULL,
+  `echart_tit_pos` varchar(50) DEFAULT NULL,
   `sourcetablename` varchar(60) DEFAULT NULL,
   `columnsnumber` int(2) DEFAULT NULL,
   `dbid` int(10) DEFAULT NULL,
   `alignwithlabel` tinyint(1) DEFAULT '0',
   `datazoom` tinyint(1) DEFAULT '0',
-  `x_axis_label` varchar(255) DEFAULT NULL,
+  `x_axis_label` varchar(50) DEFAULT NULL,
   `xaxisline` tinyint(1) DEFAULT '1',
   `xinverse` tinyint(1) DEFAULT '0',
   `xsplitline` tinyint(1) DEFAULT '1',
   `xtoy` tinyint(1) DEFAULT '0',
-  `y_axis_label` varchar(255) DEFAULT NULL,
+  `y_axis_label` varchar(50) DEFAULT NULL,
   `yaxisline` tinyint(1) DEFAULT '1',
   `yinverse` tinyint(1) DEFAULT '0',
   `ysplitline` tinyint(1) DEFAULT '1',
-  `controller_color` varchar(255) DEFAULT NULL,
+  `controller_color` varchar(50) DEFAULT NULL,
   `max` int(11) DEFAULT NULL,
   `min` int(11) DEFAULT NULL,
-  `out_of_range_color` varchar(255) DEFAULT NULL,
-  `sub_tit` varchar(255) DEFAULT NULL,
-  `xaxis_label_pos` varchar(255) DEFAULT NULL,
-  `xline_color` varchar(255) DEFAULT NULL,
-  `xname_color` varchar(255) DEFAULT NULL,
-  `yaxis_label_pos` varchar(255) DEFAULT NULL,
-  `yline_color` varchar(255) DEFAULT NULL,
-  `yname_color` varchar(255) DEFAULT NULL,
+  `out_of_range_color` varchar(50) DEFAULT NULL,
+  `sub_tit` varchar(50) DEFAULT NULL,
+  `xaxis_label_pos` varchar(50) DEFAULT NULL,
+  `xline_color` varchar(50) DEFAULT NULL,
+  `xname_color` varchar(50) DEFAULT NULL,
+  `yaxis_label_pos` varchar(50) DEFAULT NULL,
+  `yline_color` varchar(50) DEFAULT NULL,
+  `yname_color` varchar(50) DEFAULT NULL,
   `xboundarygap` tinyint(1) DEFAULT '0',
+  `xend` varchar(50) DEFAULT NULL,
+  `xstart` varchar(50) DEFAULT NULL,
+  `yend` varchar(50) DEFAULT NULL,
+  `ystart` varchar(50) DEFAULT NULL,
+  `legend_sel_data` varchar(50) DEFAULT NULL,
+  `legend_type` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`vid`),
   UNIQUE KEY `IDX_visualizename` (`visualizename`),
   UNIQUE KEY `IDX_tablename` (`tablename`)
-) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_visualize
 -- ----------------------------
-INSERT INTO `tb_visualize` VALUES ('76', '工具校准单', 'ab_bar_10', 'bar', '', '柱状动态延迟', null, null, null, 'value', null, null, null, null, '1', null, null, null, 'line_source', '3', '1', null, null, null, '1', null, null, null, null, '1', null, null, null, null, null, null, null, null, null, null, null, null, null, '0');
-INSERT INTO `tb_visualize` VALUES ('77', '工具校准单', 'ab_bar_11', 'bar', '', '柱状图框选', null, null, null, 'value', null, null, null, null, '1', null, null, null, 'line_source', '5', '1', '1', null, null, '1', null, '1', '0', null, '1', null, '1', null, null, null, null, null, null, null, null, null, null, null, '0');
-INSERT INTO `tb_visualize` VALUES ('78', '工具校准单', 'ab_bar_12', 'bar', '', '特性示例 渐变色 ', null, null, null, 'value', null, null, null, null, null, null, null, null, 'line_source', '2', '1', null, null, null, '1', null, '1', null, null, '1', null, '1', null, null, null, null, null, null, null, null, null, null, null, '0');
-INSERT INTO `tb_visualize` VALUES ('79', '工具校准单', 'ab_bar_13', 'bar', '', 'Bar Label Rotation', null, null, null, 'value', null, null, null, null, null, null, null, null, 'line_source', '5', '1', null, null, null, '1', null, null, null, null, '1', null, null, null, null, null, null, null, null, null, null, null, null, null, '0');
-INSERT INTO `tb_visualize` VALUES ('80', '工具校准单', 'ab_bar_14', 'bar', '', '正负条形图', null, '日期', '销量', 'value', null, 'horizontal', 'topRight', '1', null, null, null, null, 'line_source', '4', '1', null, null, '', '1', null, null, null, '（吨）', '1', null, null, null, null, null, null, null, null, null, null, null, null, null, '0');
-INSERT INTO `tb_visualize` VALUES ('86', '折线图样例', 'ab_line_17', 'line', '', '堆叠区域图', null, null, null, 'value', null, null, null, null, null, null, null, null, 'line_source', '6', '1', null, null, null, '1', null, '1', null, null, '1', null, '1', null, null, null, null, null, null, null, null, null, null, null, '0');
-INSERT INTO `tb_visualize` VALUES ('87', '折线图样例', 'ab_line_18', 'line', '', '折线图堆叠', null, null, null, 'value', null, null, null, null, null, null, null, null, 'line_source', '6', '1', null, null, null, '1', null, '1', null, null, '1', null, '1', null, null, null, null, null, null, null, null, null, null, null, '0');
-INSERT INTO `tb_visualize` VALUES ('88', '折线图样例', 'ab_line_19', 'line', '', '大数据量面积图', null, null, null, 'value', null, null, null, null, null, null, null, null, 'line_source', '2', '1', null, null, null, '1', null, '1', null, null, '1', null, '1', null, null, null, null, null, null, null, null, null, null, null, '0');
-INSERT INTO `tb_visualize` VALUES ('89', '折线图样例', 'ab_line_20', 'line', '', '对数轴示例', null, null, null, 'value', null, null, null, null, null, null, null, null, 'line_source', '4', '1', null, null, null, '1', null, '1', null, null, '1', null, '1', null, null, null, null, null, null, null, null, null, null, null, '0');
-INSERT INTO `tb_visualize` VALUES ('90', '折线图样例', 'ab_line_21', 'line', '', '未来一周气温变化', null, null, null, 'value', null, null, null, null, null, null, null, null, 'line_source', '3', '1', null, null, null, '1', null, '1', null, null, '1', null, '1', null, null, null, null, null, null, null, null, null, null, null, '0');
-
--- ----------------------------
--- Table structure for 堆叠区域图
--- ----------------------------
-DROP TABLE IF EXISTS `堆叠区域图`;
-CREATE TABLE `堆叠区域图` (
-  `1` varchar(255) DEFAULT NULL,
-  `邮件营销` varchar(255) DEFAULT NULL,
-  `联盟广告` varchar(255) DEFAULT NULL,
-  `视频广告` varchar(255) DEFAULT NULL,
-  `直接访问` varchar(255) DEFAULT NULL,
-  `搜索引擎` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of 堆叠区域图
--- ----------------------------
-INSERT INTO `堆叠区域图` VALUES ('周一', '120', '220', '150', '320', '820');
-INSERT INTO `堆叠区域图` VALUES ('周二', '132', '182', '232', '332', '932');
-INSERT INTO `堆叠区域图` VALUES ('周三', '101', '191', '201', '301', '901');
-INSERT INTO `堆叠区域图` VALUES ('周四', '134', '234', '154', '334', '934');
-INSERT INTO `堆叠区域图` VALUES ('周五', '90', '290', '190', '390', '1290');
-INSERT INTO `堆叠区域图` VALUES ('周六', '230', '330', '330', '330', '1330');
-INSERT INTO `堆叠区域图` VALUES ('周日', '210', '310', '410', '320', '1320');
+INSERT INTO `tb_visualize` VALUES ('76', '工具校准单', 'ab_bar_10', 'bar', '', '柱状动态延迟', null, null, null, 'value', null, null, null, null, '1', null, null, null, 'line_source', '3', '1', null, null, null, '1', null, null, null, null, '1', null, null, null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, null, null, null);
+INSERT INTO `tb_visualize` VALUES ('77', '工具校准单', 'ab_bar_11', 'bar', '', '柱状图框选', null, null, null, 'value', null, null, null, null, '1', null, null, null, 'line_source', '5', '1', '1', null, null, '1', null, '1', '0', null, '1', null, '1', null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, null, null, null);
+INSERT INTO `tb_visualize` VALUES ('78', '工具校准单', 'ab_bar_12', 'bar', '', '特性示例 渐变色 ', null, null, null, 'value', null, null, null, null, null, null, null, null, 'line_source', '2', '1', null, null, null, '1', null, '1', null, null, '1', null, '1', null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, null, null, null);
+INSERT INTO `tb_visualize` VALUES ('79', '工具校准单', 'ab_bar_13', 'bar', '', 'Bar Label Rotation', null, null, null, 'value', null, null, null, null, null, null, null, null, 'line_source', '5', '1', null, null, null, '1', null, null, null, null, '1', null, null, null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, null, null, null);
+INSERT INTO `tb_visualize` VALUES ('80', '工具校准单', 'ab_bar_14', 'bar', '', '正负条形图', null, '日期', '销量', 'value', null, 'horizontal', 'topRight', '1', null, null, null, null, 'line_source', '4', '1', null, null, '', '1', null, null, null, '（吨）', '1', null, null, null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, null, null, null);
+INSERT INTO `tb_visualize` VALUES ('86', '折线图样例', 'ab_line_17', 'line', '', '堆叠区域图', null, null, null, 'value', null, null, null, null, null, null, null, null, 'line_source', '6', '1', null, null, null, '1', null, '1', null, null, '1', null, '1', null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, null, null, null);
+INSERT INTO `tb_visualize` VALUES ('87', '折线图样例', 'ab_line_18', 'line', '', '折线图堆叠', null, null, null, 'value', null, null, null, null, null, null, null, null, 'line_source', '6', '1', null, null, null, '1', null, '1', null, null, '1', null, '1', null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, null, null, null);
+INSERT INTO `tb_visualize` VALUES ('88', '折线图样例', 'ab_line_19', 'line', '', '大数据量面积图', null, null, null, 'value', null, null, null, null, null, null, null, null, 'line_source', '2', '1', null, null, null, '1', null, '1', null, null, '1', null, '1', null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, null, null, null);
+INSERT INTO `tb_visualize` VALUES ('89', '折线图样例', 'ab_line_20', 'line', '', '对数轴示例', null, null, null, 'value', null, null, null, null, null, null, null, null, 'line_source', '4', '1', null, null, null, '1', null, '1', null, null, '1', null, '1', null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, null, null, null);
+INSERT INTO `tb_visualize` VALUES ('90', '折线图样例', 'ab_line_21', 'line', '', '未来一周气温变化', null, null, null, 'value', null, null, null, null, null, null, null, null, 'line_source', '3', '1', null, null, null, '1', null, '1', null, null, '1', null, '1', null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, null, null, null);
+INSERT INTO `tb_visualize` VALUES ('91', '饼图样例', 'ab_pie_10', 'pie', '', 'pie多列', null, null, null, 'double', null, null, null, null, null, null, null, null, 'line_source', '3', '1', null, null, null, '1', null, '1', null, null, '1', null, '1', null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, null, null, null);
+INSERT INTO `tb_visualize` VALUES ('92', '松姐演示', 'ab_bar_22', 'bar', '', '松-1', null, '星期', '体重', 'double', null, 'vertical', 'topRight', '1', '1', '#606465', null, null, 'LINE_SOURCE', '3', '5', null, null, '天', '1', null, '1', null, 'KG', '1', null, '1', null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, null, null, null);
+INSERT INTO `tb_visualize` VALUES ('93', '饼图样例', 'ab_pie_11', 'pie', '', 'pie单列', null, null, null, 'double', null, null, null, null, null, null, null, null, 'pie_source', '2', '1', null, null, null, '1', null, '1', null, null, '1', null, '1', null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, null, null, null);
+INSERT INTO `tb_visualize` VALUES ('94', '饼图样例', 'ab_pie_12', 'pie', '', 'Customized Pie', null, null, null, 'double', null, null, null, null, null, null, null, null, 'pie_source', '2', '1', '0', '0', null, '1', '0', '1', '0', null, '1', '0', '1', null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, null, null, null);
+INSERT INTO `tb_visualize` VALUES ('95', '饼图样例', 'ab_pie_13', 'pie', '', 'Doughnut-Chart', null, null, null, 'double', null, null, null, null, null, null, null, null, 'pie_source', '2', '1', '0', '0', null, '1', '0', '1', '0', null, '1', '0', '1', null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, null, null, null);
+INSERT INTO `tb_visualize` VALUES ('96', '饼图样例', 'ab_pie_14', 'pie', '', '同名数量统计', null, null, null, 'double', null, null, null, null, null, null, null, null, 'pie_source', '2', '1', '0', '0', null, '1', '0', '1', '0', null, '1', '0', '1', null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, null, null, null);
+INSERT INTO `tb_visualize` VALUES ('97', '饼图样例', 'ab_pie_15', 'pie', '', '南丁格尔玫瑰图', null, null, null, 'double', null, null, null, null, null, null, null, null, 'pie_source_double', '3', '1', '0', '0', null, '1', '0', '1', '0', null, '1', '0', '1', null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, null, null, null);
+INSERT INTO `tb_visualize` VALUES ('98', '饼图样例', 'ab_pie_16', 'pie', '', '某站点用户访问来源', null, null, null, 'double', null, null, null, null, null, null, null, null, 'pie_source', '2', '1', '0', '0', null, '1', '0', '1', '0', null, '1', '0', '1', null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, null, null, null);
 
 -- ----------------------------
 -- View structure for v_role_model
