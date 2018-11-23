@@ -72,7 +72,44 @@ public class ShowDto extends Location {
     private String xnameColor;
     private String xaxisLabelPos;
 
+    private String xstart;
+    private String xend;
+    private String ystart;
+    private String yend;
+
     public ShowDto() {
+    }
+
+    public String getXstart() {
+        return xstart;
+    }
+
+    public void setXstart(String xstart) {
+        this.xstart = xstart;
+    }
+
+    public String getXend() {
+        return xend;
+    }
+
+    public void setXend(String xend) {
+        this.xend = xend;
+    }
+
+    public String getYstart() {
+        return ystart;
+    }
+
+    public void setYstart(String ystart) {
+        this.ystart = ystart;
+    }
+
+    public String getYend() {
+        return yend;
+    }
+
+    public void setYend(String yend) {
+        this.yend = yend;
     }
 
     public List<OrientX> getOrientXList() {
