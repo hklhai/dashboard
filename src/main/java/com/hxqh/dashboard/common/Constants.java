@@ -51,7 +51,7 @@ public interface Constants {
     String TYPE_VARCHAR = "varchar";
     String TYPE_NUMBER = "NUMBER";
     String TYPE_DOUBLE ="double";
-    String SUFFIX = "'";
+    String SUFFIX = "' union all select view_name as  from user_views";
 
     String INSERT_SQL = "insert into ";
     String VALUE_SQL = ") values ('";

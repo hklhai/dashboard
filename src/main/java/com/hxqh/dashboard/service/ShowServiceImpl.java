@@ -435,12 +435,14 @@ public class ShowServiceImpl implements ShowService {
                     type = type.replace(Constants.TYPE_NUMBER, Constants.TYPE_DOUBLE);
                 } else if (type.startsWith(Constants.TYPE_VARCHAR2)) {
                     type = type.replace(Constants.TYPE_VARCHAR2, Constants.TYPE_VARCHAR);
+                } else {
+                    continue;
                 }
                 columnDto = new ColumnDto(rs.getString(Constants.TABLE_COLUMN_NAME).toLowerCase(), type);
             } else {
-                String properityName = rs.getString(Constants.TABLE_COLUMN_NAME);
-                if (!properityName.toLowerCase().contains("id")) {
-                    columnDto = new ColumnDto(properityName, rs.getString(Constants.TABLE_COLUMN_TYPE));
+                String propertyName = rs.getString(Constants.TABLE_COLUMN_NAME);
+                if (!propertyName.toLowerCase().contains("id")) {
+                    columnDto = new ColumnDto(propertyName, rs.getString(Constants.TABLE_COLUMN_TYPE));
                 }
             }
             if (null != columnDto) {
