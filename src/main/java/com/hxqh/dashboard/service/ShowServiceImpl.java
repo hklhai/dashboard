@@ -114,7 +114,7 @@ public class ShowServiceImpl implements ShowService {
 
     private static final String SELECT_SQL = "select * from ";
     private static final String DROP_TABLE_SQL = " drop table ";
-    private static final String DOUBLE_TYPE = "double";
+    private static final String DOUBLE_TYPE = "value";
     private static final Integer START_NUM = 1;
     private static final Integer END_NUM = 8;
 
