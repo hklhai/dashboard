@@ -62,3 +62,9 @@ INSERT INTO   BAR_SOURCE   VALUES ('2', 'Steppe', '220.00', '182.00', '191.00', 
 INSERT INTO   BAR_SOURCE   VALUES ('3', 'Desert', '150.00', '232.00', '201.00', '154.00', '190.00');
 INSERT INTO   BAR_SOURCE   VALUES ('4', 'Wetland', '98.00', '77.00', '101.00', '99.00', '40.00');
 commit;
+
+
+create view  view_bar_source as select * from  bar_source;
+create view  view_line_source as select * from  line_source;
+create view  view_pie_source as select * from  pie_source;
+create view  view_pie_source_double as select * from  pie_source_double;

@@ -105,3 +105,10 @@ INSERT INTO `pie_source_double` VALUES ('4', '视频广告', '42.00', '42.00');
 INSERT INTO `pie_source_double` VALUES ('5', '搜索引擎', '12.00', '12.00');
 INSERT INTO `pie_source_double` VALUES ('6', '简介访问', '35.00', '35.00');
 INSERT INTO `pie_source_double` VALUES ('7', '抖音广告', '47.00', '47.00');
+
+
+
+create view  view_bar_source as select * from  bar_source;
+create view  view_line_source as select * from  line_source;
+create view  view_pie_source as select * from  pie_source;
+create view  view_pie_source_double as select * from  pie_source_double;
