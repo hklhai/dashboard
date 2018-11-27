@@ -2,7 +2,8 @@ package com.hxqh.dashboard.test;
 
 import org.junit.Test;
 
-import java.util.Random;
+import static com.hxqh.dashboard.util.AesUtils.Decrypt;
+import static com.hxqh.dashboard.util.AesUtils.Encrypt;
 
 /**
  * Created by Ocean lin on 2018/10/19.
@@ -17,6 +18,15 @@ public class RandomTest {
 //            int rand = random.nextInt(60) + 10;
 //            System.out.println(rand);
 //        }
+//    }
+
+
+//    @Test
+//    public void passwordTest() throws Exception {
+//        String pwd = "世界你好";
+//        String epwd = Encrypt(pwd);
+//        System.out.println(epwd);
+//        System.out.println(Decrypt(epwd));
 //    }
 
 }

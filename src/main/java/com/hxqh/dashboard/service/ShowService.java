@@ -186,10 +186,12 @@ public interface ShowService {
 
     /**
      * 获取数据库列表
+     *
      * @param valid 测试是否通过标志位
      * @return 数据库列表
+     * @throws Exception
      */
-    List<Database> databaseList(Integer valid);
+    List<Database> databaseList(Integer valid) throws Exception;
 
     /**
      * 查询是图对应字段列表
@@ -235,15 +237,17 @@ public interface ShowService {
      * 添加数据库
      *
      * @param database 数据库实体
+     * @throws Exception
      */
-    void databaseAdd(Database database);
+    void databaseAdd(Database database) throws Exception;
 
     /**
      * 更新数据库配置
      *
      * @param database 数据库实体
+     * @throws Exception
      */
-    void databaseUpdate(Database database);
+    void databaseUpdate(Database database) throws Exception;
 
 
     /**

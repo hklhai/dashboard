@@ -29,6 +29,9 @@ import java.sql.ResultSet;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.hxqh.dashboard.util.AesUtils.Decrypt;
+import static com.hxqh.dashboard.util.AesUtils.Encrypt;
+
 /**
  * Created by Ocean lin on 2018/10/15.
  *
@@ -117,6 +120,7 @@ public class ShowServiceImpl implements ShowService {
     private static final String DOUBLE_TYPE = "value";
     private static final Integer START_NUM = 1;
     private static final Integer END_NUM = 8;
+
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
@@ -389,7 +393,7 @@ public class ShowServiceImpl implements ShowService {
         List<String> nameList = new ArrayList<>(50);
         Database database = databaseRepository.findOne(dbid);
         String url = getDbConnectString(database);
-        Connection conn = JdbcUtil.getConnection(url, database.getUser(), database.getPassword(), database.getDrivername());
+        Connection conn = JdbcUtil.getConnection(url, database.getUser(), Decrypt(database.getPassword()), database.getDrivername());
         String sql = Constants.SHOW_TAB_SQL_MAP.get(database.getDbtype());
         if (Constants.ORACLE.equals(database.getDbtype())) {
             sql = sql + database.getUser().toUpperCase() + Constants.SUFFIX;
@@ -417,7 +421,7 @@ public class ShowServiceImpl implements ShowService {
         Database database = databaseRepository.findOne(dbid);
         String url = getDbConnectString(database);
 
-        Connection conn = JdbcUtil.getConnection(url, database.getUser(), database.getPassword(), database.getDrivername());
+        Connection conn = JdbcUtil.getConnection(url, database.getUser(), Decrypt(database.getPassword()), database.getDrivername());
         String sql = null;
         if (Constants.ORACLE.equals(database.getDbtype())) {
             sql = Constants.ORACLE_COLOUMN_PREFIX + tablename + Constants.ORACLE_COLOUMN_SUFFIX;
@@ -460,22 +464,6 @@ public class ShowServiceImpl implements ShowService {
             url = url + Constants.URL_SUFFIX;
         }
         return url;
-    }
-
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
-    @Override
-    public List<Database> databaseList(Integer valid) {
-        List<Database> databaseList = null;
-        if (0 == valid) {
-            databaseList = databaseRepository.findAll();
-            databaseList = databaseList.stream().map(database -> {
-                database.setDbstatus(dbStatusMap.get(database.getValid()));
-                return database;
-            }).collect(Collectors.toList());
-        } else {
-            databaseList = databaseRepository.findAvaliableLins(valid);
-        }
-        return databaseList;
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -791,7 +779,7 @@ public class ShowServiceImpl implements ShowService {
     public Boolean validateDatabase(Integer dbId) throws Exception {
         Database database = databaseRepository.findOne(dbId);
         String url = getDbConnectString(database);
-        Connection conn = JdbcUtil.getConnection(url, database.getUser(), database.getPassword(), database.getDrivername());
+        Connection conn = JdbcUtil.getConnection(url, database.getUser(), Decrypt(database.getPassword()), database.getDrivername());
         if (!conn.isClosed()) {
             database.setValid(1);
             databaseRepository.save(database);
@@ -807,21 +795,38 @@ public class ShowServiceImpl implements ShowService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void databaseAdd(Database database) {
+    public void databaseAdd(Database database) throws Exception {
         database.setDrivername(dbMap.get(database.getDbtype()));
         database.setValid(0);
+        database.setPassword(Encrypt(database.getPassword()));
         databaseRepository.save(database);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void databaseUpdate(Database database) {
+    public void databaseUpdate(Database database) throws Exception {
         Database databaseDb = databaseRepository.findOne(database.getDbid());
         BeanUtils.copyProperties(database, databaseDb, ObjectUtil.getNullPropertyNames(database));
         databaseDb.setDrivername(dbMap.get(database.getDbtype()));
         databaseDb.setValid(0);
+        databaseDb.setPassword(Encrypt(databaseDb.getPassword()));
         databaseRepository.save(databaseDb);
     }
 
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public List<Database> databaseList(Integer valid) throws Exception {
+        List<Database> databaseList = null;
+        if (0 == valid) {
+            databaseList = databaseRepository.findAll();
+        } else {
+            databaseList = databaseRepository.findAvaliableLins(valid);
+        }
+        for (Database database : databaseList) {
+            database.setDbstatus(dbStatusMap.get(database.getValid()));
+            database.setPassword(Decrypt(database.getPassword()));
+        }
+        return databaseList;
+    }
 
 }

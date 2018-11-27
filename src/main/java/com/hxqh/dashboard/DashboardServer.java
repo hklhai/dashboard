@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
@@ -43,22 +42,3 @@ public class DashboardServer extends SpringBootServletInitializer implements Emb
 
 }
 
-
-/**
- * @author Lin
- * Release
- * Tomcat mode
- */
-//@SpringBootApplication
-//@ComponentScan(basePackages = "com.hxqh.dashboard.**.*")
-//@RestController
-//public class DashboardServer extends SpringBootServletInitializer {
-//    public static void main(String[] args) {
-//        SpringApplication.run(DashboardServer.class, args);
-//    }
-//
-//    @Override
-//    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-//        return builder.sources(this.getClass());
-//    }
-//}
