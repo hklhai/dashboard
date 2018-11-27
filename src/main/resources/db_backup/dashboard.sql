@@ -851,30 +851,28 @@ INSERT INTO `tb_dashboard_visualize` VALUES ('81', '18', '86', '10', '7', '0', '
 -- ----------------------------
 -- Table structure for tb_database
 -- ----------------------------
-DROP TABLE IF EXISTS `tb_database`;
-CREATE TABLE `tb_database` (
+ DROP TABLE IF EXISTS `tb_database`;
+CREATE TABLE `tb_database`  (
   `dbid` int(10) NOT NULL AUTO_INCREMENT,
-  `ip` varchar(20) DEFAULT NULL,
-  `port` varchar(5) DEFAULT NULL,
-  `database` varchar(20) DEFAULT NULL,
-  `user` varchar(15) DEFAULT NULL,
-  `password` varchar(15) DEFAULT NULL,
-  `drivername` varchar(60) DEFAULT NULL,
-  `valid` int(2) DEFAULT '0',
-  `datasourcename` varchar(80) DEFAULT NULL,
-  `dbtype` varchar(30) DEFAULT NULL,
-  `dbstatus` varchar(5) DEFAULT NULL,
-  PRIMARY KEY (`dbid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
+  `ip` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `port` varchar(5) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `database` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `user` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `password` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `drivername` varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `valid` int(2) NULL DEFAULT 0,
+  `datasourcename` varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `dbtype` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `dbstatus` varchar(5) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`dbid`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 -- ----------------------------
 -- Records of tb_database
 -- ----------------------------
-INSERT INTO `tb_database` VALUES ('1', 'spark4', '3306', 'sourcedb', 'root', 'mysql', 'com.mysql.jdbc.Driver', '1', 'MySQL数据源', 'mysql', '连接成功');
-INSERT INTO `tb_database` VALUES ('2', 'hxqh.dev', '1521', 'maxpro', 'scott', 'tiger', 'oracle.jdbc.driver.OracleDriver', '1', 'Oracle数据源', 'oracle', '连接成功');
-INSERT INTO `tb_database` VALUES ('3', 'spark4', '3306', 'sourcedb', 'root', 'mysql', 'oracle.jdbc.driver.OracleDriver', '0', '配饰数据库-update', 'oracle', null);
-INSERT INTO `tb_database` VALUES ('4', 'spark4', '3306', 'sourcedb', 'root', 'mysql', 'com.mysql.jdbc.Driver', '1', '测试数据库新增--编辑保存', 'mysql', '连接成功');
-INSERT INTO `tb_database` VALUES ('5', 'hxqh.dev', '1521', 'maxpro', 'scott', 'tiger', 'oracle.jdbc.driver.OracleDriver', '1', '松', 'oracle', null);
+INSERT INTO `tb_database` VALUES (1, 'spark4', '3306', 'sourcedb', 'root', 'EjftXukjnxHuP5VKMD5Qqg==', 'com.mysql.jdbc.Driver', 1, 'MySQL数据源', 'mysql', '连接成功');
+INSERT INTO `tb_database` VALUES (2, 'hxqh.dev', '1521', 'maxpro', 'scott', 'ZslYHFgjOAHaCooyJPnO6w==', 'oracle.jdbc.driver.OracleDriver', 1, 'Oracle数据源', 'oracle', '连接成功');
+INSERT INTO `tb_database` VALUES (5, 'hxqh.dev', '1521', 'maxpro', 'scott', 'ZslYHFgjOAHaCooyJPnO6w==', 'oracle.jdbc.driver.OracleDriver', 1, '松', 'oracle', '连接失败');
+
 
 -- ----------------------------
 -- Table structure for tb_model
