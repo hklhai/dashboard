@@ -144,6 +144,19 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>data_generate/**</exclude>
+                    <exclude>db_backup/**</exclude>
+                    <exclude>ppt/**</exclude>
+                    <exclude>doc/**</exclude>
+                    <exclude>boot.sql</exclude>
+                </excludes>
+            </resource>
+        </resources>
     </build>
 
 </project>
