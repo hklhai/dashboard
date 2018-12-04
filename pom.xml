@@ -153,7 +153,7 @@
                     <exclude>db_backup/**</exclude>
                     <exclude>ppt/**</exclude>
                     <exclude>doc/**</exclude>
-                    <exclude>boot.sql</exclude>
+                    <exclude>sql/**</exclude>
                 </excludes>
             </resource>
         </resources>
