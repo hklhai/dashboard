@@ -137,6 +137,10 @@ public class ShowServiceImpl implements ShowService {
         List<String> showkeys = new ArrayList<>(15);
         Visualize visualize = visualizeRepository.findOne(integerId);
 
+        // columnMapRepository.find  vid not like "double%" 获取列明
+        // todo 筛选条件
+        // String where = " where "+ 列明  + "="  +visualize中的条件名称;
+
         String sql = SELECT_SQL + visualize.getTablename();
         Session currentSession = sessionFactory.getCurrentSession();
         List list = currentSession.createSQLQuery(sql).list();
@@ -416,7 +420,7 @@ public class ShowServiceImpl implements ShowService {
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
-    public List<ColumnDto> columnList(String tablename, Integer dbid) throws Exception {
+    public List<ColumnDto> columnList(String tablename, Integer dbid, Integer vid) throws Exception {
         List<ColumnDto> columnDtoList = new ArrayList<>(50);
         Database database = databaseRepository.findOne(dbid);
         String url = getDbConnectString(database);
@@ -454,7 +458,23 @@ public class ShowServiceImpl implements ShowService {
             }
         }
         JdbcUtil.closeResource(conn, rs, st);
-        return columnDtoList;
+
+        if (0 == vid) {
+            return columnDtoList;
+        } else {
+            List<ColumnMap> selectedColumns = columnMapRepository.findByVid(vid);
+            List<ColumnDto> equalList = new ArrayList<>(15);
+
+            for (int i = 0; i < columnDtoList.size(); i++) {
+                for (ColumnMap columnMap : selectedColumns) {
+                    if (columnDtoList.get(i).getField().toLowerCase().equals(columnMap.getField().toLowerCase())) {
+                        equalList.add(columnDtoList.get(i));
+                    }
+                }
+            }
+            columnDtoList.removeAll(equalList);
+            return columnDtoList;
+        }
     }
 
     private String getDbConnectString(Database database) {
@@ -503,6 +523,7 @@ public class ShowServiceImpl implements ShowService {
     public void databaseDelete(Integer integerValue) {
         databaseRepository.delete(integerValue);
     }
+
 
     @Transactional(rollbackFor = Exception.class)
     @Override

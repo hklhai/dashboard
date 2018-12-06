@@ -179,10 +179,11 @@ public interface ShowService {
      *
      * @param tablename 表名
      * @param dbid      数据库id
+     * @param vid       视图id
      * @return 列对象列表
      * @throws Exception
      */
-    List<ColumnDto> columnList(String tablename, Integer dbid) throws Exception;
+    List<ColumnDto> columnList(String tablename, Integer dbid, Integer vid) throws Exception;
 
     /**
      * 获取数据库列表
@@ -264,4 +265,5 @@ public interface ShowService {
      * @param integerValue 数据库ID主键
      */
     void databaseDelete(Integer integerValue);
+
 }

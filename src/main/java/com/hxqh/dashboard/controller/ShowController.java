@@ -441,10 +441,11 @@ public class ShowController {
     @ResponseBody
     @RequestMapping(value = "/columnList", method = RequestMethod.GET)
     public List<ColumnDto> columnList(@RequestParam String tablename,
-                                      @RequestParam(value = "dbid", defaultValue = "1") Integer dbid) {
+                                      @RequestParam(value = "dbid", defaultValue = "1") Integer dbid,
+                                      @RequestParam(value = "vid", defaultValue = "0") Integer vid) {
         List<ColumnDto> columnDtoList = new ArrayList<>(15);
         try {
-            columnDtoList = showService.columnList(tablename, dbid);
+            columnDtoList = showService.columnList(tablename, dbid,vid);
         } catch (Exception e) {
             e.printStackTrace();
         }

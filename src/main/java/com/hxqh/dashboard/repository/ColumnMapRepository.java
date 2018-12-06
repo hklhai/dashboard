@@ -34,4 +34,12 @@ public interface ColumnMapRepository extends JpaRepository<ColumnMap, Integer> {
      */
     @Query("select c from ColumnMap c where c.field=?1 and  c.visualize.vid=?2 ")
     ColumnMap findByFieldAndVid(String field, Integer vid);
+
+    /**
+     * 获取视图下已选定字段
+     *
+     * @return
+     */
+    @Query("select c from ColumnMap c where c.visualize.vid=?1 ")
+    List<ColumnMap> findByVid(Integer vid);
 }
