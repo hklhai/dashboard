@@ -9,6 +9,7 @@ import com.hxqh.dashboard.util.JdbcUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.BeanUtils;
@@ -578,7 +579,7 @@ public class ShowServiceImpl implements ShowService {
         Session currentSession = sessionFactory.getCurrentSession();
 
         Visualize visualize = visualDto.getVisualize();
-        List<Integer> deleteColumnList = visualDto.getColumnDeleteList();
+        List<Integer> deleteColumnList = visualDto.getDeleteColumnList();
         List<Integer> yDeleteList = visualDto.getyDeleteList();
         List<Integer> xDeleteList = visualDto.getxDeleteList();
 
@@ -594,24 +595,26 @@ public class ShowServiceImpl implements ShowService {
             mapList = mapList.stream().map(e -> {
                 if (null == e.getColumnmid()) {
                     // ALTER TABLE table_name ADD column_name datatype
-                    String alterSQL = "ALTER TABLE " + visualizeDb.getSourcetablename() + " ADD " + e.getField() + " " + e.getType();
+                    String alterSQL = "ALTER TABLE " + visualizeDb.getTablename() + " ADD " + e.getField() + " " + e.getType();
                     currentSession.createSQLQuery(alterSQL);
                 }
+                e.setColName(e.getField());
                 e.setVisualize(visualizeDb);
                 return e;
             }).collect(Collectors.toList());
         }
 
         // column删除
-        if (null != deleteColumnList && deleteColumnList.size() > 0) {
-            deleteColumnList.stream().map(e -> {
-                String colunm = columnMapRepository.findOne(e).getField();
-                // ALTER TABLE table_name DROP COLUMN column_name
-                String alterSQL = "ALTER TABLE " + visualizeDb.getSourcetablename() + " DROP COLUMN " + colunm;
-                currentSession.createSQLQuery(alterSQL);
-                columnMapRepository.delete(e);
-                return null;
-            });
+        if (null != deleteColumnList && deleteColumnList.size() >= 1) {
+            ColumnMap column = columnMapRepository.findOne(deleteColumnList.get(0));
+            String field = column.getField();
+            // ALTER TABLE table_name DROP COLUMN column_name
+            String alterSQL = "ALTER TABLE `" + visualizeDb.getTablename() + "` DROP COLUMN `" + field + "`";
+            SQLQuery query = currentSession.createSQLQuery(alterSQL);
+            query.executeUpdate();
+            columnMapRepository.delete(deleteColumnList.get(0));
+            Integer columnsNumber = visualizeDb.getColumnsnumber() - 1;
+            visualizeDb.setColumnsnumber(columnsNumber);
         }
 
         // 存储多个y轴情况

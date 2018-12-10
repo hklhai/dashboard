@@ -20,7 +20,7 @@ public class VisualDto {
     private List<OrientY> yList;
     private List<OrientX> xList;
 
-    private List<Integer> columnDeleteList;
+    private List<Integer> deleteColumnList;
     private List<Integer> yDeleteList;
     private List<Integer> xDeleteList;
 
@@ -51,12 +51,12 @@ public class VisualDto {
         this.yList = yList;
     }
 
-    public List<Integer> getColumnDeleteList() {
-        return columnDeleteList;
+    public List<Integer> getDeleteColumnList() {
+        return deleteColumnList;
     }
 
-    public void setColumnDeleteList(List<Integer> columnDeleteList) {
-        this.columnDeleteList = columnDeleteList;
+    public void setDeleteColumnList(List<Integer> deleteColumnList) {
+        this.deleteColumnList = deleteColumnList;
     }
 
     public List<Integer> getyDeleteList() {
