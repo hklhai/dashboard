@@ -415,15 +415,17 @@ public class ShowController {
     /**
      * 数据表列表接口
      *
-     * @param dbid 数据库ID主键
+     * @param dbid    数据库ID主键
+     * @param tabName 筛选表名称
      * @return 数据表列表
      */
     @ResponseBody
     @RequestMapping(value = "/tableList", method = RequestMethod.GET)
-    public List<String> tableList(@RequestParam(value = "dbid", defaultValue = "1") Integer dbid) {
+    public List<String> tableList(@RequestParam(value = "dbid", defaultValue = "1") Integer dbid,
+                                  @RequestParam(value = "tabName", defaultValue = "") String tabName) {
         List<String> stringList = new ArrayList<>();
         try {
-            stringList = showService.tableList(dbid);
+            stringList = showService.tableList(dbid, tabName);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -445,7 +447,7 @@ public class ShowController {
                                       @RequestParam(value = "vid", defaultValue = "0") Integer vid) {
         List<ColumnDto> columnDtoList = new ArrayList<>(15);
         try {
-            columnDtoList = showService.columnList(tablename, dbid,vid);
+            columnDtoList = showService.columnList(tablename, dbid, vid);
         } catch (Exception e) {
             e.printStackTrace();
         }

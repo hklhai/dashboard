@@ -392,17 +392,28 @@ public class ShowServiceImpl implements ShowService {
         return null != visualize ? true : false;
     }
 
+
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
-    public List<String> tableList(Integer dbid) throws Exception {
+    public List<String> tableList(Integer dbId, String tabName) throws Exception {
         List<String> nameList = new ArrayList<>(50);
-        Database database = databaseRepository.findOne(dbid);
+        Database database = databaseRepository.findOne(dbId);
         String url = getDbConnectString(database);
         Connection conn = JdbcUtil.getConnection(url, database.getUser(), Decrypt(database.getPassword()), database.getDrivername());
         String sql = Constants.SHOW_TAB_SQL_MAP.get(database.getDbtype());
         if (Constants.ORACLE.equals(database.getDbtype())) {
-            sql = sql + database.getUser().toUpperCase() + Constants.SUFFIX;
+            if ("".equals(tabName)) {
+                sql = sql + database.getUser().toUpperCase() + Constants.SUFFIX + Constants.UNION;
+            } else {
+                sql = sql + database.getUser().toUpperCase() + Constants.SUFFIX + Constants.TABLE_NAME + tabName +
+                        Constants.UNION + Constants.VIEW_NAME + tabName;
+            }
+        } else {
+            if (!"".equals(tabName)) {
+                sql = sql + " where Tables_in_"+database.getDatabase()+" = " + tabName;
+            }
         }
+
         PreparedStatement st = conn.prepareStatement(sql);
         ResultSet rs = st.executeQuery();
         while (rs.next()) {
@@ -596,13 +607,29 @@ public class ShowServiceImpl implements ShowService {
                 if (null == e.getColumnmid()) {
                     // ALTER TABLE table_name ADD column_name datatype
                     String alterSQL = "ALTER TABLE " + visualizeDb.getTablename() + " ADD " + e.getField() + " " + e.getType();
-                    currentSession.createSQLQuery(alterSQL);
+                    SQLQuery query = currentSession.createSQLQuery(alterSQL);
+                    query.executeUpdate();
+
+                    // 插入demo数据
+                    String sql = "select sid from " + visualize.getTablename();
+                    List<Integer> sidList = (List<Integer>) currentSession.createSQLQuery(sql).list();
+                    for (Integer sid : sidList) {
+                        Random random = new Random();
+                        Integer rand = random.nextInt(300) + 10;
+                        sql = "update " + visualize.getTablename() + " set `" + e.getField() + "` =  " + rand + " where  `sid` = " + sid;
+                        SQLQuery q = currentSession.createSQLQuery(sql);
+                        q.executeUpdate();
+                    }
+                    Integer columnsNumber = visualizeDb.getColumnsnumber() + 1;
+                    visualizeDb.setColumnsnumber(columnsNumber);
                 }
                 e.setColName(e.getField());
+
                 e.setVisualize(visualizeDb);
                 return e;
             }).collect(Collectors.toList());
         }
+
 
         // column删除
         if (null != deleteColumnList && deleteColumnList.size() >= 1) {

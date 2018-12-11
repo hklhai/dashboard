@@ -167,11 +167,12 @@ public interface ShowService {
     /**
      * 获取数据库中表列表
      *
-     * @param dbid 数据库id
+     * @param dbId    数据库id
+     * @param tabName 筛选表名称
      * @return 数据库名称列表
      * @throws Exception
      */
-    List<String> tableList(Integer dbid) throws Exception;
+    List<String> tableList(Integer dbId, String tabName) throws Exception;
 
 
     /**

@@ -50,8 +50,11 @@ public interface Constants {
     String TYPE_VARCHAR2 = "VARCHAR2";
     String TYPE_VARCHAR = "varchar";
     String TYPE_NUMBER = "NUMBER";
-    String TYPE_DOUBLE ="double";
-    String SUFFIX = "' union all select view_name as  from user_views";
+    String TYPE_DOUBLE = "double";
+    String SUFFIX = "' ";
+    String UNION = " union all select view_name as  from user_views";
+    String TABLE_NAME = " and table_name = ";
+    String VIEW_NAME = " where view_name = ";
 
     String INSERT_SQL = "insert into ";
     String VALUE_SQL = ") values ('";
