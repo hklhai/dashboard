@@ -24,14 +24,15 @@ https://github.com/aym19900825/Dashboard.git
   启动MySQL，登录MySQL 验证show variables like '%max_allowed_pack%'
   
 4. 运行 
-    # demo数据库
+    demo数据库
+    
     create database sourcedb default character set utf8;
-    use sourcedb;
     
     create database dashboard default character set utf8;
-    use dashboard;
+  
 
-5. 运行resource/sql/basic.sql
+5.  use dashboard;
+   运行resource/sql/basic.sql
 
 6. 拷贝Dashboard、DashboardWeb至webapp启动即可
 
