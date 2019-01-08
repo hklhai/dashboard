@@ -11,3 +11,6 @@ INSERT INTO `tb_tablemanager` VALUES (3, 'bar', 1, 'ab_bar_');
 # demo数据库
 create database sourcedb default character set utf8;
 use sourcedb;
+
+create database dashboard default character set utf8;
+use dashboard;
