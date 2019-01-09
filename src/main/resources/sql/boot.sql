@@ -290,7 +290,7 @@ CREATE TABLE `tb_visualize` (
   `xstart` varchar(50) DEFAULT NULL,
   `yend` varchar(50) DEFAULT NULL,
   `ystart` varchar(50) DEFAULT NULL,
-  `legend_sel_data` varchar(50) DEFAULT NULL,
+  `legend_sel_data` varchar(500) DEFAULT NULL,
   `legend_type` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`vid`),
   UNIQUE KEY `IDX_visualizename` (`visualizename`),
