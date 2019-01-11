@@ -32,8 +32,10 @@ public interface ShowService {
      * @param did       dashboardVisualizeId
      * @param random    random随机数
      * @return 展示数据 List
+     * @throws Exception
      */
-    ShowDto findLineByVid(Integer integerId, Integer random, Integer bid, Integer did);
+    ShowDto findLineByVid(Integer integerId, Integer random, Integer bid, Integer did) throws Exception
+    ;
 
     /**
      * 添加visualize
@@ -65,8 +67,9 @@ public interface ShowService {
      *
      * @param integerId DashBoard主键
      * @return DashBoard展示类
+     * @throws Exception
      */
-    DashboardShowDto findDashboardDataByVid(Integer integerId);
+    DashboardShowDto findDashboardDataByVid(Integer integerId) throws Exception;
 
     /**
      * 绑定DashBoard与Visualize
@@ -267,4 +270,16 @@ public interface ShowService {
      */
     void databaseDelete(Integer integerValue);
 
+
+    /**
+     * @param visualDto
+     * @return
+     */
+    List validWhere(VisualDto visualDto) throws Exception;
+
+    /**
+     * @param visualize
+     * @throws Exception
+     */
+    void validCountSQL(Visualize visualize) throws Exception;
 }

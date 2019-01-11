@@ -25,6 +25,10 @@ public interface Constants {
     String ADDFAIL = "Add Fail!";
     String ADDFAILHASHALREADY = "Already exists!";
 
+    String SQL_INVALID = "SQL语句不合法！";
+    String SQL_VALID = "SQL语句合法！";
+
+
     String DELETESUCCESS = "Delete Success!";
     String HASUSED = "仪表板正在使用，请先接解除与仪表板绑定关系！";
     String DELETEFAIL = "Delete Fail!";
@@ -69,5 +73,12 @@ public interface Constants {
         put("mysql", "SHOW tables");
     }};
 
+    String SQL_WHERE = " where ";
+    String COUNT_SQL = "select count(1) as count from ";
+    String SQL_AND = " and 1<>2";
+
+    String PIE = "pie";
+    String TEXT = "text";
+    String NUMBER = "number";
 
 }

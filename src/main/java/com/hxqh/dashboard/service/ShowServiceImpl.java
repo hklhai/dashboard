@@ -62,9 +62,6 @@ public class ShowServiceImpl implements ShowService {
     private OrientxRepository orientxRepository;
 
 
-    private static final String PIE = "pie";
-
-
     private static Map<String, String> dbType = new HashMap<String, String>() {{
         put("oracle", ":thin:@");
         put("mysql", "://");
@@ -132,17 +129,16 @@ public class ShowServiceImpl implements ShowService {
     @SuppressWarnings("unchecked")
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public ShowDto findLineByVid(Integer integerId, Integer random, Integer bid, Integer did) {
+    public ShowDto findLineByVid(Integer integerId, Integer random, Integer bid, Integer did) throws Exception {
         ShowDto showDto = new ShowDto();
         List<List<Object>> showValues = new ArrayList<>(10);
         List<String> showkeys = new ArrayList<>(15);
         Visualize visualize = visualizeRepository.findOne(integerId);
 
-        // columnMapRepository.find  vid not like "double%" 获取列明
-        // todo 筛选条件
-        // String where = " where "+ 列明  + "="  +visualize中的条件名称;
-
         String sql = SELECT_SQL + visualize.getTablename();
+        if (null != visualize.getVwhere() && !"".equals(visualize.getVwhere())) {
+            sql = sql + Constants.SQL_WHERE + visualize.getVwhere();
+        }
         Session currentSession = sessionFactory.getCurrentSession();
         List list = currentSession.createSQLQuery(sql).list();
         // 构造矩阵
@@ -150,7 +146,7 @@ public class ShowServiceImpl implements ShowService {
         Integer y = list.size();
         Object[][] matrix = new Object[x][y];
 
-        if (PIE.equals(visualize.getType())) {
+        if (Constants.PIE.equals(visualize.getType())) {
             List<Object> mulitPieDtoList = new ArrayList<>(50);
             for (int j = 0; j < x; j++) {
                 List<Object> pieDtoList = new ArrayList<>(50);
@@ -163,7 +159,23 @@ public class ShowServiceImpl implements ShowService {
             }
             showValues.add(mulitPieDtoList);
             showDto.setShowValue(showValues);
+        }
+        else if (Constants.TEXT.equals(visualize.getType())) {
+            BeanUtils.copyProperties(visualize, showDto);
+            return showDto;
+        } else if (Constants.NUMBER.equals(visualize.getType())) {
+            // 根据SQL查询
+            Database database = databaseRepository.findOne(visualize.getDbid());
+            String url = getDbConnectString(database);
+            Connection conn = JdbcUtil.getConnection(url, database.getUser(), Decrypt(database.getPassword()), database.getDrivername());
+            PreparedStatement st = conn.prepareStatement(visualize.getVwhere());
+            ResultSet rs = st.executeQuery();
 
+            while (rs.next()) {
+                showDto.setCountValue(rs.getInt(1));
+            }
+            BeanUtils.copyProperties(visualize, showDto);
+            return showDto;
         } else {
             for (int i = 0; i < list.size(); i++) {
                 Object[] o = (Object[]) list.get(i);
@@ -216,29 +228,34 @@ public class ShowServiceImpl implements ShowService {
         StringBuilder sql = new StringBuilder(150);
         StringBuilder insertDemoSql = new StringBuilder(300);
 
-        // 构造建表语句
-        List<ColumnDto> columnMapList = getGenerateTable(visualDto, columns, visualize, sql, tableName);
+        if (Constants.TEXT.equals(visualize.getType())) {
 
-        // 添加缺省的Demo数据
-        generateDemoData(visualize, insertDemoSql, tableName, columnMapList);
+        } else if (Constants.NUMBER.equals(visualize.getType())) {
 
-        visualize.setColumnMapList(columns);
-        visualize.setColumnsnumber(columnMapList.size());
-        visualize.setYtype(DOUBLE_TYPE);
+        } else {
+            // 构造建表语句
+            List<ColumnDto> columnMapList = getGenerateTable(visualDto, columns, visualize, sql, tableName);
 
-        // 设置默认值
-        visualize.setxAxisLine(true);
-        visualize.setxSplitLine(true);
-        visualize.setxInverse(false);
-        visualize.setAlignWithLabel(false);
-        visualize.setxToy(false);
-        visualize.setDataZoom(false);
+            // 添加缺省的Demo数据
+            generateDemoData(visualize, insertDemoSql, tableName, columnMapList);
 
-        visualize.setyAxisLine(true);
-        visualize.setySplitLine(true);
-        visualize.setyInverse(false);
-        visualize.setxBoundaryGap(false);
+            visualize.setColumnMapList(columns);
+            visualize.setColumnsnumber(columnMapList.size());
+            visualize.setYtype(DOUBLE_TYPE);
 
+            // 设置默认值
+            visualize.setxAxisLine(true);
+            visualize.setxSplitLine(true);
+            visualize.setxInverse(false);
+            visualize.setAlignWithLabel(false);
+            visualize.setxToy(false);
+            visualize.setDataZoom(false);
+
+            visualize.setyAxisLine(true);
+            visualize.setySplitLine(true);
+            visualize.setyInverse(false);
+            visualize.setxBoundaryGap(false);
+        }
         visualizeRepository.save(visualize);
     }
 
@@ -283,7 +300,7 @@ public class ShowServiceImpl implements ShowService {
                 insertDemoSql.append(columnDto.getField()).append(",");
             }
             insertDemoSql.setLength(insertDemoSql.length() - 1);
-            if (PIE.equals(visualize.getType())) {
+            if (Constants.PIE.equals(visualize.getType())) {
                 insertDemoSql.append(Constants.VALUE_SQL).append(pieXMap.get(i)).append("'");
             } else {
                 insertDemoSql.append(Constants.VALUE_SQL).append(lineXMap.get(i)).append("'");
@@ -317,7 +334,7 @@ public class ShowServiceImpl implements ShowService {
     @SuppressWarnings("unchecked")
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
-    public DashboardShowDto findDashboardDataByVid(Integer integerId) {
+    public DashboardShowDto findDashboardDataByVid(Integer integerId) throws Exception {
         Dashboard dashboard = dashboardRepository.findOne(integerId);
         List<DashboardVisualize> dashboardVisualizesList = dashboard.getDashboardVisualizes();
         List<ShowDto> showDtoList = new ArrayList<>();
@@ -410,7 +427,7 @@ public class ShowServiceImpl implements ShowService {
             }
         } else {
             if (!"".equals(tabName)) {
-                sql = sql + " where Tables_in_"+database.getDatabase()+" = " + tabName;
+                sql = sql + " where Tables_in_" + database.getDatabase() + " = " + tabName;
             }
         }
 
@@ -534,6 +551,29 @@ public class ShowServiceImpl implements ShowService {
     @Override
     public void databaseDelete(Integer integerValue) {
         databaseRepository.delete(integerValue);
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public List validWhere(VisualDto visualDto) throws Exception {
+        // 执行验证SQL
+        Visualize visualize = visualizeRepository.findOne(visualDto.getVisualize().getVid());
+
+        String tableName = visualize.getTablename();
+        String sql = Constants.COUNT_SQL + tableName + Constants.SQL_WHERE + visualize.getVwhere() + Constants.SQL_AND;
+        List list = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(CountDto.class).list();
+        return list;
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public void validCountSQL(Visualize visualize) throws Exception {
+        Database database = databaseRepository.findOne(visualize.getDbid());
+        String url = getDbConnectString(database);
+        Connection conn = JdbcUtil.getConnection(url, database.getUser(), Decrypt(database.getPassword()), database.getDrivername());
+        String sql = null;
+        PreparedStatement st = conn.prepareStatement(visualize.getVwhere());
+        ResultSet rs = st.executeQuery();
     }
 
 

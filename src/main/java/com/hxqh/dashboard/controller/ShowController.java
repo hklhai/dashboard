@@ -71,7 +71,13 @@ public class ShowController {
     @ResponseBody
     @RequestMapping(value = "/visualizeData", method = RequestMethod.POST)
     public ShowDto visualizeData(@RequestBody IntegerValue integerValue) {
-        return showService.findLineByVid(integerValue.getIntegerId(), 1, 1, 1);
+        ShowDto showDto = null;
+        try {
+            showDto = showService.findLineByVid(integerValue.getIntegerId(), 1, 1, 1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return showDto;
     }
 
     /**
@@ -155,6 +161,7 @@ public class ShowController {
         }
         return message;
     }
+
 
     /**
      * 视图更新接口，集成多Y轴、多X轴，多个ColumnMap更新；
@@ -325,7 +332,12 @@ public class ShowController {
     @ResponseBody
     @RequestMapping(value = "/dashboardData", method = RequestMethod.POST)
     public DashboardShowDto dashboardData(@RequestBody IntegerValue integerValue) {
-        DashboardShowDto showDto = showService.findDashboardDataByVid(integerValue.getIntegerId());
+        DashboardShowDto showDto = null;
+        try {
+            showDto = showService.findDashboardDataByVid(integerValue.getIntegerId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return showDto;
     }
 
@@ -557,6 +569,34 @@ public class ShowController {
         } catch (Exception e) {
             message = new Message(Constants.FAIL, Constants.DELETEFAIL);
             e.printStackTrace();
+        }
+        return message;
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/sqlValid", method = RequestMethod.POST)
+    public Message sqlValid(@RequestBody VisualDto visualDto) {
+        Message message = null;
+        try {
+            showService.validWhere(visualDto);
+            message = new Message(Constants.FAIL, Constants.SQL_VALID);
+        } catch (Exception e) {
+            message = new Message(Constants.FAIL, Constants.SQL_INVALID);
+        }
+        return message;
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/sqlCountValid", method = RequestMethod.POST)
+    public Message sqlCountValid(@RequestBody Visualize visualize) {
+        Message message = null;
+        try {
+            showService.validCountSQL(visualize);
+            message = new Message(Constants.FAIL, Constants.SQL_VALID);
+        } catch (Exception e) {
+            message = new Message(Constants.FAIL, Constants.SQL_INVALID);
         }
         return message;
     }

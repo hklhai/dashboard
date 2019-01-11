@@ -82,7 +82,45 @@ public class ShowDto extends Location {
 
     private Boolean xBoundaryGap;
 
+    private String vwheredesc;
+    private String prefixwhere;
+    private String suffixwhere;
+
+    private Integer countValue;
+
     public ShowDto() {
+    }
+
+    public Integer getCountValue() {
+        return countValue;
+    }
+
+    public void setCountValue(Integer countValue) {
+        this.countValue = countValue;
+    }
+
+    public String getVwheredesc() {
+        return vwheredesc;
+    }
+
+    public void setVwheredesc(String vwheredesc) {
+        this.vwheredesc = vwheredesc;
+    }
+
+    public String getPrefixwhere() {
+        return prefixwhere;
+    }
+
+    public void setPrefixwhere(String prefixwhere) {
+        this.prefixwhere = prefixwhere;
+    }
+
+    public String getSuffixwhere() {
+        return suffixwhere;
+    }
+
+    public void setSuffixwhere(String suffixwhere) {
+        this.suffixwhere = suffixwhere;
     }
 
     public Boolean getxBoundaryGap() {

@@ -114,7 +114,46 @@ public class Visualize implements Serializable {
     private String legendType;
     private String legendSelData;
 
+
+    private String vwhere;
+    private String vwheredesc;
+    private String prefixwhere;
+    private String suffixwhere;
+
+
     public Visualize() {
+    }
+
+    public String getVwhere() {
+        return vwhere;
+    }
+
+    public void setVwhere(String vwhere) {
+        this.vwhere = vwhere;
+    }
+
+    public String getVwheredesc() {
+        return vwheredesc;
+    }
+
+    public void setVwheredesc(String vwheredesc) {
+        this.vwheredesc = vwheredesc;
+    }
+
+    public String getPrefixwhere() {
+        return prefixwhere;
+    }
+
+    public void setPrefixwhere(String prefixwhere) {
+        this.prefixwhere = prefixwhere;
+    }
+
+    public String getSuffixwhere() {
+        return suffixwhere;
+    }
+
+    public void setSuffixwhere(String suffixwhere) {
+        this.suffixwhere = suffixwhere;
     }
 
     public String getLegendType() {

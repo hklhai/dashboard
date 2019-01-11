@@ -14,3 +14,14 @@ use sourcedb;
 
 create database dashboard default character set utf8;
 use dashboard;
+
+GRANT ALL PRIVILEGES ON *.* TO root @'%' IDENTIFIED BY "mysql";
+FLUSH PRIVILEGES;
+
+
+-- modify
+ALTER TABLE `tb_visualize`
+ADD COLUMN `vwhere`  varchar(200) NULL AFTER `legend_type`,
+ADD COLUMN `vwheredesc`  varchar(150) NULL AFTER `vwhere`,
+ADD COLUMN `prefixwhere`  varchar(100) NULL AFTER `vwheredesc`,
+ADD COLUMN `suffixwhere`  varchar(100) NULL AFTER `prefixwhere`;
