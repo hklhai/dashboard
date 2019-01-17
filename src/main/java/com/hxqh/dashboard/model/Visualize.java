@@ -59,6 +59,10 @@ public class Visualize implements Serializable {
     @JsonIgnore
     private List<OrientX> orientXList;
 
+    @OneToMany(mappedBy = "visualize", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<ValueColorMap> valueColorMapList;
+
     @Transient
     private Integer bid;
 
@@ -114,7 +118,6 @@ public class Visualize implements Serializable {
     private String legendType;
     private String legendSelData;
 
-
     private String vwhere;
     private String vwheredesc;
     private String prefixwhere;
@@ -122,6 +125,14 @@ public class Visualize implements Serializable {
 
 
     public Visualize() {
+    }
+
+    public List<ValueColorMap> getValueColorMapList() {
+        return valueColorMapList;
+    }
+
+    public void setValueColorMapList(List<ValueColorMap> valueColorMapList) {
+        this.valueColorMapList = valueColorMapList;
     }
 
     public String getVwhere() {

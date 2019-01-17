@@ -77,6 +77,8 @@ public class ShowServiceImpl implements ShowService {
         put("pie", "饼图");
         put("bar", "条形图");
         put("line", "折线图");
+        put("text", "文本");
+        put("number", "数值");
     }};
 
     private static Map<Integer, String> lineXMap = new HashMap<Integer, String>() {{
@@ -139,31 +141,10 @@ public class ShowServiceImpl implements ShowService {
         if (null != visualize.getVwhere() && !"".equals(visualize.getVwhere())) {
             sql = sql + Constants.SQL_WHERE + visualize.getVwhere();
         }
-        Session currentSession = sessionFactory.getCurrentSession();
-        List list = currentSession.createSQLQuery(sql).list();
-        // 构造矩阵
-        Integer x = visualize.getColumnsnumber() - 1;
-        Integer y = list.size();
-        Object[][] matrix = new Object[x][y];
-
-        if (Constants.PIE.equals(visualize.getType())) {
-            List<Object> mulitPieDtoList = new ArrayList<>(50);
-            for (int j = 0; j < x; j++) {
-                List<Object> pieDtoList = new ArrayList<>(50);
-                for (int i = 0; i < list.size(); i++) {
-                    Object[] o = (Object[]) list.get(i);
-                    PieDto pieDto = new PieDto((String) o[1], o[j + 2]);
-                    pieDtoList.add(pieDto);
-                }
-                mulitPieDtoList.add(pieDtoList);
-            }
-            showValues.add(mulitPieDtoList);
-            showDto.setShowValue(showValues);
-        }
-        else if (Constants.TEXT.equals(visualize.getType())) {
+        if (visualize.getType().equals(Constants.TEXT)) {
             BeanUtils.copyProperties(visualize, showDto);
             return showDto;
-        } else if (Constants.NUMBER.equals(visualize.getType())) {
+        } else if (visualize.getType().equals(Constants.NUMBER)) {
             // 根据SQL查询
             Database database = databaseRepository.findOne(visualize.getDbid());
             String url = getDbConnectString(database);
@@ -177,44 +158,66 @@ public class ShowServiceImpl implements ShowService {
             BeanUtils.copyProperties(visualize, showDto);
             return showDto;
         } else {
-            for (int i = 0; i < list.size(); i++) {
-                Object[] o = (Object[]) list.get(i);
+            Session currentSession = sessionFactory.getCurrentSession();
+            List list = currentSession.createSQLQuery(sql).list();
+            // 构造矩阵
+            Integer x = visualize.getColumnsnumber() - 1;
+            Integer y = list.size();
+            Object[][] matrix = new Object[x][y];
+
+            if (Constants.PIE.equals(visualize.getType())) {
+                List<Object> mulitPieDtoList = new ArrayList<>(50);
                 for (int j = 0; j < x; j++) {
-                    matrix[j][i] = o[j + 2];
+                    List<Object> pieDtoList = new ArrayList<>(50);
+                    for (int i = 0; i < list.size(); i++) {
+                        Object[] o = (Object[]) list.get(i);
+                        PieDto pieDto = new PieDto((String) o[1], o[j + 2]);
+                        pieDtoList.add(pieDto);
+                    }
+                    mulitPieDtoList.add(pieDtoList);
                 }
-                showkeys.add((String) o[1]);
+                showValues.add(mulitPieDtoList);
+                showDto.setShowValue(showValues);
+            } else {
+                for (int i = 0; i < list.size(); i++) {
+                    Object[] o = (Object[]) list.get(i);
+                    for (int j = 0; j < x; j++) {
+                        matrix[j][i] = o[j + 2];
+                    }
+                    showkeys.add((String) o[1]);
+                }
+
+                for (int i = 0; i < matrix.length; i++) {
+                    showValues.add(Arrays.asList(matrix[i]));
+                }
+                showDto.setShowValue(showValues);
             }
 
-            for (int i = 0; i < matrix.length; i++) {
-                showValues.add(Arrays.asList(matrix[i]));
-            }
-            showDto.setShowValue(showValues);
+            List<ColumnMap> columnMapList = columnMapRepository.findByVidAndType(visualize.getVid());
+            showDto.setColumnList(columnMapList);
+            columnMapList.stream().map(e -> {
+                e.setVisualize(null);
+                return e;
+            }).collect(Collectors.toList());
+            List<String> showLabel = columnMapList.stream().map(ColumnMap::getColumnshow).collect(Collectors.toList());
+
+            showDto.setShowLabel(showLabel);
+            showDto.setShowKey(showkeys);
+            showDto.setDid(did);
+            List<OrientY> orientYList = visualize.getOrientYList();
+            List<OrientX> orientXList = visualize.getOrientXList();
+
+            orientYList = orientYList.stream().map(e -> {
+                e.setVisualize(null);
+                return e;
+            }).collect(Collectors.toList());
+            visualize.setOrientYList(orientYList);
+            orientXList = orientXList.stream().map(e -> {
+                e.setVisualize(null);
+                return e;
+            }).collect(Collectors.toList());
+            visualize.setOrientXList(orientXList);
         }
-
-        List<ColumnMap> columnMapList = columnMapRepository.findByVidAndType(visualize.getVid());
-        showDto.setColumnList(columnMapList);
-        columnMapList.stream().map(e -> {
-            e.setVisualize(null);
-            return e;
-        }).collect(Collectors.toList());
-        List<String> showLabel = columnMapList.stream().map(ColumnMap::getColumnshow).collect(Collectors.toList());
-
-        showDto.setShowLabel(showLabel);
-        showDto.setShowKey(showkeys);
-        showDto.setDid(did);
-        List<OrientY> orientYList = visualize.getOrientYList();
-        List<OrientX> orientXList = visualize.getOrientXList();
-
-        orientYList = orientYList.stream().map(e -> {
-            e.setVisualize(null);
-            return e;
-        }).collect(Collectors.toList());
-        visualize.setOrientYList(orientYList);
-        orientXList = orientXList.stream().map(e -> {
-            e.setVisualize(null);
-            return e;
-        }).collect(Collectors.toList());
-        visualize.setOrientXList(orientXList);
 
         BeanUtils.copyProperties(visualize, showDto);
         return showDto;
@@ -571,9 +574,8 @@ public class ShowServiceImpl implements ShowService {
         Database database = databaseRepository.findOne(visualize.getDbid());
         String url = getDbConnectString(database);
         Connection conn = JdbcUtil.getConnection(url, database.getUser(), Decrypt(database.getPassword()), database.getDrivername());
-        String sql = null;
         PreparedStatement st = conn.prepareStatement(visualize.getVwhere());
-        ResultSet rs = st.executeQuery();
+        st.executeQuery();
     }
 
 

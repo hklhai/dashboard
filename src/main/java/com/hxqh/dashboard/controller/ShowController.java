@@ -25,6 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.hxqh.dashboard.common.Constants.NUMBER;
+import static com.hxqh.dashboard.common.Constants.TEXT;
+
 /**
  * Created by Ocean lin on 2018/10/15.
  *
@@ -89,17 +92,23 @@ public class ShowController {
     @ResponseBody
     @RequestMapping(value = "/visualizeAdd", method = RequestMethod.POST)
     public Message addVisualize(@RequestBody VisualDto visualDto) {
-        Message message;
+        Message message = null;
+        Visualize visualize = visualDto.getVisualize();
         try {
-            if (showService.isVisualizeByVisualizename(visualDto.getVisualize().getVisualizename())) {
+            if (showService.isVisualizeByVisualizename(visualize.getVisualizename())) {
                 message = new Message(Constants.FAIL, Constants.ADDFAILHASHALREADY);
             } else {
                 // 判断column符合规范，第一列为字符串，其余为数值
-                message = validColumn(visualDto.getColumnList());
-                if (message.getCode() == 1) {
-                    String tableName = showService.getTableName(visualDto.getVisualize().getType());
-                    showService.addVisualize(visualDto, tableName);
+                if (visualize.getType().equals(TEXT) || visualize.getType().equals(NUMBER)) {
                     message = new Message(Constants.SUCCESS, Constants.ADDSUCCESS);
+                    showService.addVisualize(visualDto, "");
+                } else {
+                    message = validColumn(visualDto.getColumnList());
+                    if (message.getCode() == 1) {
+                        String tableName = showService.getTableName(visualDto.getVisualize().getType());
+                        showService.addVisualize(visualDto, tableName);
+                        message = new Message(Constants.SUCCESS, Constants.ADDSUCCESS);
+                    }
                 }
             }
         } catch (Exception e) {
