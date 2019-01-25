@@ -1,9 +1,6 @@
 package com.hxqh.dashboard.model.assist;
 
-import com.hxqh.dashboard.model.ColumnMap;
-import com.hxqh.dashboard.model.OrientX;
-import com.hxqh.dashboard.model.OrientY;
-import com.hxqh.dashboard.model.Visualize;
+import com.hxqh.dashboard.model.*;
 
 import java.util.List;
 
@@ -24,7 +21,17 @@ public class VisualDto {
     private List<Integer> yDeleteList;
     private List<Integer> xDeleteList;
 
+    private List<ValueColorMap> rangeDesc;
+
     public VisualDto() {
+    }
+
+    public List<ValueColorMap> getRangeDesc() {
+        return rangeDesc;
+    }
+
+    public void setRangeDesc(List<ValueColorMap> rangeDesc) {
+        this.rangeDesc = rangeDesc;
     }
 
     public List<Integer> getxDeleteList() {

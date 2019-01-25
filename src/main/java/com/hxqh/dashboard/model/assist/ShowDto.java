@@ -3,6 +3,7 @@ package com.hxqh.dashboard.model.assist;
 import com.hxqh.dashboard.model.ColumnMap;
 import com.hxqh.dashboard.model.OrientX;
 import com.hxqh.dashboard.model.OrientY;
+import com.hxqh.dashboard.model.ValueColorMap;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class ShowDto extends Location {
     private List<ColumnMap> columnList;
     private List<OrientY> orientYList;
     private List<OrientX> orientXList;
+    private List<ValueColorMap> rangeDesc;
 
     private Integer x;
     private Integer y;
@@ -87,8 +89,25 @@ public class ShowDto extends Location {
     private String suffixwhere;
 
     private Integer countValue;
+    private Boolean israngeDesc;
 
     public ShowDto() {
+    }
+
+    public List<ValueColorMap> getRangeDesc() {
+        return rangeDesc;
+    }
+
+    public void setRangeDesc(List<ValueColorMap> rangeDesc) {
+        this.rangeDesc = rangeDesc;
+    }
+
+    public Boolean getIsrangeDesc() {
+        return israngeDesc;
+    }
+
+    public void setIsrangeDesc(Boolean israngeDesc) {
+        this.israngeDesc = israngeDesc;
     }
 
     public Integer getCountValue() {

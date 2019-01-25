@@ -1,5 +1,7 @@
 package com.hxqh.dashboard.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -14,9 +16,11 @@ public class ValueColorMap implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer valuecolorid;
-    private Double lower;
-    private Double upper;
+    private String min;
+    private String max;
+    private String description;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "VID", referencedColumnName = "vid")
     private Visualize visualize;
@@ -36,21 +40,30 @@ public class ValueColorMap implements Serializable {
         this.valuecolorid = valuecolorid;
     }
 
-    public Double getLower() {
-        return lower;
+    public String getMin() {
+        return min;
     }
 
-    public void setLower(Double lower) {
-        this.lower = lower;
+    public void setMin(String min) {
+        this.min = min;
     }
 
-    public Double getUpper() {
-        return upper;
+    public String getMax() {
+        return max;
     }
 
-    public void setUpper(Double upper) {
-        this.upper = upper;
+    public void setMax(String max) {
+        this.max = max;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
     public Visualize getVisualize() {
         return visualize;

@@ -154,6 +154,7 @@
                     <exclude>ppt/**</exclude>
                     <exclude>doc/**</exclude>
                     <exclude>sql/**</exclude>
+                    <exclude>DashboardWeb/**</exclude>
                 </excludes>
             </resource>
         </resources>

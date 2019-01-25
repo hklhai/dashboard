@@ -61,7 +61,7 @@ public class Visualize implements Serializable {
 
     @OneToMany(mappedBy = "visualize", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<ValueColorMap> valueColorMapList;
+    private List<ValueColorMap> rangeDesc;
 
     @Transient
     private Integer bid;
@@ -123,16 +123,27 @@ public class Visualize implements Serializable {
     private String prefixwhere;
     private String suffixwhere;
 
+    @Column(name = "isrange_desc", columnDefinition = "bool default false")
+    private Boolean israngeDesc;
 
     public Visualize() {
     }
 
-    public List<ValueColorMap> getValueColorMapList() {
-        return valueColorMapList;
+
+    public Boolean getIsrangeDesc() {
+        return israngeDesc;
     }
 
-    public void setValueColorMapList(List<ValueColorMap> valueColorMapList) {
-        this.valueColorMapList = valueColorMapList;
+    public void setIsrangeDesc(Boolean israngeDesc) {
+        this.israngeDesc = israngeDesc;
+    }
+
+    public List<ValueColorMap> getRangeDesc() {
+        return rangeDesc;
+    }
+
+    public void setRangeDesc(List<ValueColorMap> rangeDesc) {
+        this.rangeDesc = rangeDesc;
     }
 
     public String getVwhere() {

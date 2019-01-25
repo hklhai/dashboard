@@ -60,7 +60,8 @@ public class ShowServiceImpl implements ShowService {
     private OrientyRepository orientYRepository;
     @Autowired
     private OrientxRepository orientxRepository;
-
+    @Autowired
+    private ValueColorMapRepository valueColorMapRepository;
 
     private static Map<String, String> dbType = new HashMap<String, String>() {{
         put("oracle", ":thin:@");
@@ -193,6 +194,12 @@ public class ShowServiceImpl implements ShowService {
                 showDto.setShowValue(showValues);
             }
 
+
+            List<ValueColorMap> valueColorMaps = valueColorMapRepository.findByVid(visualize.getVid());
+            if (null != valueColorMaps && valueColorMaps.size() > 0) {
+                visualize.setRangeDesc(valueColorMaps);
+            }
+
             List<ColumnMap> columnMapList = columnMapRepository.findByVidAndType(visualize.getVid());
             showDto.setColumnList(columnMapList);
             columnMapList.stream().map(e -> {
@@ -258,6 +265,7 @@ public class ShowServiceImpl implements ShowService {
             visualize.setySplitLine(true);
             visualize.setyInverse(false);
             visualize.setxBoundaryGap(false);
+            visualize.setIsrangeDesc(true == visualize.getIsrangeDesc() ? true : false);
         }
         visualizeRepository.save(visualize);
     }
@@ -635,6 +643,7 @@ public class ShowServiceImpl implements ShowService {
         List<Integer> deleteColumnList = visualDto.getDeleteColumnList();
         List<Integer> yDeleteList = visualDto.getyDeleteList();
         List<Integer> xDeleteList = visualDto.getxDeleteList();
+        List<ValueColorMap> rangeDesc = visualDto.getRangeDesc();
 
         List<ColumnMap> mapList = visualDto.getColumnMaps();
         List<OrientY> yList = visualDto.getyList();
@@ -718,6 +727,16 @@ public class ShowServiceImpl implements ShowService {
             for (Integer integer : xDeleteList) {
                 orientxRepository.delete(integer);
             }
+        }
+
+        // 根据数据变换颜色
+        if (null != rangeDesc && rangeDesc.size() > 0) {
+            rangeDesc = rangeDesc.stream().map(e -> {
+                e.setVisualize(visualizeDb);
+                return e;
+            }).collect(Collectors.toList());
+            visualizeDb.setIsrangeDesc(true);
+            visualizeDb.setRangeDesc(rangeDesc);
         }
 
         visualizeDb.setColumnMapList(mapList);
