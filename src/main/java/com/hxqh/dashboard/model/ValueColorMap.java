@@ -28,8 +28,17 @@ public class ValueColorMap implements Serializable {
     @Transient
     private Integer vid;
 
+    private String color;
 
     public ValueColorMap() {
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public Integer getValuecolorid() {

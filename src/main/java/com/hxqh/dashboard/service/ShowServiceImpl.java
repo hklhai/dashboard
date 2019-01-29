@@ -643,8 +643,9 @@ public class ShowServiceImpl implements ShowService {
         List<Integer> deleteColumnList = visualDto.getDeleteColumnList();
         List<Integer> yDeleteList = visualDto.getyDeleteList();
         List<Integer> xDeleteList = visualDto.getxDeleteList();
-        List<ValueColorMap> rangeDesc = visualDto.getRangeDesc();
+        List<Integer> colorDeleteList = visualDto.getColorDeleteList();
 
+        List<ValueColorMap> rangeDesc = visualDto.getRangeDesc();
         List<ColumnMap> mapList = visualDto.getColumnMaps();
         List<OrientY> yList = visualDto.getyList();
         List<OrientX> xList = visualDto.getxList();
@@ -722,6 +723,7 @@ public class ShowServiceImpl implements ShowService {
             }).collect(Collectors.toList());
             visualizeDb.setOrientXList(xList);
         }
+
         // 删除x轴
         if (null != xDeleteList && xDeleteList.size() > 0) {
             for (Integer integer : xDeleteList) {
@@ -737,6 +739,13 @@ public class ShowServiceImpl implements ShowService {
             }).collect(Collectors.toList());
             visualizeDb.setIsrangeDesc(true);
             visualizeDb.setRangeDesc(rangeDesc);
+        }
+
+        // 删除颜色
+        if (null != colorDeleteList && colorDeleteList.size() > 0) {
+            for (Integer integer : colorDeleteList) {
+                valueColorMapRepository.delete(integer);
+            }
         }
 
         visualizeDb.setColumnMapList(mapList);

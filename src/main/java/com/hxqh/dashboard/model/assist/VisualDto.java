@@ -22,8 +22,17 @@ public class VisualDto {
     private List<Integer> xDeleteList;
 
     private List<ValueColorMap> rangeDesc;
+    private List<Integer> colorDeleteList;
 
     public VisualDto() {
+    }
+
+    public List<Integer> getColorDeleteList() {
+        return colorDeleteList;
+    }
+
+    public void setColorDeleteList(List<Integer> colorDeleteList) {
+        this.colorDeleteList = colorDeleteList;
     }
 
     public List<ValueColorMap> getRangeDesc() {
