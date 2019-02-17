@@ -150,12 +150,16 @@ public class ShowServiceImpl implements ShowService {
             Database database = databaseRepository.findOne(visualize.getDbid());
             String url = getDbConnectString(database);
             Connection conn = JdbcUtil.getConnection(url, database.getUser(), Decrypt(database.getPassword()), database.getDrivername());
-            PreparedStatement st = conn.prepareStatement(visualize.getVwhere());
-            ResultSet rs = st.executeQuery();
-
-            while (rs.next()) {
-                showDto.setCountValue(rs.getInt(1));
+            try {
+                PreparedStatement st = conn.prepareStatement(visualize.getVwhere());
+                ResultSet rs = st.executeQuery();
+                while (rs.next()) {
+                    showDto.setCountValue(rs.getInt(1));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
             BeanUtils.copyProperties(visualize, showDto);
             return showDto;
         } else {
