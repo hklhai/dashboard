@@ -91,7 +91,17 @@ public class ShowDto extends Location {
     private Integer countValue;
     private Boolean israngeDesc;
 
+    private String datasourcename;
+
     public ShowDto() {
+    }
+
+    public String getDatasourcename() {
+        return datasourcename;
+    }
+
+    public void setDatasourcename(String datasourcename) {
+        this.datasourcename = datasourcename;
     }
 
     public List<ValueColorMap> getRangeDesc() {

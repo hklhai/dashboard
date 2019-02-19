@@ -589,7 +589,7 @@ public class ShowController {
         Message message = null;
         try {
             showService.validWhere(visualDto);
-            message = new Message(Constants.FAIL, Constants.SQL_VALID);
+            message = new Message(Constants.SUCCESS, Constants.SQL_VALID);
         } catch (Exception e) {
             message = new Message(Constants.FAIL, Constants.SQL_INVALID);
         }
@@ -603,7 +603,7 @@ public class ShowController {
         Message message = null;
         try {
             showService.validCountSQL(visualize);
-            message = new Message(Constants.FAIL, Constants.SQL_VALID);
+            message = new Message(Constants.SUCCESS, Constants.SQL_VALID);
         } catch (Exception e) {
             message = new Message(Constants.FAIL, Constants.SQL_INVALID);
         }

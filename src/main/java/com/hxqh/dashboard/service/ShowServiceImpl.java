@@ -161,6 +161,7 @@ public class ShowServiceImpl implements ShowService {
             }
 
             BeanUtils.copyProperties(visualize, showDto);
+            showDto.setDatasourcename(database.getDatasourcename());
             return showDto;
         } else {
             Session currentSession = sessionFactory.getCurrentSession();
@@ -352,7 +353,7 @@ public class ShowServiceImpl implements ShowService {
     public DashboardShowDto findDashboardDataByVid(Integer integerId) throws Exception {
         Dashboard dashboard = dashboardRepository.findOne(integerId);
         List<DashboardVisualize> dashboardVisualizesList = dashboard.getDashboardVisualizes();
-        List<ShowDto> showDtoList = new ArrayList<>();
+        List<ShowDto> showDtoList = new ArrayList<>(50);
         for (int i = 0; i < dashboardVisualizesList.size(); i++) {
             DashboardVisualize dashboardVisualize = dashboardVisualizesList.get(i);
             Integer vid = dashboardVisualize.getVisualize().getVid();
