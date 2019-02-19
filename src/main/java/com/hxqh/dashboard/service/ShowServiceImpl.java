@@ -269,7 +269,7 @@ public class ShowServiceImpl implements ShowService {
             visualize.setySplitLine(true);
             visualize.setyInverse(false);
             visualize.setxBoundaryGap(false);
-            visualize.setIsrangeDesc(true == visualize.getIsrangeDesc() ? true : false);
+            visualize.setIsrangeDesc(null == visualize.getIsrangeDesc() ? true : false);
         }
         visualizeRepository.save(visualize);
     }
