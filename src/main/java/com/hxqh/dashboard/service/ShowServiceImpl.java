@@ -132,11 +132,11 @@ public class ShowServiceImpl implements ShowService {
     @SuppressWarnings("unchecked")
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public ShowDto findLineByVid(Integer integerId, Integer random, Integer bid, Integer did) throws Exception {
+    public ShowDto findLineByVid(Integer vid, Integer random, Integer bid, Integer did) throws Exception {
         ShowDto showDto = new ShowDto();
         List<List<Object>> showValues = new ArrayList<>(10);
         List<String> showkeys = new ArrayList<>(15);
-        Visualize visualize = visualizeRepository.findOne(integerId);
+        Visualize visualize = visualizeRepository.findOne(vid);
 
         String sql = SELECT_SQL + visualize.getTablename();
         if (null != visualize.getVwhere() && !"".equals(visualize.getVwhere())) {
@@ -144,6 +144,7 @@ public class ShowServiceImpl implements ShowService {
         }
         if (visualize.getType().equals(Constants.TEXT)) {
             BeanUtils.copyProperties(visualize, showDto);
+            showDto.setDid(did);
             return showDto;
         } else if (visualize.getType().equals(Constants.NUMBER)) {
             // 根据SQL查询
@@ -162,6 +163,7 @@ public class ShowServiceImpl implements ShowService {
 
             BeanUtils.copyProperties(visualize, showDto);
             showDto.setDatasourcename(database.getDatasourcename());
+            showDto.setDid(did);
             return showDto;
         } else {
             Session currentSession = sessionFactory.getCurrentSession();
@@ -576,7 +578,7 @@ public class ShowServiceImpl implements ShowService {
         Visualize visualize = visualizeRepository.findOne(visualDto.getVisualize().getVid());
 
         String tableName = visualize.getTablename();
-        String sql = Constants.COUNT_SQL + tableName + Constants.SQL_WHERE + visualize.getVwhere() + Constants.SQL_AND;
+        String sql = Constants.COUNT_SQL + tableName + Constants.SQL_WHERE + visualDto.getVisualize().getVwhere() + Constants.SQL_AND;
         List list = sessionFactory.getCurrentSession().createSQLQuery(sql).addEntity(CountDto.class).list();
         return list;
     }
