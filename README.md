@@ -1,6 +1,7 @@
 # Dashboard
 Dashboard
 
+[![Build Status](https://travis-ci.org/hklhai/dashboard.svg?branch=master)](https://travis-ci.org/hklhai/dashboard)
 
 ### Associated Projects
 https://github.com/aym19900825/Dashboard.git
