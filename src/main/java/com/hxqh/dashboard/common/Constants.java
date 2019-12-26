@@ -81,4 +81,7 @@ public interface Constants {
     String TEXT = "text";
     String NUMBER = "number";
 
+    String CON_SUCCESS = "连接成功";
+    String CON_FAIL = "连接失败";
+
 }

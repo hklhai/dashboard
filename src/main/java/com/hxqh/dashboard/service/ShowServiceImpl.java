@@ -4,6 +4,7 @@ import com.hxqh.dashboard.common.Constants;
 import com.hxqh.dashboard.common.ObjectUtil;
 import com.hxqh.dashboard.model.*;
 import com.hxqh.dashboard.model.assist.*;
+import com.hxqh.dashboard.model.assist.ShowDto;
 import com.hxqh.dashboard.repository.*;
 import com.hxqh.dashboard.util.JdbcUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -30,6 +31,8 @@ import java.sql.ResultSet;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.hxqh.dashboard.common.Constants.CON_FAIL;
+import static com.hxqh.dashboard.common.Constants.CON_SUCCESS;
 import static com.hxqh.dashboard.util.AesUtils.Decrypt;
 import static com.hxqh.dashboard.util.AesUtils.Encrypt;
 
@@ -155,7 +158,7 @@ public class ShowServiceImpl implements ShowService {
                 PreparedStatement st = conn.prepareStatement(visualize.getVwhere());
                 ResultSet rs = st.executeQuery();
                 while (rs.next()) {
-                    showDto.setCountValue(rs.getInt(1));
+                    showDto.setCountValue(rs.getString(1));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -623,8 +626,10 @@ public class ShowServiceImpl implements ShowService {
 
         visualizeRepository.delete(integerId);
         // 删除表
-        String sql = DROP_TABLE_SQL + visualize.getTablename();
-        sessionFactory.getCurrentSession().createSQLQuery(sql).executeUpdate();
+        if (null != visualize.getTablename()) {
+            String sql = DROP_TABLE_SQL + visualize.getTablename();
+            sessionFactory.getCurrentSession().createSQLQuery(sql).executeUpdate();
+        }
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -682,7 +687,7 @@ public class ShowServiceImpl implements ShowService {
                     Integer columnsNumber = visualizeDb.getColumnsnumber() + 1;
                     visualizeDb.setColumnsnumber(columnsNumber);
                 }
-                e.setColName(e.getField());
+                e.setColName(e.getColName());
 
                 e.setVisualize(visualizeDb);
                 return e;
@@ -910,11 +915,13 @@ public class ShowServiceImpl implements ShowService {
         Connection conn = JdbcUtil.getConnection(url, database.getUser(), Decrypt(database.getPassword()), database.getDrivername());
         if (!conn.isClosed()) {
             database.setValid(1);
+            database.setDbstatus(CON_SUCCESS);
             databaseRepository.save(database);
             JdbcUtil.closeConnect(conn);
             return true;
         } else {
             database.setValid(0);
+            database.setDbstatus(CON_FAIL);
             databaseRepository.save(database);
             JdbcUtil.closeConnect(conn);
             return false;

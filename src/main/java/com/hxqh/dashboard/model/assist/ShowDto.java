@@ -88,7 +88,7 @@ public class ShowDto extends Location {
     private String prefixwhere;
     private String suffixwhere;
 
-    private Integer countValue;
+    private String countValue;
     private Boolean israngeDesc;
 
     private String datasourcename;
@@ -120,11 +120,11 @@ public class ShowDto extends Location {
         this.israngeDesc = israngeDesc;
     }
 
-    public Integer getCountValue() {
+    public String getCountValue() {
         return countValue;
     }
 
-    public void setCountValue(Integer countValue) {
+    public void setCountValue(String countValue) {
         this.countValue = countValue;
     }
 
