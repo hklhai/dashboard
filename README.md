@@ -3,6 +3,27 @@ Dashboard
 
 [![Build Status](https://travis-ci.org/hklhai/dashboard.svg?branch=master)](https://travis-ci.org/hklhai/dashboard)
 
+
+![image](https://github.com/hklhai/dashboard/blob/master/screenshot/s1.png)
+---
+![image](https://github.com/hklhai/dashboard/blob/master/screenshot/s2.png)
+---
+![image](https://github.com/hklhai/dashboard/blob/master/screenshot/s3.png)
+---
+![image](https://github.com/hklhai/dashboard/blob/master/screenshot/s4.png)
+---
+![image](https://github.com/hklhai/dashboard/blob/master/screenshot/s5.gif)
+---
+![image](https://github.com/hklhai/dashboard/blob/master/screenshot/s6.png)
+---
+![image](https://github.com/hklhai/dashboard/blob/master/screenshot/s7.png)
+---
+![image](https://github.com/hklhai/dashboard/blob/master/screenshot/s9.png)
+---
+![image](https://github.com/hklhai/dashboard/blob/master/screenshot/s9.png)
+---
+![image](https://github.com/hklhai/dashboard/blob/master/screenshot/s10.png)
+
 ### Associated Projects
 https://github.com/aym19900825/Dashboard.git
 
