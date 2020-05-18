@@ -76,7 +76,7 @@ public class ShowController {
     public ShowDto visualizeData(@RequestBody IntegerValue integerValue) {
         ShowDto showDto = null;
         try {
-            showDto = showService.findLineByVid(integerValue.getIntegerId(), 1, 1, 1);
+            showDto = showService.findLineByVid(integerValue.getIntegerId(), 1, 1, 1, "");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -92,6 +92,8 @@ public class ShowController {
     @ResponseBody
     @RequestMapping(value = "/visualizeAdd", method = RequestMethod.POST)
     public Message addVisualize(@RequestBody VisualDto visualDto) {
+
+        // todo 增加clickUrl
         Message message = null;
         Visualize visualize = visualDto.getVisualize();
         try {
@@ -333,17 +335,33 @@ public class ShowController {
     }
 
     /**
+     * {
+     * "bid": 12,
+     * "qList": [
+     * {
+     * "vid": 123,
+     * "query": "a=1 and b=3"
+     * },
+     * {
+     * "vid": 222,
+     * "query": "a=1"
+     * }
+     * ]
+     * }
+     * <p>
+     * <p>
+     * <p>
      * 仪表板内展示数据接口
      *
-     * @param integerValue 仪表板ID主键
+     * @param searchWhere
      * @return 仪表板内数据
      */
     @ResponseBody
     @RequestMapping(value = "/dashboardData", method = RequestMethod.POST)
-    public DashboardShowDto dashboardData(@RequestBody IntegerValue integerValue) {
+    public DashboardShowDto dashboardData(@RequestBody SearchWhere searchWhere) {
         DashboardShowDto showDto = null;
         try {
-            showDto = showService.findDashboardDataByVid(integerValue.getIntegerId());
+            showDto = showService.findDashboardDataByVid(searchWhere);
         } catch (Exception e) {
             e.printStackTrace();
         }

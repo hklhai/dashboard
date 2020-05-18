@@ -31,10 +31,11 @@ public interface ShowService {
      * @param bid       dashboardId
      * @param did       dashboardVisualizeId
      * @param random    random随机数
+     * @param query     查询参数
      * @return 展示数据 List
      * @throws Exception
      */
-    ShowDto findLineByVid(Integer integerId, Integer random, Integer bid, Integer did) throws Exception
+    ShowDto findLineByVid(Integer integerId, Integer random, Integer bid, Integer did, String query) throws Exception
     ;
 
     /**
@@ -65,11 +66,11 @@ public interface ShowService {
     /**
      * 查询Dashboard中所有Visualize
      *
-     * @param integerId DashBoard主键
+     * @param searchWhere 主键
      * @return DashBoard展示类
      * @throws Exception
      */
-    DashboardShowDto findDashboardDataByVid(Integer integerId) throws Exception;
+    DashboardShowDto findDashboardDataByVid(SearchWhere searchWhere) throws Exception;
 
     /**
      * 绑定DashBoard与Visualize
@@ -272,12 +273,16 @@ public interface ShowService {
 
 
     /**
+     *
      * @param visualDto
      * @return
+     * @throws Exception
      */
     List validWhere(VisualDto visualDto) throws Exception;
 
     /**
+     * 验证SQL语句合法性
+     *
      * @param visualize
      * @throws Exception
      */

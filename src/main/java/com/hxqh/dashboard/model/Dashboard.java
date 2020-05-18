@@ -6,12 +6,18 @@ package com.hxqh.dashboard.model;
  * @author Ocean lin
  */
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.alibaba.fastjson.annotation.JSONField;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
+@NoArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name = "tb_dashboard")
 public class Dashboard implements Serializable {
@@ -28,77 +34,9 @@ public class Dashboard implements Serializable {
     private String businesscategory;
     private Integer refresh;
 
-    @OneToMany(mappedBy = "dashboard")
-    @JsonIgnore
+    @OneToMany(mappedBy = "dashboard", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JSONField(serialize = false)
     private List<DashboardVisualize> dashboardVisualizes;
 
-    public Dashboard() {
-    }
-
-    public List<DashboardVisualize> getDashboardVisualizes() {
-        return dashboardVisualizes;
-    }
-
-    public void setDashboardVisualizes(List<DashboardVisualize> dashboardVisualizes) {
-        this.dashboardVisualizes = dashboardVisualizes;
-    }
-
-    public Integer getRefresh() {
-        return refresh;
-    }
-
-    public void setRefresh(Integer refresh) {
-        this.refresh = refresh;
-    }
-
-    public Integer getBid() {
-        return bid;
-    }
-
-    public void setBid(Integer bid) {
-        this.bid = bid;
-    }
-
-    public String getDashboardname() {
-        return dashboardname;
-    }
-
-    public void setDashboardname(String dashboardname) {
-        this.dashboardname = dashboardname;
-    }
-
-    public String getDashboarddescription() {
-        return dashboarddescription;
-    }
-
-    public void setDashboarddescription(String dashboarddescription) {
-        this.dashboarddescription = dashboarddescription;
-    }
-
-    public String getDashboardshowname() {
-        return dashboardshowname;
-    }
-
-    public void setDashboardshowname(String dashboardshowname) {
-        this.dashboardshowname = dashboardshowname;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getBusinesscategory() {
-        return businesscategory;
-    }
-
-    public void setBusinesscategory(String businesscategory) {
-        this.businesscategory = businesscategory;
-    }
-
-    public void setDashboardVisualizes() {
-    }
+    private String vids;
 }

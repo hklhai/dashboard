@@ -4,7 +4,6 @@ import com.hxqh.dashboard.common.Constants;
 import com.hxqh.dashboard.common.ObjectUtil;
 import com.hxqh.dashboard.model.*;
 import com.hxqh.dashboard.model.assist.*;
-import com.hxqh.dashboard.model.assist.ShowDto;
 import com.hxqh.dashboard.repository.*;
 import com.hxqh.dashboard.util.JdbcUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -31,8 +30,8 @@ import java.sql.ResultSet;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.hxqh.dashboard.common.Constants.CON_FAIL;
-import static com.hxqh.dashboard.common.Constants.CON_SUCCESS;
+import static com.hxqh.dashboard.common.Constants.*;
+import static com.hxqh.dashboard.common.DemoDataConstans.*;
 import static com.hxqh.dashboard.util.AesUtils.Decrypt;
 import static com.hxqh.dashboard.util.AesUtils.Encrypt;
 
@@ -66,65 +65,6 @@ public class ShowServiceImpl implements ShowService {
     @Autowired
     private ValueColorMapRepository valueColorMapRepository;
 
-    private static Map<String, String> dbType = new HashMap<String, String>() {{
-        put("oracle", ":thin:@");
-        put("mysql", "://");
-    }};
-
-    private static Map<String, String> typeC2EMap = new HashMap<String, String>() {{
-        put("饼图", "pie");
-        put("条形图", "bar");
-        put("折线图", "line");
-    }};
-
-    private static Map<String, String> typeE2CMap = new HashMap<String, String>() {{
-        put("pie", "饼图");
-        put("bar", "条形图");
-        put("line", "折线图");
-        put("text", "文本");
-        put("number", "数值");
-    }};
-
-    private static Map<Integer, String> lineXMap = new HashMap<Integer, String>() {{
-        put(1, "周一");
-        put(2, "周二");
-        put(3, "周三");
-        put(4, "周四");
-        put(5, "周五");
-        put(6, "周六");
-        put(7, "周日");
-    }};
-
-
-    private static Map<Integer, String> pieXMap = new HashMap<Integer, String>() {{
-        put(1, "直接访问");
-        put(2, "邮件营销");
-        put(3, "联盟广告");
-        put(4, "视频广告");
-        put(5, "搜索引擎");
-        put(6, "简介访问");
-        put(7, "抖音广告");
-    }};
-
-    private static Map<String, String> dbMap = new HashMap<String, String>() {{
-        put("mysql", "com.mysql.jdbc.Driver");
-        put("oracle", "oracle.jdbc.driver.OracleDriver");
-    }};
-
-    private static Map<Integer, String> dbStatusMap = new HashMap<Integer, String>() {{
-        put(0, "连接失败");
-        put(1, "连接成功");
-    }};
-
-
-    private static final String[] EXCEL_HEADER = {"业务类别", "视图名称", "表名", "视图类型", "业务处理逻辑描述"};
-
-    private static final String SELECT_SQL = "select * from ";
-    private static final String DROP_TABLE_SQL = " drop table ";
-    private static final String DOUBLE_TYPE = "value";
-    private static final Integer START_NUM = 1;
-    private static final Integer END_NUM = 8;
-
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
@@ -135,40 +75,28 @@ public class ShowServiceImpl implements ShowService {
     @SuppressWarnings("unchecked")
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public ShowDto findLineByVid(Integer vid, Integer random, Integer bid, Integer did) throws Exception {
+    public ShowDto findLineByVid(Integer vid, Integer random, Integer bid, Integer did, String query) throws Exception {
         ShowDto showDto = new ShowDto();
         List<List<Object>> showValues = new ArrayList<>(10);
         List<String> showkeys = new ArrayList<>(15);
         Visualize visualize = visualizeRepository.findOne(vid);
 
-        String sql = SELECT_SQL + visualize.getTablename();
-        if (null != visualize.getVwhere() && !"".equals(visualize.getVwhere())) {
-            sql = sql + Constants.SQL_WHERE + visualize.getVwhere();
-        }
+        // 拼接筛选条件
+        String sql = appendQueryCriteria(query, visualize);
+
+        // 文本类型
         if (visualize.getType().equals(Constants.TEXT)) {
             BeanUtils.copyProperties(visualize, showDto);
             showDto.setDid(did);
             return showDto;
-        } else if (visualize.getType().equals(Constants.NUMBER)) {
-            // 根据SQL查询
-            Database database = databaseRepository.findOne(visualize.getDbid());
-            String url = getDbConnectString(database);
-            Connection conn = JdbcUtil.getConnection(url, database.getUser(), Decrypt(database.getPassword()), database.getDrivername());
-            try {
-                PreparedStatement st = conn.prepareStatement(visualize.getVwhere());
-                ResultSet rs = st.executeQuery();
-                while (rs.next()) {
-                    showDto.setCountValue(rs.getString(1));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        }
 
-            BeanUtils.copyProperties(visualize, showDto);
-            showDto.setDatasourcename(database.getDatasourcename());
-            showDto.setDid(did);
-            return showDto;
-        } else {
+        // 数值
+        if (visualize.getType().equals(Constants.NUMBER)) {
+            return numberType(did, showDto, visualize);
+        }
+
+        if (!(visualize.getType().equals(Constants.NUMBER) || visualize.getType().equals(Constants.TEXT))) {
             Session currentSession = sessionFactory.getCurrentSession();
             List list = currentSession.createSQLQuery(sql).list();
             // 构造矩阵
@@ -176,13 +104,17 @@ public class ShowServiceImpl implements ShowService {
             Integer y = list.size();
             Object[][] matrix = new Object[x][y];
 
-            if (Constants.PIE.equals(visualize.getType())) {
+            List<ColumnMap> columnMapList = columnMapRepository.findByVidAndType(visualize.getVid());
+
+            // pie list map
+            if (Constants.PIE.equals(visualize.getType()) || Constants.LIST.equals(visualize.getType()) || Constants.MAP.equals(visualize.getType())) {
                 List<Object> mulitPieDtoList = new ArrayList<>(50);
                 for (int j = 0; j < x; j++) {
+                    String clickUrl = null != columnMapList.get(j).getClickUrl() ? columnMapList.get(j).getClickUrl() : "";
                     List<Object> pieDtoList = new ArrayList<>(50);
                     for (int i = 0; i < list.size(); i++) {
                         Object[] o = (Object[]) list.get(i);
-                        PieDto pieDto = new PieDto((String) o[1], o[j + 2]);
+                        PieDto pieDto = new PieDto((String) o[1], o[j + 2], clickUrl);
                         pieDtoList.add(pieDto);
                     }
                     mulitPieDtoList.add(pieDtoList);
@@ -190,6 +122,7 @@ public class ShowServiceImpl implements ShowService {
                 showValues.add(mulitPieDtoList);
                 showDto.setShowValue(showValues);
             } else {
+                // bar line
                 for (int i = 0; i < list.size(); i++) {
                     Object[] o = (Object[]) list.get(i);
                     for (int j = 0; j < x; j++) {
@@ -204,39 +137,79 @@ public class ShowServiceImpl implements ShowService {
                 showDto.setShowValue(showValues);
             }
 
-
+            // 设置范围颜色
             List<ValueColorMap> valueColorMaps = valueColorMapRepository.findByVid(visualize.getVid());
             if (null != valueColorMaps && valueColorMaps.size() > 0) {
                 visualize.setRangeDesc(valueColorMaps);
             }
 
-            List<ColumnMap> columnMapList = columnMapRepository.findByVidAndType(visualize.getVid());
+            // 构造e-chart渲染对象
             showDto.setColumnList(columnMapList);
             columnMapList.stream().map(e -> {
                 e.setVisualize(null);
                 return e;
             }).collect(Collectors.toList());
             List<String> showLabel = columnMapList.stream().map(ColumnMap::getColumnshow).collect(Collectors.toList());
-
             showDto.setShowLabel(showLabel);
             showDto.setShowKey(showkeys);
             showDto.setDid(did);
-            List<OrientY> orientYList = visualize.getOrientYList();
-            List<OrientX> orientXList = visualize.getOrientXList();
 
-            orientYList = orientYList.stream().map(e -> {
-                e.setVisualize(null);
-                return e;
-            }).collect(Collectors.toList());
-            visualize.setOrientYList(orientYList);
-            orientXList = orientXList.stream().map(e -> {
-                e.setVisualize(null);
-                return e;
-            }).collect(Collectors.toList());
-            visualize.setOrientXList(orientXList);
+            // 多x、y轴处理
+            orientXandY(visualize);
         }
 
         BeanUtils.copyProperties(visualize, showDto);
+        return showDto;
+    }
+
+    private void orientXandY(Visualize visualize) {
+        List<OrientY> orientYList = visualize.getOrientYList();
+        List<OrientX> orientXList = visualize.getOrientXList();
+
+        orientYList = orientYList.stream().map(e -> {
+            e.setVisualize(null);
+            return e;
+        }).collect(Collectors.toList());
+        visualize.setOrientYList(orientYList);
+        orientXList = orientXList.stream().map(e -> {
+            e.setVisualize(null);
+            return e;
+        }).collect(Collectors.toList());
+        visualize.setOrientXList(orientXList);
+    }
+
+    private String appendQueryCriteria(String query, Visualize visualize) {
+        String sql = SELECT_SQL + visualize.getTablename();
+        sql += Constants.SQL_WHERE;
+        if (null != visualize.getVwhere() && !"".equals(visualize.getVwhere())) {
+            sql += AND;
+            sql += visualize.getVwhere();
+        }
+        if (null != query && !"".equals(query)) {
+            sql += AND;
+            sql += query;
+        }
+        return sql;
+    }
+
+    private ShowDto numberType(Integer did, ShowDto showDto, Visualize visualize) throws Exception {
+        // 根据SQL查询
+        Database database = databaseRepository.findOne(visualize.getDbid());
+        String url = getDbConnectString(database);
+        Connection conn = JdbcUtil.getConnection(url, database.getUser(), Decrypt(database.getPassword()), database.getDrivername());
+        try {
+            PreparedStatement st = conn.prepareStatement(visualize.getVwhere());
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                showDto.setCountValue(rs.getString(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        BeanUtils.copyProperties(visualize, showDto);
+        showDto.setDatasourcename(database.getDatasourcename());
+        showDto.setDid(did);
         return showDto;
     }
 
@@ -312,7 +285,9 @@ public class ShowServiceImpl implements ShowService {
 
     private void generateDemoData(Visualize visualize, StringBuilder insertDemoSql, String tableName, List<ColumnDto> columnMapList) {
         Integer rand;
-        for (int i = START_NUM; i < END_NUM; i++) {
+
+        Integer end = Constants.MAP.equals(visualize.getType()) ? MAP_END_NUM : END_NUM;
+        for (int i = START_NUM; i < end; i++) {
             Random random = new Random();
 
             insertDemoSql.append(Constants.INSERT_SQL).append(tableName).append("(");
@@ -323,6 +298,8 @@ public class ShowServiceImpl implements ShowService {
             insertDemoSql.setLength(insertDemoSql.length() - 1);
             if (Constants.PIE.equals(visualize.getType())) {
                 insertDemoSql.append(Constants.VALUE_SQL).append(pieXMap.get(i)).append("'");
+            } else if (Constants.MAP.equals(visualize.getType())) {
+                insertDemoSql.append(Constants.VALUE_SQL).append(chinaMap.get(i)).append("'");
             } else {
                 insertDemoSql.append(Constants.VALUE_SQL).append(lineXMap.get(i)).append("'");
             }
@@ -355,14 +332,19 @@ public class ShowServiceImpl implements ShowService {
     @SuppressWarnings("unchecked")
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
-    public DashboardShowDto findDashboardDataByVid(Integer integerId) throws Exception {
-        Dashboard dashboard = dashboardRepository.findOne(integerId);
+    public DashboardShowDto findDashboardDataByVid(SearchWhere searchWhere) throws Exception {
+        Dashboard dashboard = dashboardRepository.findOne(searchWhere.getBid());
+
+        Map<Integer, List<String>> vidMap = null != searchWhere.getQList() ? searchWhere.getQList().stream().
+                collect(Collectors.groupingBy(VidWhere::getVid, Collectors.mapping(VidWhere::getQuery, Collectors.toList()))) : null;
+
         List<DashboardVisualize> dashboardVisualizesList = dashboard.getDashboardVisualizes();
         List<ShowDto> showDtoList = new ArrayList<>(50);
         for (int i = 0; i < dashboardVisualizesList.size(); i++) {
             DashboardVisualize dashboardVisualize = dashboardVisualizesList.get(i);
             Integer vid = dashboardVisualize.getVisualize().getVid();
-            ShowDto showDto = findLineByVid(vid, (i + 1) * vid, dashboard.getBid(), dashboardVisualize.getDid());
+            String query = (null == vidMap || null == vidMap.get(vid)) ? "" : vidMap.get(vid).get(0);
+            ShowDto showDto = findLineByVid(vid, (i + 1) * vid, dashboard.getBid(), dashboardVisualize.getDid(), query);
             showDto.setX(dashboardVisualize.getX());
             showDto.setY(dashboardVisualize.getY());
             showDto.setH(dashboardVisualize.getH());
@@ -381,6 +363,7 @@ public class ShowServiceImpl implements ShowService {
     public void addDashboardVisualize(DashboardVisualizeDto dashboardVisualizeDto) {
         Dashboard dashboard = dashboardRepository.findOne(dashboardVisualizeDto.getBid());
         List<Location> locationList = dashboardVisualizeDto.getLocationList();
+        StringBuilder stringBuilder = new StringBuilder(20);
 
         for (int i = 0; i < locationList.size(); i++) {
             Location location = locationList.get(i);
@@ -388,7 +371,6 @@ public class ShowServiceImpl implements ShowService {
             if (null == location.getDid() || "".equals(location.getDid())) {
                 // 新增
                 Visualize visualize = visualizeRepository.findOne(location.getVid());
-
                 DashboardVisualize dashboardVisualize = new DashboardVisualize(dashboard, visualize, location.getX(),
                         location.getY(), location.getH(), location.getW(), visualize.getXname(), visualize.getYname(),
                         visualize.getEcharttitle(), visualize.getLegendShow(), visualize.getLegendPos(),
@@ -406,14 +388,30 @@ public class ShowServiceImpl implements ShowService {
                 BeanUtils.copyProperties(visualizeNew, dashboardVisualize);
                 dashboardVisualizeRepository.save(dashboardVisualize);
             }
+            stringBuilder.append(location.getVid()).append(",");
         }
-        // 删除
+
         List<Integer> deleteList = dashboardVisualizeDto.getDeleteList();
-        if (null != deleteList && deleteList.size() > 0) {
-            for (int j = 0; j < deleteList.size(); j++) {
-                dashboardVisualizeRepository.delete(deleteList.get(j));
+        List<DashboardVisualize> dashboardVisualizes = dashboard.getDashboardVisualizes();
+        Iterator<DashboardVisualize> dashboardVisualizeIterator = dashboardVisualizes.iterator();
+
+        while (dashboardVisualizeIterator.hasNext()) {
+            DashboardVisualize dashboardVisualize = dashboardVisualizeIterator.next();
+            if (null != deleteList && deleteList.size() > 0) {
+                for (int j = 0; j < deleteList.size(); j++) {
+                    if (dashboardVisualize.getDid().equals(deleteList.get(j))) {
+                        dashboardVisualizeIterator.remove();
+                        dashboardVisualizeRepository.delete(dashboardVisualize);
+                    }
+                }
             }
         }
+
+
+        String vids = stringBuilder.length() == 0 ? "" : stringBuilder.substring(0, stringBuilder.length() - 1);
+        dashboard.setVids(vids);
+        dashboard.setDashboardVisualizes(dashboardVisualizes);
+        dashboardRepository.save(dashboard);
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -666,6 +664,91 @@ public class ShowServiceImpl implements ShowService {
         BeanUtils.copyProperties(visualize, visualizeDb, ObjectUtil.getNullPropertyNames(visualize));
 
         // 新增
+        mapList = insertColumn(currentSession, visualize, mapList, visualizeDb);
+
+
+        // column删除
+        deleteColumn(currentSession, deleteColumnList, visualizeDb);
+
+        // 存储多个y轴情况
+        multipleY(yDeleteList, yList, visualizeDb);
+
+        // 存储多个x轴情况
+        multipleX(xDeleteList, xList, visualizeDb);
+
+        // 根据数据变换颜色
+        if (null != rangeDesc && rangeDesc.size() > 0) {
+            rangeDesc = rangeDesc.stream().map(e -> {
+                e.setVisualize(visualizeDb);
+                return e;
+            }).collect(Collectors.toList());
+            visualizeDb.setIsrangeDesc(true);
+            visualizeDb.setRangeDesc(rangeDesc);
+        }
+
+        // 删除颜色
+        if (null != colorDeleteList && colorDeleteList.size() > 0) {
+            for (Integer integer : colorDeleteList) {
+                valueColorMapRepository.delete(integer);
+            }
+        }
+
+        visualizeDb.setColumnMapList(mapList);
+        visualizeRepository.save(visualizeDb);
+    }
+
+    private void multipleX(List<Integer> xDeleteList, List<OrientX> xList, Visualize visualizeDb) {
+        if (null != xList && xList.size() > 0) {
+            xList = xList.stream().map(orientX -> {
+                orientX.setxAxisLine(true);
+                orientX.setxSplitLine(true);
+                orientX.setVisualize(visualizeDb);
+                return orientX;
+            }).collect(Collectors.toList());
+            visualizeDb.setOrientXList(xList);
+        }
+
+        // 删除x轴
+        if (null != xDeleteList && xDeleteList.size() > 0) {
+            for (Integer integer : xDeleteList) {
+                orientxRepository.delete(integer);
+            }
+        }
+    }
+
+    private void multipleY(List<Integer> yDeleteList, List<OrientY> yList, Visualize visualizeDb) {
+        if (null != yList && yList.size() > 0) {
+            yList = yList.stream().map(ele -> {
+                ele.setyAxisLine(true);
+                ele.setySplitLine(true);
+                ele.setVisualize(visualizeDb);
+                return ele;
+            }).collect(Collectors.toList());
+            visualizeDb.setOrientYList(yList);
+        }
+        // 删除y轴
+        if (null != yDeleteList && yDeleteList.size() > 0) {
+            for (Integer integer : yDeleteList) {
+                orientYRepository.delete(integer);
+            }
+        }
+    }
+
+    private void deleteColumn(Session currentSession, List<Integer> deleteColumnList, Visualize visualizeDb) {
+        if (null != deleteColumnList && deleteColumnList.size() >= 1) {
+            ColumnMap column = columnMapRepository.findOne(deleteColumnList.get(0));
+            String field = column.getField();
+            // ALTER TABLE table_name DROP COLUMN column_name
+            String alterSQL = "ALTER TABLE `" + visualizeDb.getTablename() + "` DROP COLUMN `" + field + "`";
+            SQLQuery query = currentSession.createSQLQuery(alterSQL);
+            query.executeUpdate();
+            columnMapRepository.delete(deleteColumnList.get(0));
+            Integer columnsNumber = visualizeDb.getColumnsnumber() - 1;
+            visualizeDb.setColumnsnumber(columnsNumber);
+        }
+    }
+
+    private List<ColumnMap> insertColumn(Session currentSession, Visualize visualize, List<ColumnMap> mapList, Visualize visualizeDb) {
         if (null != mapList) {
             mapList = mapList.stream().map(e -> {
                 if (null == e.getColumnmid()) {
@@ -693,75 +776,7 @@ public class ShowServiceImpl implements ShowService {
                 return e;
             }).collect(Collectors.toList());
         }
-
-
-        // column删除
-        if (null != deleteColumnList && deleteColumnList.size() >= 1) {
-            ColumnMap column = columnMapRepository.findOne(deleteColumnList.get(0));
-            String field = column.getField();
-            // ALTER TABLE table_name DROP COLUMN column_name
-            String alterSQL = "ALTER TABLE `" + visualizeDb.getTablename() + "` DROP COLUMN `" + field + "`";
-            SQLQuery query = currentSession.createSQLQuery(alterSQL);
-            query.executeUpdate();
-            columnMapRepository.delete(deleteColumnList.get(0));
-            Integer columnsNumber = visualizeDb.getColumnsnumber() - 1;
-            visualizeDb.setColumnsnumber(columnsNumber);
-        }
-
-        // 存储多个y轴情况
-        if (null != yList && yList.size() > 0) {
-            yList = yList.stream().map(ele -> {
-                ele.setyAxisLine(true);
-                ele.setySplitLine(true);
-                ele.setVisualize(visualizeDb);
-                return ele;
-            }).collect(Collectors.toList());
-            visualizeDb.setOrientYList(yList);
-        }
-        // 删除y轴
-        if (null != yDeleteList && yDeleteList.size() > 0) {
-            for (Integer integer : yDeleteList) {
-                orientYRepository.delete(integer);
-            }
-        }
-
-        // 存储多个x轴情况
-        if (null != xList && xList.size() > 0) {
-            xList = xList.stream().map(orientX -> {
-                orientX.setxAxisLine(true);
-                orientX.setxSplitLine(true);
-                orientX.setVisualize(visualizeDb);
-                return orientX;
-            }).collect(Collectors.toList());
-            visualizeDb.setOrientXList(xList);
-        }
-
-        // 删除x轴
-        if (null != xDeleteList && xDeleteList.size() > 0) {
-            for (Integer integer : xDeleteList) {
-                orientxRepository.delete(integer);
-            }
-        }
-
-        // 根据数据变换颜色
-        if (null != rangeDesc && rangeDesc.size() > 0) {
-            rangeDesc = rangeDesc.stream().map(e -> {
-                e.setVisualize(visualizeDb);
-                return e;
-            }).collect(Collectors.toList());
-            visualizeDb.setIsrangeDesc(true);
-            visualizeDb.setRangeDesc(rangeDesc);
-        }
-
-        // 删除颜色
-        if (null != colorDeleteList && colorDeleteList.size() > 0) {
-            for (Integer integer : colorDeleteList) {
-                valueColorMapRepository.delete(integer);
-            }
-        }
-
-        visualizeDb.setColumnMapList(mapList);
-        visualizeRepository.save(visualizeDb);
+        return mapList;
     }
 
     @Transactional(rollbackFor = Exception.class)

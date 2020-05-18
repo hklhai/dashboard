@@ -73,15 +73,63 @@ public interface Constants {
         put("mysql", "SHOW tables");
     }};
 
-    String SQL_WHERE = " where ";
+    String SQL_WHERE = " where 1=1 ";
     String COUNT_SQL = "select count(1) as count from ";
     String SQL_AND = " and 1<>2";
+    String AND = " and ";
 
     String PIE = "pie";
+    String LIST = "list";
+    String MAP = "map";
     String TEXT = "text";
     String NUMBER = "number";
 
     String CON_SUCCESS = "连接成功";
     String CON_FAIL = "连接失败";
+
+    String SELECT_SQL = "select * from ";
+    String DROP_TABLE_SQL = " drop table ";
+    String DOUBLE_TYPE = "value";
+    Integer START_NUM = 1;
+    Integer END_NUM = 8;
+    Integer MAP_END_NUM = 35;
+
+    Map<String, String> dbType = new HashMap<String, String>() {{
+        put("oracle", ":thin:@");
+        put("mysql", "://");
+    }};
+
+
+    Map<String, String> dbMap = new HashMap<String, String>() {{
+        put("mysql", "com.mysql.jdbc.Driver");
+        put("oracle", "oracle.jdbc.driver.OracleDriver");
+    }};
+
+    Map<Integer, String> dbStatusMap = new HashMap<Integer, String>() {{
+        put(0, "连接失败");
+        put(1, "连接成功");
+    }};
+
+
+    Map<String, String> typeC2EMap = new HashMap<String, String>() {{
+        put("饼图", "pie");
+        put("条形图", "bar");
+        put("折线图", "line");
+        put("中国地图", "map");
+        put("列表", "list");
+    }};
+
+
+    Map<String, String> typeE2CMap = new HashMap<String, String>() {{
+        put("pie", "饼图");
+        put("bar", "条形图");
+        put("line", "折线图");
+        put("text", "文本");
+        put("number", "数值");
+        put("map", "中国地图");
+        put("list", "列表");
+    }};
+
+
 
 }

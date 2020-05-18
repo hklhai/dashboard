@@ -1,12 +1,18 @@
 package com.hxqh.dashboard.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 /**
  * @author Lin
  */
-
+@NoArgsConstructor
+@Setter
+@Getter
 @Entity
 @Table(name = "tb_columnmap")
 public class ColumnMap implements Serializable {
@@ -63,250 +69,9 @@ public class ColumnMap implements Serializable {
     private Boolean colRoseType;
     @Column(name = "col_label_line", columnDefinition = "bool default false")
     private Boolean colLabelline;
-    private String  colLabelLineColor;
+    private String colLabelLineColor;
     private String colRadius;
 
+    private String clickUrl;
 
-    public ColumnMap() {
-    }
-
-    public Boolean getColRoseType() {
-        return colRoseType;
-    }
-
-    public void setColRoseType(Boolean colRoseType) {
-        this.colRoseType = colRoseType;
-    }
-
-    public Boolean getColLabelline() {
-        return colLabelline;
-    }
-
-    public void setColLabelline(Boolean colLabelline) {
-        this.colLabelline = colLabelline;
-    }
-
-    public String getColLabelLineColor() {
-        return colLabelLineColor;
-    }
-
-    public void setColLabelLineColor(String colLabelLineColor) {
-        this.colLabelLineColor = colLabelLineColor;
-    }
-
-    public String getColRadius() {
-        return colRadius;
-    }
-
-    public void setColRadius(String colRadius) {
-        this.colRadius = colRadius;
-    }
-
-    public Boolean getColAreaStyle() {
-        return colAreaStyle;
-    }
-
-    public void setColAreaStyle(Boolean colAreaStyle) {
-        this.colAreaStyle = colAreaStyle;
-    }
-
-    public Boolean getColSmooth() {
-        return colSmooth;
-    }
-
-    public void setColSmooth(Boolean colSmooth) {
-        this.colSmooth = colSmooth;
-    }
-
-    public String getColAreaColor() {
-        return colAreaColor;
-    }
-
-    public void setColAreaColor(String colAreaColor) {
-        this.colAreaColor = colAreaColor;
-    }
-
-    public String getSampling() {
-        return sampling;
-    }
-
-    public void setSampling(String sampling) {
-        this.sampling = sampling;
-    }
-
-    public Boolean getColstep() {
-        return colstep;
-    }
-
-    public void setColstep(Boolean colstep) {
-        this.colstep = colstep;
-    }
-
-    public Boolean getColGradient() {
-        return colGradient;
-    }
-
-    public void setColGradient(Boolean colGradient) {
-        this.colGradient = colGradient;
-    }
-
-    public String getColStartColor() {
-        return colStartColor;
-    }
-
-    public void setColStartColor(String colStartColor) {
-        this.colStartColor = colStartColor;
-    }
-
-    public String getColEndColor() {
-        return colEndColor;
-    }
-
-    public void setColEndColor(String colEndColor) {
-        this.colEndColor = colEndColor;
-    }
-
-    public String getColLabelRotate() {
-        return colLabelRotate;
-    }
-
-    public void setColLabelRotate(String colLabelRotate) {
-        this.colLabelRotate = colLabelRotate;
-    }
-
-    public String getColType() {
-        return colType;
-    }
-
-    public void setColType(String colType) {
-        this.colType = colType;
-    }
-
-    public Boolean getColAverage() {
-        return colAverage;
-    }
-
-    public void setColAverage(Boolean colAverage) {
-        this.colAverage = colAverage;
-    }
-
-    public String getColColor() {
-        return colColor;
-    }
-
-    public void setColColor(String colColor) {
-        this.colColor = colColor;
-    }
-
-    public String getColLabel() {
-        return colLabel;
-    }
-
-    public void setColLabel(String colLabel) {
-        this.colLabel = colLabel;
-    }
-
-    public String getColLabelPos() {
-        return colLabelPos;
-    }
-
-    public void setColLabelPos(String colLabelPos) {
-        this.colLabelPos = colLabelPos;
-    }
-
-    public Boolean getColMax() {
-        return colMax;
-    }
-
-    public void setColMax(Boolean colMax) {
-        this.colMax = colMax;
-    }
-
-    public Boolean getColMin() {
-        return colMin;
-    }
-
-    public void setColMin(Boolean colMin) {
-        this.colMin = colMin;
-    }
-
-    public Integer getColYIndex() {
-        return colYIndex;
-    }
-
-    public void setColYIndex(Integer colYIndex) {
-        this.colYIndex = colYIndex;
-    }
-
-    public String getColWidth() {
-        return colWidth;
-    }
-
-    public void setColWidth(String colWidth) {
-        this.colWidth = colWidth;
-    }
-
-    public String getColStack() {
-        return colStack;
-    }
-
-    public void setColStack(String colStack) {
-        this.colStack = colStack;
-    }
-
-    public String getColName() {
-        return colName;
-    }
-
-    public void setColName(String colName) {
-        this.colName = colName;
-    }
-
-    public Integer getVid() {
-        return vid;
-    }
-
-    public void setVid(Integer vid) {
-        this.vid = vid;
-    }
-
-    public Integer getColumnmid() {
-        return columnmid;
-    }
-
-    public void setColumnmid(Integer columnmid) {
-        this.columnmid = columnmid;
-    }
-
-    public Visualize getVisualize() {
-        return visualize;
-    }
-
-    public void setVisualize(Visualize visualize) {
-        this.visualize = visualize;
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getColumnshow() {
-        return columnshow;
-    }
-
-    public void setColumnshow(String columnshow) {
-        this.columnshow = columnshow;
-    }
 }

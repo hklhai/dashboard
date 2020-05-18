@@ -18,11 +18,11 @@ public class DashboardVisualize implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer did;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "BID")
     private Dashboard dashboard;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "VID")
     private Visualize visualize;
 
@@ -35,11 +35,11 @@ public class DashboardVisualize implements Serializable {
     private String yname;
 
     private String echarttitle;
-    @Column(name = "legend_show",columnDefinition="bool default false")
+    @Column(name = "legend_show", columnDefinition = "bool default false")
     private Boolean legendShow;
     private String legendPos;
     private String legendOrient;
-    @Column(name = "tooltip_show",columnDefinition="bool default false")
+    @Column(name = "tooltip_show", columnDefinition = "bool default false")
     private Boolean tooltipShow;
 
     private String background;
